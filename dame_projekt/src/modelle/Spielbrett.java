@@ -57,6 +57,12 @@ public class Spielbrett {
 	
 	//Bewegen schwarz
 	public boolean moveBlack(int x, int y, int direction){
+		//QueenCheck
+		if(feld[x][y].getQueen()){
+			return moveQueen(x, y, direction);
+		}
+
+
 		if(direction == 0 & y - 1 >= 0) {
 			if(feld[x - 1][y - 1] != null){
 				System.out.println("Feld besetzt");
@@ -85,15 +91,17 @@ public class Spielbrett {
 			return true;
 		}
 
-		//Queen Check
-
 		easyLayout(this);
-
 		return false;
 	}
 
 	//Bewegen schwarz
 	public boolean moveWhite(int x, int y, int direction){
+		//QueenCheck
+		if(feld[x][y].getQueen()){
+			return moveQueen(x, y, direction);
+		}
+
 		// 0 = left
 		// 1 = right
 		if(direction == 0 & y - 1 >= 0) {
@@ -124,18 +132,29 @@ public class Spielbrett {
 			return true;
 		}
 
-		//Queen Check
-
 		easyLayout(this);
+		return false;
+	}
+
+	public boolean moveQueen(int x, int y, int direction) {
+		if (direction == 7 & y - 1 >= 0) {
+			//TODO
+		} else if (direction == 9 & y + 1 <= 7) {
+			//TODO
+		} else if (direction == 1 & y - 1 >= 0) {
+			//TODO
+		} else if (direction == 3 & y + 1 <= 7) {
+			//TODO
+		}
 
 		return false;
 	}
-	
+
 	//Stein Schlagen
 	private void beat(int x, int y, int xn, int yn){
 	}
-	
-	
+
+
 	//feld intizialiesierung
 	public void initFeld() {
 		

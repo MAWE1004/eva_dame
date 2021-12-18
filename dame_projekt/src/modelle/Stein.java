@@ -5,7 +5,7 @@ import grafiken.SteinGrafik;
 public class Stein {
 	//Attribute
 	private SteinGrafik layout;
-	private String farbe;
+	final private String farbe;
 	private boolean queen = false;
 	
 	public Stein(String farbe) {
@@ -14,6 +14,10 @@ public class Stein {
 	
 	public String getFarbe() {
 		return farbe;
+	}
+
+	public boolean getQueen(){
+		return queen;
 	}
 
 	public void setQueen(boolean q){

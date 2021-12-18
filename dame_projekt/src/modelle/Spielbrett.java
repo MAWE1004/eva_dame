@@ -20,8 +20,6 @@ public class Spielbrett {
 	
 	//Methoden
 	
-	
-	
 	//begehbare Felder init
 	private void walkablefieldinit() {
 		int x = 1;
@@ -57,50 +55,84 @@ public class Spielbrett {
 		return false;
 	}
 	
-	//Bewegen
-	public void move(int x, int y, int xn, int yn) {
+	//Bewegen schwarz
+	public boolean moveBlack(int x, int y, int direction){
+		if(direction == 0 & y - 1 >= 0) {
+			if(feld[x - 1][y - 1] != null){
+				System.out.println("Feld besetzt");
+				// schlagen
+				easyLayout(this);
+				return false;
+			}
+			feld[x - 1][y - 1] = feld[x][y];
+			feld[x][y] = null;
+			System.out.println("Bewegt");
+			easyLayout(this);
+			return true;
 
-		feld[xn][yn] = feld[x][y];
-		feld[x][y] = null;
+		}
+		else if(direction == 1 & y + 1 <= 7){
+			if(feld[x - 1][y + 1] != null){
+				System.out.println("Feld besetzt");
+				//schlagen
+				easyLayout(this);
+				return false;
+			}
+			feld[x - 1][y + 1] = feld[x][y];
+			feld[x][y] = null;
+			System.out.println("Bewegt");
+			easyLayout(this);
+			return true;
+		}
+
+		//Queen Check
 
 		easyLayout(this);
-		System.out.println("Bewegegt");
 
-		/*
-		// true nach rechts
-		// false nach links
-		boolean richtung;
-		
-		while() {
-			
-		}
-		
-		
-		//�berpr�ft ob begehbar
-		if(walkablefield(xn,yn)) {
-			do {
-				feld[x + 1][y + 1] = feld[x][y];
-				
-			} while()
-			
-			feld[xn][yn] = feld[x][y];
+		return false;
+	}
+
+	//Bewegen schwarz
+	public boolean moveWhite(int x, int y, int direction){
+		// 0 = left
+		// 1 = right
+		if(direction == 0 & y - 1 >= 0) {
+			if(feld[x + 1][y - 1] != null){
+				System.out.println("Feld besetzt");
+				//schlagen
+				easyLayout(this);
+				return false;
+			}
+			feld[x + 1][y - 1] = feld[x][y];
 			feld[x][y] = null;
-			
+			System.out.println("Bewegt");
 			easyLayout(this);
-			System.out.println("Bewegegt");
+			return true;
+
 		}
-		 */
+		else if(direction == 1 & y + 1 <= 7){
+			if(feld[x + 1][y + 1] != null){
+				System.out.println("Feld besetzt");
+				//schlagen
+				easyLayout(this);
+				return false;
+			}
+			feld[x + 1][y + 1] = feld[x][y];
+			feld[x][y] = null;
+			System.out.println("Bewegt");
+			easyLayout(this);
+			return true;
+		}
+
+		//Queen Check
+
+		easyLayout(this);
+
+		return false;
 	}
 	
 	//Stein Schlagen
-	private Stein schlagen(int xn, int yn){
-		if(xn >= 8 || xn < 0 || yn >= 8 || yn < 0) {
-			return feld[xn][yn];
-		}
-		
-		feld[xn][yn] = null;
-		
-		return schlagen(xn + 1, yn + 1);
+	private void beat(int x, int y, int xn, int yn){
 	}
 	
 	
@@ -112,7 +144,7 @@ public class Spielbrett {
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 8; j++) {
 				if(x % 9 == j) {
-					feld[i][j] = new Stein("schwarz");
+					feld[i][j] = new Stein("black");
 					x += 2;
 					if(x % 9 == 8)
 						x += 2;
@@ -120,11 +152,11 @@ public class Spielbrett {
 			}
 		}
 		
-		// wei�
+		// weiss
 		for(int i = 5; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
 				if(x % 9 == j) {
-					feld[i][j] = new Stein("wei�");
+					feld[i][j] = new Stein("white");
 					x += 2;
 					if(x % 9 == 8)
 						x += 2;
@@ -145,10 +177,10 @@ public class Spielbrett {
 					System.out.print("   ");
 				}
 				else {
-					if(f2.getFarbe().equals("schwarz"))
-						System.out.print(" s ");
+					if(f2.getFarbe().equals("black"))
+						System.out.print(" b ");
 					
-					else if(f2.getFarbe().equals("wei�"))
+					else if(f2.getFarbe().equals("white"))
 						System.out.print(" w ");
 				}
 				System.out.print("|");

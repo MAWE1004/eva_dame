@@ -15,5 +15,9 @@ public class Stein {
 	public String getFarbe() {
 		return farbe;
 	}
+
+	public void setQueen(boolean q){
+		queen = q;
+	}
 	
 }

@@ -56,7 +56,7 @@ public class Spielbrett {
 	}
 	
 	//Bewegen schwarz
-	public boolean moveBlack(int x, int y, int direction){
+	public boolean moveWhite(int x, int y, int direction){
 		//QueenCheck
 		if(feld[x][y].getQueen()){
 			return moveQueen(x, y, direction);
@@ -66,9 +66,7 @@ public class Spielbrett {
 		if(direction == 0 & y - 1 >= 0) {
 			if(feld[x - 1][y - 1] != null){
 				System.out.println("Feld besetzt");
-				// schlagen
-				easyLayout(this);
-				return false;
+				return beat(x, y, x-1, y-1, x-2, y-2);
 			}
 			feld[x - 1][y - 1] = feld[x][y];
 			feld[x][y] = null;
@@ -80,9 +78,7 @@ public class Spielbrett {
 		else if(direction == 1 & y + 1 <= 7){
 			if(feld[x - 1][y + 1] != null){
 				System.out.println("Feld besetzt");
-				//schlagen
-				easyLayout(this);
-				return false;
+				return beat(x, y, x-1, y+1, x-2, y+2);
 			}
 			feld[x - 1][y + 1] = feld[x][y];
 			feld[x][y] = null;
@@ -95,8 +91,7 @@ public class Spielbrett {
 		return false;
 	}
 
-	//Bewegen schwarz
-	public boolean moveWhite(int x, int y, int direction){
+	public boolean moveBlack(int x, int y, int direction){
 		//QueenCheck
 		if(feld[x][y].getQueen()){
 			return moveQueen(x, y, direction);
@@ -107,9 +102,7 @@ public class Spielbrett {
 		if(direction == 0 & y - 1 >= 0) {
 			if(feld[x + 1][y - 1] != null){
 				System.out.println("Feld besetzt");
-				//schlagen
-				easyLayout(this);
-				return false;
+				return beat(x, y, x+1, y-1, x+2, y-2);
 			}
 			feld[x + 1][y - 1] = feld[x][y];
 			feld[x][y] = null;
@@ -121,9 +114,7 @@ public class Spielbrett {
 		else if(direction == 1 & y + 1 <= 7){
 			if(feld[x + 1][y + 1] != null){
 				System.out.println("Feld besetzt");
-				//schlagen
-				easyLayout(this);
-				return false;
+				return beat(x, y, x+1, y+1, x+2, y+2);
 			}
 			feld[x + 1][y + 1] = feld[x][y];
 			feld[x][y] = null;
@@ -151,7 +142,21 @@ public class Spielbrett {
 	}
 
 	//Stein Schlagen
-	private void beat(int x, int y, int xn, int yn){
+	private boolean beat(int x, int y, int xb, int yb, int xn, int yn){
+		//nächtses Feld besetzt
+		//übernächstes Feld frei
+		if(feld[xn][yn] != null){
+			easyLayout(this);
+			return false;
+		}
+
+		feld[xn][yn] = feld[x][y];
+		feld[xb][yb] = null;
+		feld[x][y] = null;
+
+		easyLayout(this);
+		System.out.println("Stein auf Feld X = " + xb + " Y = " +  yb + " wurde geschlagen");
+		return true;
 	}
 
 

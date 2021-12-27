@@ -5,7 +5,7 @@ import grafiken.SteinGrafik;
 public class Stein {
 	//Attribute
 	private SteinGrafik layout;
-	final private String farbe;
+	private String farbe;
 	private boolean queen = false;
 	
 	public Stein(String farbe) {

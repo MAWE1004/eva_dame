@@ -58,12 +58,93 @@ public class Spielbrett {
 	//Bewegen schwarz
 	public boolean moveWhite(int x, int y, int direction){
 		//QueenCheck
-		if(feld[x][y].getQueen()){
-			return moveQueen(x, y, direction);
+		try{
+			if(feld[x][y].getQueen()){
+				return moveQueen(x, y, direction);
+			}
+
+
+			if(direction == 0 & y - 1 >= 0) {
+				if(feld[x - 1][y - 1] != null){
+					System.out.println("Feld besetzt");
+					return beat(x, y, x-1, y-1, x-2, y-2);
+				}
+				feld[x - 1][y - 1] = feld[x][y];
+				feld[x][y] = null;
+				toQueen(x, y);
+				System.out.println("Bewegt");
+				easyLayout(this);
+				return true;
+
+			}
+			else if(direction == 1 & y + 1 <= 7){
+				if(feld[x - 1][y + 1] != null){
+					System.out.println("Feld besetzt");
+					return beat(x, y, x-1, y+1, x-2, y+2);
+				}
+				feld[x - 1][y + 1] = feld[x][y];
+				feld[x][y] = null;
+				toQueen(x, y);
+				System.out.println("Bewegt");
+				easyLayout(this);
+				return true;
+			}
+		}catch(Exception e){
+			System.out.println("Ein Fehler ist aufgetreten");
+			e.printStackTrace();
 		}
 
 
-		if(direction == 0 & y - 1 >= 0) {
+		easyLayout(this);
+		return false;
+	}
+
+	public boolean moveBlack(int x, int y, int direction){
+		//QueenCheck
+		try{
+			if(feld[x][y].getQueen()){
+				return moveQueen(x, y, direction);
+			}
+
+			// 0 = left
+			// 1 = right
+			if(direction == 0 & y - 1 >= 0) {
+				if(feld[x + 1][y - 1] != null){
+					System.out.println("Feld besetzt");
+					return beat(x, y, x+1, y-1, x+2, y-2);
+				}
+				feld[x + 1][y - 1] = feld[x][y];
+				feld[x][y] = null;
+				toQueen(x, y);
+				System.out.println("Bewegt");
+				easyLayout(this);
+				return true;
+
+			}
+			else if(direction == 1 & y + 1 <= 7){
+				if(feld[x + 1][y + 1] != null){
+					System.out.println("Feld besetzt");
+					return beat(x, y, x+1, y+1, x+2, y+2);
+				}
+				feld[x + 1][y + 1] = feld[x][y];
+				feld[x][y] = null;
+				toQueen(x, y);
+				System.out.println("Bewegt");
+				easyLayout(this);
+				return true;
+			}
+		}catch(Exception e){
+			System.out.println("Ein Fehler ist aufgetreten");
+			e.printStackTrace();
+		}
+
+
+		easyLayout(this);
+		return false;
+	}
+
+	public boolean moveQueen(int x, int y, int direction) {
+		if (direction == 7 & y - 1 >= 0) {
 			if(feld[x - 1][y - 1] != null){
 				System.out.println("Feld besetzt");
 				return beat(x, y, x-1, y-1, x-2, y-2);
@@ -73,9 +154,7 @@ public class Spielbrett {
 			System.out.println("Bewegt");
 			easyLayout(this);
 			return true;
-
-		}
-		else if(direction == 1 & y + 1 <= 7){
+		} else if (direction == 9 & y + 1 <= 7) {
 			if(feld[x - 1][y + 1] != null){
 				System.out.println("Feld besetzt");
 				return beat(x, y, x-1, y+1, x-2, y+2);
@@ -85,21 +164,7 @@ public class Spielbrett {
 			System.out.println("Bewegt");
 			easyLayout(this);
 			return true;
-		}
-
-		easyLayout(this);
-		return false;
-	}
-
-	public boolean moveBlack(int x, int y, int direction){
-		//QueenCheck
-		if(feld[x][y].getQueen()){
-			return moveQueen(x, y, direction);
-		}
-
-		// 0 = left
-		// 1 = right
-		if(direction == 0 & y - 1 >= 0) {
+		} else if (direction == 1 & y - 1 >= 0) {
 			if(feld[x + 1][y - 1] != null){
 				System.out.println("Feld besetzt");
 				return beat(x, y, x+1, y-1, x+2, y-2);
@@ -109,9 +174,7 @@ public class Spielbrett {
 			System.out.println("Bewegt");
 			easyLayout(this);
 			return true;
-
-		}
-		else if(direction == 1 & y + 1 <= 7){
+		} else if (direction == 3 & y + 1 <= 7) {
 			if(feld[x + 1][y + 1] != null){
 				System.out.println("Feld besetzt");
 				return beat(x, y, x+1, y+1, x+2, y+2);
@@ -121,21 +184,6 @@ public class Spielbrett {
 			System.out.println("Bewegt");
 			easyLayout(this);
 			return true;
-		}
-
-		easyLayout(this);
-		return false;
-	}
-
-	public boolean moveQueen(int x, int y, int direction) {
-		if (direction == 7 & y - 1 >= 0) {
-			//TODO
-		} else if (direction == 9 & y + 1 <= 7) {
-			//TODO
-		} else if (direction == 1 & y - 1 >= 0) {
-			//TODO
-		} else if (direction == 3 & y + 1 <= 7) {
-			//TODO
 		}
 
 		return false;
@@ -150,15 +198,23 @@ public class Spielbrett {
 			return false;
 		}
 
+
 		feld[xn][yn] = feld[x][y];
 		feld[xb][yb] = null;
 		feld[x][y] = null;
+
+		toQueen(xn, yn);
 
 		easyLayout(this);
 		System.out.println("Stein auf Feld X = " + xb + " Y = " +  yb + " wurde geschlagen");
 		return true;
 	}
 
+	private void toQueen(int x, int y){
+		if(x == 0 | x == 7){
+			feld[x][y].setQueen(true);
+		}
+	}
 
 	//feld intizialiesierung
 	public void initFeld() {
@@ -201,11 +257,19 @@ public class Spielbrett {
 					System.out.print("   ");
 				}
 				else {
-					if(f2.getFarbe().equals("black"))
-						System.out.print(" b ");
+					if(f2.getFarbe().equals("black")) {
+						if(f2.getQueen())
+							System.out.print(" B ");
+						else
+							System.out.print(" b ");
+					}
 					
-					else if(f2.getFarbe().equals("white"))
-						System.out.print(" w ");
+					else if(f2.getFarbe().equals("white")){
+						if(f2.getQueen())
+							System.out.print(" W ");
+						else
+							System.out.print(" w ");
+					}
 				}
 				System.out.print("|");
 			}

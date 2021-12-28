@@ -2,17 +2,21 @@ package modelle;
 
 import grafiken.SteinGrafik;
 
+import java.awt.Color;
+
 public class Stein {
 	//Attribute
 	private SteinGrafik layout;
-	private String farbe;
-	private boolean queen = false;
+	private Color farbe;
+	private boolean queen;
 	
-	public Stein(String farbe) {
+	public Stein(Color farbe) {
 		this.farbe = farbe;
+		this.layout = new SteinGrafik(farbe);
+		this.queen = false;
 	}
 	
-	public String getFarbe() {
+	public Color getFarbe() {
 		return farbe;
 	}
 
@@ -22,6 +26,10 @@ public class Stein {
 
 	public void setQueen(boolean q){
 		queen = q;
+	}
+
+	public SteinGrafik getLayout(){
+		return layout;
 	}
 	
 }

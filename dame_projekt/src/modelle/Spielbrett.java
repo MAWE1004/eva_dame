@@ -1,5 +1,6 @@
 package modelle;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -224,7 +225,7 @@ public class Spielbrett {
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 8; j++) {
 				if(x % 9 == j) {
-					feld[i][j] = new Stein("black");
+					feld[i][j] = new Stein(Color.BLACK);
 					x += 2;
 					if(x % 9 == 8)
 						x += 2;
@@ -236,7 +237,7 @@ public class Spielbrett {
 		for(int i = 5; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
 				if(x % 9 == j) {
-					feld[i][j] = new Stein("white");
+					feld[i][j] = new Stein(Color.WHITE);
 					x += 2;
 					if(x % 9 == 8)
 						x += 2;
@@ -257,14 +258,14 @@ public class Spielbrett {
 					System.out.print("   ");
 				}
 				else {
-					if(f2.getFarbe().equals("black")) {
+					if(f2.getFarbe().equals(Color.BLACK)) {
 						if(f2.getQueen())
 							System.out.print(" B ");
 						else
 							System.out.print(" b ");
 					}
 					
-					else if(f2.getFarbe().equals("white")){
+					else if(f2.getFarbe().equals(Color.WHITE)){
 						if(f2.getQueen())
 							System.out.print(" W ");
 						else

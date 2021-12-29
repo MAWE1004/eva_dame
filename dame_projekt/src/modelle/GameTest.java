@@ -8,9 +8,9 @@ public class GameTest {
 		System.out.println(" ===== START =====");
 		
 		Spielbrett sb = new Spielbrett();
-		
+		/*
 		Scanner sn = new Scanner(System.in);
-		
+
 		int x, y, direction;
 		
 		while(true) {
@@ -41,5 +41,6 @@ public class GameTest {
 
 			}while(!sb.moveBlack(x,y,direction));
 		}
+		 */
 	}
 }

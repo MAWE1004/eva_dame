@@ -16,6 +16,7 @@ public class Spieler {
 		this.username = username;
 		this.passwort = passwort;
 	}
+
 	
 	//Setter, getter
 	public void setUsername(String username) {

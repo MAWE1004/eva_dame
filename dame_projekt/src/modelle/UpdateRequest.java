@@ -8,7 +8,7 @@ class UpdateRequest implements Runnable {
         this.clock = clock;
 
     } // UpdateRequest
-    public void run ( ) {
-        clock.update ( );
+    public void run () {
+        clock.update ();
     } // run
 } // UpdateRequest

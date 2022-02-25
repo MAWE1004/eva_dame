@@ -10,7 +10,7 @@ public class ClockManager {
         JFrame f = new JFrame("Uhr");
         f.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         f.setLayout (new GridLayout(0, 1));
-        JLabel label = new JLabel ("", SwingConstants.RIGHT);
+        JLabel label = new JLabel ("", SwingConstants.CENTER);
         f.add (label);
         JButton b1 = new JButton ("Start");
         f.add (b1);
@@ -23,8 +23,7 @@ public class ClockManager {
         JButton b5 = new JButton ("Switch");
         f.add (b5);
         Clock clock = new Clock (label);
-        Clock clock1 = new Clock (label);
-        EventHandler h = new EventHandler (clock, clock1);
+        EventHandler h = new EventHandler (clock);
         b1.addActionListener (h);
         b2.addActionListener (h);
         b3.addActionListener (h);

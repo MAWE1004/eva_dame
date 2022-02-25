@@ -1,18 +1,26 @@
 package grafiken;
 
+import modelle.Spielbrett;
+import modelle.Stein;
+
 import javax.swing.*;
+import java.awt.*;
 
 public class Drawingtest extends JPanel {
 	public static void main(String[] args) {
-		JFrame f = new JFrame("Kreis");
-//		SteinGrafik steinPanel = new SteinGrafik();
-		BrettGrafik brettPanel = new BrettGrafik();
-		
-		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//		f.add(steinPanel);
-		f.add(brettPanel);
-		f.setLocation(200, 200);
-		f.setSize(300, 300);
-		f.setVisible(true);
+		Spielbrett s = new Spielbrett();
+		//JFrame game = new JFrame("Dame");
+		//JPanel m = new JPanel();
+		//m.setBounds(0, 0, 1000, 1000);
+
+		//BrettGrafik brett = new BrettGrafik(s);
+		//m.add(brett.getGrafik());
+
+		//game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//game.setSize(972,992);
+		//game.add(brett);
+		//game.add(m);
+
+		//game.setVisible(true);
 	}
 }

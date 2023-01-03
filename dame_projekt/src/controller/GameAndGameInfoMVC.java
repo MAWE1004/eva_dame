@@ -14,7 +14,7 @@ public class GameAndGameInfoMVC extends JFrame {
         setSize(1322,995);
         setResizable(false);
 
-        Brett brett = new Brett(30000,schwarz,weiß);
+        Brett brett = new Brett(30,schwarz,weiß);
         BrettView brettView = new BrettView(brett);
 
         GameInfoView gameInfoView = new GameInfoView(brett.getGameInfo());

@@ -26,13 +26,13 @@ public class Brett extends Thread{
     private byte countwhite;
 
 
-    public Brett(long time,Spieler schwarz, Spieler weiß){
+    public Brett(long timeInMin,Spieler schwarz, Spieler weiß){
         super("Brett " + countGame++);
 
         spieler_schwarz = schwarz;
         spieler_weiß = weiß;
         spieler_am_zug = schwarz;
-        gameInfo = new GameInfo(time,spieler_schwarz.getUsername(),spieler_weiß.getUsername(),"schwarz", "weiß");
+        gameInfo = new GameInfo(timeInMin,spieler_schwarz.getUsername(),spieler_weiß.getUsername(),"schwarz", "weiß");
         felder = new Feld[10][10];
         clickedFeld = null;
         clickedNewFeld = null;

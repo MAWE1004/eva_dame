@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ServerDame:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ServerDame_jar</output-path>
+    <root id="archive" name="server_dame.jar">
+      <element id="module-output" name="eva_dame" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/.metadata/.mylyn/repositories.xml.zip" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

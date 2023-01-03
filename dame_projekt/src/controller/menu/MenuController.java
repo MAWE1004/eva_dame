@@ -33,17 +33,17 @@ public class MenuController implements ActionListener {
         }
         else if (s.equals("Play 5 Min")){
             System.out.println("Play 5 Min");
-            GameAndGameInfoMVC spiel = new GameAndGameInfoMVC(model.getSpieler(),model.getSpieler());
+            GameAndGameInfoMVC spiel = new GameAndGameInfoMVC(5,model.getSpieler(),model.getSpieler());
             spiele.add(spiel);
         }
         else if (s.equals("Play 10 Min")){
             System.out.println("Play 10 Min");
-            GameAndGameInfoMVC spiel = new GameAndGameInfoMVC(model.getSpieler(),model.getSpieler());
+            GameAndGameInfoMVC spiel = new GameAndGameInfoMVC(10,model.getSpieler(),model.getSpieler());
             spiele.add(spiel);
         }
         else if (s.equals("Play 30 Min")){
             System.out.println("Play 30 Min");
-            GameAndGameInfoMVC spiel = new GameAndGameInfoMVC(model.getSpieler(),model.getSpieler());
+            GameAndGameInfoMVC spiel = new GameAndGameInfoMVC(30,model.getSpieler(),model.getSpieler());
             spiele.add(spiel);
         }
         else if (s.equals("Logout")){

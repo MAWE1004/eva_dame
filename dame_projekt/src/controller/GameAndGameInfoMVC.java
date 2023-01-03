@@ -8,13 +8,13 @@ import views.GameInfoView;
 import javax.swing.*;
 
 public class GameAndGameInfoMVC extends JFrame {
-    public GameAndGameInfoMVC(Spieler schwarz, Spieler weiß){
+    public GameAndGameInfoMVC(long timeInMin, Spieler schwarz, Spieler weiß){
         super("Dame");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(1322,995);
         setResizable(false);
 
-        Brett brett = new Brett(30,schwarz,weiß);
+        Brett brett = new Brett(timeInMin,schwarz,weiß);
         BrettView brettView = new BrettView(brett);
 
         GameInfoView gameInfoView = new GameInfoView(brett.getGameInfo());
@@ -33,6 +33,6 @@ public class GameAndGameInfoMVC extends JFrame {
     public static void main(String[] args) {
         Spieler spieler = new Spieler("Test", "Test");
         Spieler spieler2 = new Spieler("Test2", "Test2");
-        new GameAndGameInfoMVC(spieler, spieler2);
+        new GameAndGameInfoMVC(30,spieler, spieler2);
     }
 }

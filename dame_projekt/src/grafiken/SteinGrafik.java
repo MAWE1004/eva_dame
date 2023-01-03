@@ -8,14 +8,13 @@ import java.util.EventListener;
 import javax.swing.JPanel;
 
 
-public class SteinGrafik extends JPanel /*implements MouseListener*/{
-	private Color farbe;
-	private String name;
-	public SteinGrafik(Color farbe, String name) {
+public class SteinGrafik extends JPanel implements MouseListener{
+	Color farbe;
+
+	public SteinGrafik(Color farbe) {
 		this.farbe = farbe;
 		setBackground(null);
-		setName(name);
-		//addMouseListener(this);
+		addMouseListener(this);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -28,12 +27,11 @@ public class SteinGrafik extends JPanel /*implements MouseListener*/{
 		g.fillOval(3, 3, diameter, diameter);
 	}
 
-	/*
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		System.out.println("Clicked");
 		System.out.println(this.toString());
-		System.out.println(e.getComponent().toString());
 	}
 
 	@Override
@@ -57,5 +55,4 @@ public class SteinGrafik extends JPanel /*implements MouseListener*/{
 		System.out.println("Exited");
 		setBackground(null);
 	}
-	 */
 }

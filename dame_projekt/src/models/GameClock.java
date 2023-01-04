@@ -7,6 +7,8 @@ public class GameClock {
     private JLabel label;
     private long startTime;
     private long countTime;
+    private long elapsedTime;
+    private long pausedTime;
 
     public GameClock(JLabel label, long countTime) {
         this.label = label;
@@ -15,7 +17,7 @@ public class GameClock {
     }
 
     public void update() {
-        long elapsedTime = startTime - System.currentTimeMillis();
+        elapsedTime = startTime - System.currentTimeMillis();
         long min = elapsedTime / 60000;
         long seconds = elapsedTime % 60000 / 1000;
         String prefix;
@@ -26,7 +28,15 @@ public class GameClock {
         label.setText(min + "." + prefix + seconds);
         if(label.getText().equals("0.00"))
             reset();
+    }
 
+
+    public void pause() {
+        countTime = elapsedTime;
+    }
+
+    public void continueClock() {
+        reset();
     }
 
     public void reset(){

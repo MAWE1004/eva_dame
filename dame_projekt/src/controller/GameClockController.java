@@ -24,18 +24,28 @@ public class GameClockController implements ActionListener {
                 clock.reset();
                 ticker = new TickerGameClock(clock);
             }
+            else{
+                clock.continueClock();
+                ticker = new TickerGameClock(clock);
+            }
         }
         else if (s.equals ("Stopp") ) {
             if (ticker != null) {
-                ticker.interrupt ( );
+                ticker.interrupt ();
                 ticker = null;
             }
         }
         else if (s.equals ("Null") ) {
-            clock.reset ( );
+            clock.reset ();
         }
         else if(s.equals("Ende")) {
             System.exit (0);
+        }
+        else if(s.equals("Pause")) {
+            if (ticker != null) {
+                ticker.interrupt();
+                clock.pause();
+            }
         }
     }
 }

@@ -21,12 +21,15 @@ public class GameClockMVC extends JFrame {
         f.add (b3);
         JButton b4 = new JButton ("Ende");
         f.add (b4);
+        JButton b5 = new JButton ("Pause");
+        f.add(b5);
         GameClock clock = new GameClock (label, time);
         GameClockController h = new GameClockController (clock);
         b1.addActionListener (h);
         b2.addActionListener (h);
         b3.addActionListener (h);
         b4.addActionListener (h);
+        b5.addActionListener (h);
         f.setLocation (300, 50);
         f.setSize (150, 200);
         f.setVisible (true);

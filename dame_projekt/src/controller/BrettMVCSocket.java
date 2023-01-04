@@ -29,7 +29,7 @@ public class BrettMVCSocket extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     ClientDame client = new ClientDame(InetAddress.getByName("127.0.0.1"), 1234);
-                    client.requestPlayer(model.getSpieler_am_zug().getUsername());
+                    client.requestPlayer(model.getSpieler_am_zug().getUsername(), 10);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

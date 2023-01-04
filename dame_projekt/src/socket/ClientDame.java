@@ -75,8 +75,8 @@ public class ClientDame {
 
     }
 
-    public String requestPlayer(String sp) throws IOException {
-        RequestForPlayer request = new RequestForPlayer(sp);
+    public String requestPlayer(String sp, int time) throws IOException {
+        RequestForPlayer request = new RequestForPlayer(sp, (byte) time);
         byte[] buffer = request.marshall();
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
         packet.setSocketAddress(socketAdr);

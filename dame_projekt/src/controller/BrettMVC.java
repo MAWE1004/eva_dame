@@ -40,7 +40,7 @@ public class BrettMVC extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    client.requestPlayer(model.getName());
+                    client.requestPlayer(model.getName(), 10);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }

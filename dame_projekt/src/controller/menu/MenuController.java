@@ -5,10 +5,13 @@ import controller.GameAndMenuMVC;
 import controller.anmeldung.AnmeldungMVC;
 import models.Anmeldung;
 import models.Menu;
+import socket.ClientDame;
 import views.MenuView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 
 public class MenuController implements ActionListener {
@@ -33,8 +36,14 @@ public class MenuController implements ActionListener {
         }
         else if (s.equals("Play 5 Min")){
             System.out.println("Play 5 Min");
-            GameAndGameInfoMVC spiel = new GameAndGameInfoMVC(5,model.getSpieler(),model.getSpieler());
-            spiele.add(spiel);
+            try {
+                String gegner = model.requestPlayer();
+                GameAndGameInfoMVC spiel = new GameAndGameInfoMVC(5,model.getSpieler(),model.getSpieler());
+                spiele.add(spiel);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
         }
         else if (s.equals("Play 10 Min")){
             System.out.println("Play 10 Min");

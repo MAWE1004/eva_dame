@@ -1,7 +1,9 @@
 package models;
 
+import socket.ClientDame;
 import views.MenuListener;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class Menu {
@@ -48,5 +50,12 @@ public class Menu {
 
     public void addListener(MenuListener l){
         listener.add(l);
+    }
+
+    public String requestPlayer() throws Exception {
+        InetAddress adr = InetAddress.getByName("10.0.3.36");
+        int port = 1234;
+        ClientDame client = new ClientDame(adr, port);
+        return client.requestPlayer(spieler.getUsername());
     }
 }

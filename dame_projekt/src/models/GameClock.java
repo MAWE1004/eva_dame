@@ -24,7 +24,7 @@ public class GameClock {
         else
             prefix = "";
         label.setText(min + "." + prefix + seconds);
-        if(label.getText().equals("0.000"))
+        if(label.getText().equals("0.00"))
             reset();
 
     }

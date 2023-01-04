@@ -8,13 +8,13 @@ import views.GameInfoView;
 import javax.swing.*;
 
 public class GameAndGameInfoMVC extends JFrame {
-    public GameAndGameInfoMVC(long timeInMin, Spieler schwarz, Spieler weiß){
+    public GameAndGameInfoMVC(long timeInMin, Spieler schwarz, String gegner){
         super("Dame");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(1322,995);
         setResizable(false);
 
-        Brett brett = new Brett(timeInMin,schwarz,weiß);
+        Brett brett = new Brett(timeInMin,schwarz,gegner);
         BrettView brettView = new BrettView(brett);
 
         GameInfoView gameInfoView = new GameInfoView(brett.getGameInfo());

@@ -75,7 +75,7 @@ public class ClientDame {
 
     }
 
-    public void requestPlayer(String sp) throws IOException {
+    public String requestPlayer(String sp) throws IOException {
         RequestForPlayer request = new RequestForPlayer(sp);
         byte[] buffer = request.marshall();
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
@@ -98,6 +98,7 @@ public class ClientDame {
         else
             System.out.println("Es wurde kein Gegner gefunden");
         socket.close();
+        return sp;
     }
 
     public void sendPositions(byte[] old, byte[] neu, byte[] schlagen) throws IOException{

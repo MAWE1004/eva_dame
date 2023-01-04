@@ -56,6 +56,6 @@ public class Menu {
         InetAddress adr = InetAddress.getByName("10.0.3.36");
         int port = 1234;
         ClientDame client = new ClientDame(adr, port);
-        return client.requestPlayer(spieler.getUsername());
+        return client.requestPlayer(spieler.getUsername(), 10);
     }
 }

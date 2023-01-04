@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ServerDame {
@@ -146,6 +147,33 @@ public class ServerDame {
         System.out.println("Time (SERVER): " + time);
         System.out.println("Spieler (Server): " + player);
 
+        boolean gameExists = false;
+
+        String line;
+        FileWriter myWriter = new FileWriter("search.txt", true);
+        Scanner read = new Scanner(new File("search.txt"));
+        while (read.hasNextLine()){
+            line = read.nextLine();
+            if(line.equals(String.valueOf(time))){
+                line = read.nextLine();
+                line = read.nextLine();
+                System.out.println("Letzte Line mit s: " + line);
+                if(line.equals("s:")){
+                    System.out.println("if(line.equals(\"s:\"))");
+                    myWriter.write(player + '\n');
+                    myWriter.close();
+                    return null;
+                    //gameExists = true;
+                }
+            }
+        }
+        myWriter.write("g"+gameCount + '\n');
+        gameCount++;
+        myWriter.write(String.valueOf(time) + '\n');
+        myWriter.write("w:" + player + '\n');
+        myWriter.write("s:");
+        myWriter.close();
+
 //        pairs.put(player, null);
 //        search: {
 //            while(pairs.get(player) == null){
@@ -167,6 +195,7 @@ public class ServerDame {
 //
 //        System.out.println("Liste");
 //        System.out.println(pairs);
+
 
         ResponseForPlayer response = new ResponseForPlayer(String.valueOf(gameCount), "ok");
         return response.marshall();

@@ -4,7 +4,7 @@ import java.net.InetAddress;
 
 public class ClientDameMain {
     public static void main(String[] args) throws Exception{
-        String name = "Player 10";
+        String name = "Player 7";
         InetAddress adr = InetAddress.getByName("127.0.0.1");
         int port = 1234;
         ClientDame client = new ClientDame(adr, port);

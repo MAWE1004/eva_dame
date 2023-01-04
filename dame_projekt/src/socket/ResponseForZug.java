@@ -4,6 +4,9 @@ import java.nio.ByteBuffer;
 
 public class ResponseForZug {
     private String code;
+    private String gegner;
+    private String spiel;
+    private char farbe;
 
     public ResponseForZug(){
     }
@@ -19,11 +22,13 @@ public class ResponseForZug {
     public ResponseForZug unMarshall(byte[] res){
         ByteBuffer in = ByteBuffer.wrap(res);
         int len = 2;
-        if(res.length == 3)
+        if(res.length == 20)
             len++;
         byte[] sin = new byte[len];
         in.get(sin, 0, len);
         code = new String(sin);
+        if(code.equals("bad"))
+            return this;
         return this;
     }
 

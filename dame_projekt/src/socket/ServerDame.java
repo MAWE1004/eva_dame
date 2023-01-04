@@ -162,7 +162,8 @@ public class ServerDame {
                     System.out.println("if(line.equals(\"s:\"))");
                     myWriter.write(player + '\n');
                     myWriter.close();
-                    return null;
+                    ResponseForPlayer response = new ResponseForPlayer("ok", "10", player, "s");
+                    return response.marshall();
                     //gameExists = true;
                 }
             }
@@ -174,30 +175,7 @@ public class ServerDame {
         myWriter.write("s:");
         myWriter.close();
 
-//        pairs.put(player, null);
-//        search: {
-//            while(pairs.get(player) == null){
-//                for (String gegner: pairs.keySet()) {
-//                    if(gegner != player & pairs.get(gegner) == null){
-//                        pairs.put(gegner,player);
-//                        break search;
-//                    }
-//                }
-//                System.out.println("Kein Gegner gefunden");
-//            }
-//        }
-
-//        for (String found: players.keySet()) {
-//            if(players.get(found).isEmpty()){
-//                players.computeIfAbsent()
-//            }
-//        }
-//
-//        System.out.println("Liste");
-//        System.out.println(pairs);
-
-
-        ResponseForPlayer response = new ResponseForPlayer(String.valueOf(gameCount), "ok");
+        ResponseForPlayer response = new ResponseForPlayer("ok", "10", player, "w");
         return response.marshall();
     }
 

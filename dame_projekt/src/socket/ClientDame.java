@@ -94,7 +94,7 @@ public class ClientDame {
         buffer = packet.getData();
         ResponseForPlayer response = new ResponseForPlayer().unMarshall(buffer);
         if(response.getCode().equals("ok"))
-            System.out.println("Der Gegner ist: " + response.getSpieler());
+            System.out.println("Der Gegner ist: " + response.getGegner());
         else
             System.out.println("Es wurde kein Gegner gefunden");
         socket.close();

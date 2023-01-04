@@ -1,0 +1,12 @@
+g1
+10
+w:Player 5
+s:Player 10
+g2
+10
+w:Player 7
+s:Player 7
+g3
+10
+w:Player 7
+s:

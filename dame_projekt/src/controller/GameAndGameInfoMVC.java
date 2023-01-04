@@ -8,7 +8,7 @@ import views.GameInfoView;
 import javax.swing.*;
 
 public class GameAndGameInfoMVC extends JFrame {
-    public GameAndGameInfoMVC(long timeInMin, Spieler schwarz, String gegner){
+    public GameAndGameInfoMVC(long timeInMin, Spieler schwarz, Spieler gegner){
         super("Dame");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(1322,995);

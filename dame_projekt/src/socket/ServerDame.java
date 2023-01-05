@@ -1,5 +1,7 @@
 package socket;
 
+import models.SearchGamer;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.net.DatagramPacket;
@@ -14,6 +16,7 @@ public class ServerDame {
     private int gameCount;
     private ArrayList<String> players = null;
     private Map<String,String> pairs = null;
+    private List<SearchGamer> supplierNames = new ArrayList<>();
 
     public ServerDame (/*DatagramSocket socket*/ int port) throws Exception{
         this.port = port;
@@ -147,33 +150,29 @@ public class ServerDame {
         System.out.println("Time (SERVER): " + time);
         System.out.println("Spieler (Server): " + player);
 
-        boolean gameExists = false;
+        SearchGamer searchGamer;
 
-        String line;
-        FileWriter myWriter = new FileWriter("search.txt", true);
-        Scanner read = new Scanner(new File("search.txt"));
-        while (read.hasNextLine()){
-            line = read.nextLine();
-            if(line.equals(String.valueOf(time))){
-                line = read.nextLine();
-                line = read.nextLine();
-                System.out.println("Letzte Line mit s: " + line);
-                if(line.equals("s:")){
-                    System.out.println("if(line.equals(\"s:\"))");
-                    myWriter.write(player + '\n');
-                    myWriter.close();
-                    ResponseForPlayer response = new ResponseForPlayer("ok", "10", player, "s");
-                    return response.marshall();
-                    //gameExists = true;
-                }
+        for(int i = 0; i < supplierNames.size(); i++){
+            if(!supplierNames.get(i).getGamerWhite().equals(player) && supplierNames.get(i).getGamerBlack() == null && supplierNames.get(i).getTime() == time){
+
+                supplierNames.get(i).setGamerBlack(player);
+                System.out.println(supplierNames.toString());
+
+                ResponseForPlayer response = new ResponseForPlayer("ok", "10", player, "s");
+                return response.marshall();
+            }
+            else {
+                continue;
             }
         }
-        myWriter.write("g"+gameCount + '\n');
+        searchGamer = new SearchGamer();
+        searchGamer.setGame("g" + Integer.toString(gameCount));
         gameCount++;
-        myWriter.write(String.valueOf(time) + '\n');
-        myWriter.write("w:" + player + '\n');
-        myWriter.write("s:");
-        myWriter.close();
+        searchGamer.setGamerWhite(player);
+        searchGamer.setTime(time);
+        supplierNames.add(searchGamer);
+
+        System.out.println(supplierNames.toString());
 
         ResponseForPlayer response = new ResponseForPlayer("ok", "10", player, "w");
         return response.marshall();

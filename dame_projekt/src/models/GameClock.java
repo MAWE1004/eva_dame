@@ -1,5 +1,7 @@
 package models;
 
+import controller.ErgebnisMVC;
+
 import javax.swing.*;
 
 public class GameClock {
@@ -8,7 +10,7 @@ public class GameClock {
     private long startTime;
     private long countTime;
     private long elapsedTime;
-    private long pausedTime;
+    private boolean toggle;
 
     public GameClock(JLabel label, long countTime) {
         this.label = label;
@@ -26,8 +28,15 @@ public class GameClock {
         else
             prefix = "";
         label.setText(min + "." + prefix + seconds);
-        if(label.getText().equals("0.00"))
-            reset();
+        if(label.getText().equals("0.00")){
+            toggle = true;
+        }
+
+
+    }
+
+    public boolean getToggle(){
+        return toggle;
     }
 
 

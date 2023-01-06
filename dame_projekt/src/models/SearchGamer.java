@@ -1,11 +1,11 @@
 package models;
 
 public class SearchGamer {
-    String multiAdr;
-    String game;
-    int time;
-    String gamerWhite;
-    String gamerBlack;
+    private String multiAdr;
+    private String game;
+    private int time;
+    private String gamerWhite;
+    private String gamerBlack;
 
     @Override
     public String toString() {

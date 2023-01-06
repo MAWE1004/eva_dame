@@ -30,18 +30,6 @@ public class Menu {
         return spieler;
     }
 
-    //    public void add() {
-//        if(counter < 10) {
-//            counter += 1;
-//            counterModelChanged();
-//        }
-//    }
-//    public void sub() {
-//        if(counter > 0) {
-//            counter-=1;
-//            counterModelChanged();
-//        }
-//    }
 
     private void counterModelChanged(){
         for (MenuListener l : listener) {

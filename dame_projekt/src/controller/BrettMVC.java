@@ -40,11 +40,11 @@ public class BrettMVC extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    client.requestPlayer(model.getName(), 10);
+                    client.requestPlayer("TEst", 10);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                new BrettMVC(new Brett(30000,sp1,sp2), client,"Brett");
+                new BrettMVC(new Brett(30000,sp1.getUsername(),sp2.getUsername()), client,"Brett");
             }
 
             @Override
@@ -83,8 +83,8 @@ public class BrettMVC extends JFrame{
     public static void main(String[] args) throws Exception {
         Spieler sp1 = new Spieler("Spieler 1", "Spieler 1");
         Spieler sp2 = new Spieler("Spieler 2", "Spieler 2");
-        Brett brett1 = new Brett(30000,sp1, sp2);
-        Brett brett2 = new Brett(30000,sp1,sp2);
+        Brett brett1 = new Brett(30000,sp1.getUsername(), sp2.getUsername());
+        Brett brett2 = new Brett(30000,sp1.getUsername(),sp2.getUsername());
 
         InetAddress adr = InetAddress.getByName("127.0.0.1");
         int port = 1234;

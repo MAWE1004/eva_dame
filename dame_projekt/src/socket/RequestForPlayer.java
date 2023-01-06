@@ -24,7 +24,7 @@ public class RequestForPlayer {
 
     public byte[] marshall(){
         byte[] buffer;
-        ByteBuffer out = ByteBuffer.allocate(16);
+        ByteBuffer out = ByteBuffer.allocate(37);
         out.put("spi".getBytes());
         out.put(time);
         out.put((byte) spieler.length());

@@ -1,13 +1,21 @@
 package models;
 
 import socket.ClientDame;
+import socket.ClientMultiDame;
+import socket.RequestForZug;
 
 import java.awt.*;
+import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.net.MulticastSocket;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 
-public class Brett extends Thread{
+public class Brett{
     private static int countGame = 1;
+
+    private ClientMultiDame clientMultiDame = null;
 
     private Feld[][] felder;
     private Feld clickedFeld;
@@ -16,9 +24,9 @@ public class Brett extends Thread{
     private Feld[] possibleFelder;
     private Feld[] schlagendeFelder;
 
-    private Spieler spieler_schwarz;
-    private Spieler spieler_weiß;
-    private Spieler spieler_am_zug;
+    private String spieler_schwarz;
+    private String spieler_weiß;
+    private String spieler_am_zug;
 
     private GameInfo gameInfo;
 
@@ -26,13 +34,13 @@ public class Brett extends Thread{
     private byte countwhite;
 
 
-    public Brett(long timeInMin,Spieler schwarz, Spieler weiß){
-        super("Brett " + countGame++);
-
+    public Brett(long timeInMin,String schwarz, String weiß, InetAddress group, int port) throws IOException {
+//        super("Brett " + countGame++);
         spieler_schwarz = schwarz;
         spieler_weiß = weiß;
         spieler_am_zug = schwarz;
-        gameInfo = new GameInfo(timeInMin,spieler_schwarz.getUsername(),spieler_weiß.getUsername(),"schwarz", "weiß");
+        this.clientMultiDame = new ClientMultiDame(group, port);
+        gameInfo = new GameInfo(timeInMin,schwarz,weiß,"schwarz", "weiß");
         felder = new Feld[10][10];
         clickedFeld = null;
         clickedNewFeld = null;
@@ -46,10 +54,23 @@ public class Brett extends Thread{
 
 //        start();
     }
+    public Brett(long timeInMin,String schwarz, String weiß){
+//        super("Brett " + countGame++);
 
-    public synchronized void run(){
+        spieler_schwarz = schwarz;
+        spieler_weiß = weiß;
+        spieler_am_zug = schwarz;
+        gameInfo = new GameInfo(timeInMin,schwarz,weiß,"schwarz", "weiß");
+        felder = new Feld[10][10];
+        clickedFeld = null;
+        clickedNewFeld = null;
+        schlagendesFeld = null;
+        possibleFelder = new Feld[]{null,null,null,null}; // 0 und 1 für weiß, 2 und 3 für schwarz, 0-3 für dame
+        schlagendeFelder= new Feld[]{null,null,null,null};
+        countblack = 12;
+        countwhite = 12;
+
         initializeBrett();
-        System.out.println("SPIEL " + getName() + " gestartet");
     }
 
     private void initializeBrettEmpty(){
@@ -141,15 +162,15 @@ public class Brett extends Thread{
         this.possibleFelder = possibleFelder;
     }
 
-    public Spieler getSpieler_am_zug() {
+    public String getSpieler_am_zug() {
         return spieler_am_zug;
     }
 
-    public Spieler getSpieler_schwarz() {
+    public String getSpieler_schwarz() {
         return spieler_schwarz;
     }
 
-    public Spieler getSpieler_weiß() {
+    public String getSpieler_weiß() {
         return spieler_weiß;
     }
 
@@ -344,7 +365,6 @@ public class Brett extends Thread{
         boolean geschlagen = false;
 
         for (int i = 0; i < 4; i++) {
-//            System.out.println("Difniucvhnfdiuvhnfdoijdiov "+ i  + schlagendeFelder[i]);
 
             if(possibleFelder[i] != null && possibleFelder[i].equals(clickedNewFeld) && schlagendeFelder[i] != null){
                 System.out.println("STEIN WIRD GELÖSCHT: " + schlagendeFelder[i].getStone().getFarbe());
@@ -386,7 +406,7 @@ public class Brett extends Thread{
     public synchronized void easyLayout(){
         // Einfache Darstellung über cmd
 
-        System.out.println("Spieler am Zug: " + spieler_am_zug.getUsername());
+        System.out.println("Spieler am Zug: " + spieler_am_zug);
 
         for (Feld[] f1 : felder) {
             System.out.print("\u001B[34m" + "|");
@@ -422,6 +442,8 @@ public class Brett extends Thread{
 
 
     private void sendPos() throws Exception{
+        System.out.println("ALT X: " + (byte)clickedFeld.getStone().getX());
+        System.out.println("ALT X: " + (byte)clickedFeld.getStone().getY());
         InetAddress adr = InetAddress.getByName("127.0.0.1");
         int port = 1234;
         ClientDame client = new ClientDame(adr, port);
@@ -432,7 +454,10 @@ public class Brett extends Thread{
             schlagen[0] = (byte)schlagendesFeld.getStone().getX();
             schlagen[1] = (byte)schlagendesFeld.getStone().getY();
         }
-        client.sendPositions(old, neu, schlagen);
+
+
+//        client.sendPositions("g1", "w", old, neu, schlagen);
+
     }
 
 }

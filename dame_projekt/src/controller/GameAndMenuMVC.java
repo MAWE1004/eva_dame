@@ -20,7 +20,7 @@ public class GameAndMenuMVC extends JFrame {
         setSize(1322,995);
         setResizable(false);
 
-        Brett brett = new Brett(30000,spieler,spieler);
+        Brett brett = new Brett(30000,spieler.getUsername(),spieler.getUsername());
         BrettView brettView = new BrettView(brett);
 
 //        Menu menu = new Menu("Menu");

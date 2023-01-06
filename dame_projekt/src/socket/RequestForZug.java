@@ -3,6 +3,8 @@ package socket;
 import java.nio.ByteBuffer;
 
 public class RequestForZug {
+    private String spiel;
+    private String farbe;
     private byte altX, altY;
     private byte neuX, neuY;
     private byte schlagenX, schlagenY;
@@ -10,13 +12,33 @@ public class RequestForZug {
     public RequestForZug(){
     }
 
-    public RequestForZug(byte altX, byte altY, byte neuX, byte neuY, byte schlagenX, byte schlagenY) {
+    public RequestForZug(String spiel, String farbe, byte altX, byte altY, byte neuX, byte neuY, byte schlagenX, byte schlagenY) {
+        this.spiel = spiel;
+        this.farbe = farbe;
         this.altX = altX;
         this.altY = altY;
         this.neuX = neuX;
         this.neuY = neuY;
         this.schlagenX = schlagenX;
         this.schlagenY = schlagenY;
+    }
+
+    public RequestForZug(String farbe, byte altX, byte altY, byte neuX, byte neuY, byte schlagenX, byte schlagenY) {
+        this.farbe = farbe;
+        this.altX = altX;
+        this.altY = altY;
+        this.neuX = neuX;
+        this.neuY = neuY;
+        this.schlagenX = schlagenX;
+        this.schlagenY = schlagenY;
+    }
+
+    public String getSpiel() {
+        return spiel;
+    }
+
+    public String getFarbe() {
+        return farbe;
     }
 
     public byte getAltX() {
@@ -45,8 +67,11 @@ public class RequestForZug {
 
     public byte[] marshall(){
         byte[] buffer;
-        ByteBuffer out = ByteBuffer.allocate(10);
+        ByteBuffer out = ByteBuffer.allocate(16);
         out.put("zug".getBytes());
+        out.put((byte) spiel.length());
+        out.put(spiel.getBytes());
+        out.put(farbe.getBytes());
         out.put(altX);
         out.put(altY);
         out.put(neuY);
@@ -59,6 +84,11 @@ public class RequestForZug {
 
     public RequestForZug unMarshall(byte[] req){
         ByteBuffer in = ByteBuffer.wrap(req);
+        int len = in.get();
+        byte[] sin = new byte[len];
+        in.get(sin, 0, len);
+        spiel = new String(sin);
+        farbe = String.valueOf(in.get());
         altX = in.get();
         altY = in.get();
         neuX = in.get();

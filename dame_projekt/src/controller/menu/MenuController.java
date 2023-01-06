@@ -6,6 +6,7 @@ import controller.anmeldung.AnmeldungMVC;
 import models.Anmeldung;
 import models.Menu;
 import socket.ClientDame;
+import socket.ResponseForPlayer;
 import views.MenuView;
 
 import java.awt.event.ActionEvent;
@@ -37,8 +38,12 @@ public class MenuController implements ActionListener {
         else if (s.equals("Play 5 Min")){
             System.out.println("Play 5 Min");
             try {
-                String gegner = model.requestPlayer();
-                GameAndGameInfoMVC spiel = new GameAndGameInfoMVC(5,model.getSpieler(),model.getSpieler());
+                ResponseForPlayer response = model.requestPlayer(5);
+                GameAndGameInfoMVC spiel;
+                if(response.getFarbe().equals("w"))
+                    spiel = new GameAndGameInfoMVC(5,response.getGegner(),model.getSpieler().getUsername());
+                else
+                    spiel = new GameAndGameInfoMVC(5,model.getSpieler().getUsername(),response.getGegner());
                 spiele.add(spiel);
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -46,14 +51,30 @@ public class MenuController implements ActionListener {
 
         }
         else if (s.equals("Play 10 Min")){
-            System.out.println("Play 10 Min");
-            GameAndGameInfoMVC spiel = new GameAndGameInfoMVC(10,model.getSpieler(),model.getSpieler());
-            spiele.add(spiel);
+            try {
+                ResponseForPlayer response = model.requestPlayer(10);
+                GameAndGameInfoMVC spiel;
+                if(response.getFarbe().equals("w"))
+                    spiel = new GameAndGameInfoMVC(10,response.getGegner(),model.getSpieler().getUsername());
+                else
+                    spiel = new GameAndGameInfoMVC(10,model.getSpieler().getUsername(),response.getGegner());
+                spiele.add(spiel);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
         else if (s.equals("Play 30 Min")){
-            System.out.println("Play 30 Min");
-            GameAndGameInfoMVC spiel = new GameAndGameInfoMVC(30,model.getSpieler(),model.getSpieler());
-            spiele.add(spiel);
+            try {
+                ResponseForPlayer response = model.requestPlayer(5);
+                GameAndGameInfoMVC spiel;
+                if(response.getFarbe().equals("w"))
+                    spiel = new GameAndGameInfoMVC(10,response.getGegner(),model.getSpieler().getUsername());
+                else
+                    spiel = new GameAndGameInfoMVC(10,model.getSpieler().getUsername(),response.getGegner());
+                spiele.add(spiel);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
         else if (s.equals("Logout")){
             System.out.println("Logout");

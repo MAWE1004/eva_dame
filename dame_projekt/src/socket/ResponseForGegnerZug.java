@@ -2,16 +2,13 @@ package socket;
 
 import java.nio.ByteBuffer;
 
-public class ResponseForZug {
+public class ResponseForGegnerZug {
     private String code;
-    private String gegner;
-    private String spiel;
-    private char farbe;
 
-    public ResponseForZug(){
+    public ResponseForGegnerZug(){
     }
 
-    public ResponseForZug(String code) {
+    public ResponseForGegnerZug(String code) {
         this.code = code;
     }
 
@@ -19,19 +16,7 @@ public class ResponseForZug {
         return code;
     }
 
-    public String getGegner() {
-        return gegner;
-    }
-
-    public String getSpiel() {
-        return spiel;
-    }
-
-    public char getFarbe() {
-        return farbe;
-    }
-
-    public ResponseForZug unMarshall(byte[] res){
+    public ResponseForGegnerZug unMarshall(byte[] res){
         ByteBuffer in = ByteBuffer.wrap(res);
         int len = 2;
         if(res.length == 3)

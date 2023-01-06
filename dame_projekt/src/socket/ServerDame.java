@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.MulticastSocket;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -13,6 +14,8 @@ public class ServerDame {
     private final int MAX_PACKET = 100;
     private int port;
     private DatagramSocket sock = null;
+    private MulticastSocket multicastSocket = null;
+    private int[] lastMultiAdr;
     private int gameCount;
     private ArrayList<String> players = null;
     private Map<String,String> pairs = null;

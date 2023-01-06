@@ -24,6 +24,7 @@ public class ServerDame {
     public ServerDame (/*DatagramSocket socket*/ int port) throws Exception{
         this.port = port;
         sock = new DatagramSocket(port)/*socket*/;
+        lastMultiAdr = new int[]{225,0,0,0};
         gameCount = 1;
         players = new ArrayList<String>();
         pairs = new HashMap<String,String>();
@@ -161,7 +162,7 @@ public class ServerDame {
                 supplierNames.get(i).setGamerBlack(player);
                 System.out.println(supplierNames.toString());
 
-                ResponseForPlayer response = new ResponseForPlayer("ok", "10", player, "s");
+                ResponseForPlayer response = new ResponseForPlayer("ok", supplierNames.get(i).getMultiAdr(), "10", player, "s");
                 return response.marshall();
             }
             else {
@@ -169,6 +170,7 @@ public class ServerDame {
             }
         }
         searchGamer = new SearchGamer();
+        String multiAdr = generateMultiAdr();
         searchGamer.setGame("g" + Integer.toString(gameCount));
         gameCount++;
         searchGamer.setGamerWhite(player);
@@ -177,7 +179,7 @@ public class ServerDame {
 
         System.out.println(supplierNames.toString());
 
-        ResponseForPlayer response = new ResponseForPlayer("ok", "10", player, "w");
+        ResponseForPlayer response = new ResponseForPlayer("ok",multiAdr, "10", player, "w");
         return response.marshall();
     }
 

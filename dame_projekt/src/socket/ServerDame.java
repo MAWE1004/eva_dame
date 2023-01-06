@@ -201,4 +201,26 @@ public class ServerDame {
 //        sock.send(answer);
     }
 
+    private String generateMultiAdr(){
+        if(lastMultiAdr[3] == 255) {
+            lastMultiAdr[3] = 0;
+            if (lastMultiAdr[2] == 255) {
+                lastMultiAdr[2] = 0;
+                if (lastMultiAdr[1] == 255) {
+                    lastMultiAdr[1] = 0;
+                    if (lastMultiAdr[0] == 239) {
+                        lastMultiAdr[0] = 225;
+                    } else
+                        lastMultiAdr[0]++;
+                }
+                else
+                    lastMultiAdr[1]++;
+            }else
+                lastMultiAdr[2]++;
+        }
+        else
+            lastMultiAdr[3]++;
+        return new String(lastMultiAdr[0] + "." + lastMultiAdr[1] + "." + lastMultiAdr[2] + "." + lastMultiAdr[3]);
+    }
+
 }

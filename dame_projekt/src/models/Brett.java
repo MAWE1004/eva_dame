@@ -330,6 +330,7 @@ public class Brett{
 
         try {
             sendPos();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -462,9 +463,10 @@ public class Brett{
         }
 
         clientMultiDame.sendPos(String.valueOf(gameInfo.getUserStein().charAt(0)), old, neu, schlagen);
+    }
 
-//        client.sendPositions("g1", "w", old, neu, schlagen);
-
+    private void receivePos() throws Exception{
+        clientMultiDame.receivePos();
     }
 
 }

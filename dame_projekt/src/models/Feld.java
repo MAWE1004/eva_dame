@@ -100,65 +100,121 @@ public class Feld {
         }
         //mögliche Züge
 
-        if(brett.getSpieler_am_zug() == brett.getSpieler_schwarz() && Stein.BLACKSTONE.equals(stone.getFarbe())){
+        if(brett.isMyTurn() && brett.getFarbe().equals(stone.getFarbe())){
             color = YELLOWBACKGROUND;
             brett.setClickedFeld(this);
             colorModelChanged();
 
-            if(stone.isQueen()){
-                System.out.println("QUEEN BLACK");
-                brett.possibleFeldWhite(stone.getX(), stone.getY());
-                brett.possibleFeldBlack(stone.getX(), stone.getY());
+            if(Stein.BLACKSTONE.equals(stone.getFarbe())) {
+                if (stone.isQueen()) {
+                    System.out.println("QUEEN BLACK");
+                    brett.possibleFeldWhite(stone.getX(), stone.getY());
+                    brett.possibleFeldBlack(stone.getX(), stone.getY());
 
-                possible = brett.getPossibleFelder();
+                    possible = brett.getPossibleFelder();
 
-                for (Feld feld: possible) {
-                    if(feld != null && !feld.hasStone())
-                        feld.setBackgroundGreen();
+                    for (Feld feld : possible) {
+                        if (feld != null && !feld.hasStone())
+                            feld.setBackgroundGreen();
+                    }
                 }
+                else {
+                    brett.possibleFeldBlack(stone.getX(), stone.getY());
 
-            }
-            else {
-                brett.possibleFeldBlack(stone.getX(), stone.getY());
+                    possible = brett.getPossibleFelder();
 
-                possible = brett.getPossibleFelder();
-
-                if(possible[2] != null && !possible[2].hasStone())
-                    possible[2].setBackgroundGreen();
-                if(possible[3] != null && !possible[3].hasStone())
-                    possible[3].setBackgroundGreen();
-            }
-
-        }
-        else if (brett.getSpieler_am_zug() == brett.getSpieler_weiß() && Stein.WHITESTONE.equals(stone.getFarbe())){
-            color = YELLOWBACKGROUND;
-            brett.setClickedFeld(this);
-            colorModelChanged();
-
-            if(stone.isQueen()){
-                System.out.println("QUEEN WHITE");
-                brett.possibleFeldWhite(stone.getX(), stone.getY());
-                brett.possibleFeldBlack(stone.getX(), stone.getY());
-
-                possible = brett.getPossibleFelder();
-
-                for (Feld feld: possible) {
-                    if(feld != null && !feld.hasStone())
-                        feld.setBackgroundGreen();
+                    if(possible[2] != null && !possible[2].hasStone())
+                        possible[2].setBackgroundGreen();
+                    if(possible[3] != null && !possible[3].hasStone())
+                        possible[3].setBackgroundGreen();
                 }
             }
-            else {
-                brett.possibleFeldWhite(stone.getX(), stone.getY());
+            else if(Stein.WHITESTONE.equals(stone.getFarbe())){
+                if(stone.isQueen()){
+                    System.out.println("QUEEN WHITE");
+                    brett.possibleFeldWhite(stone.getX(), stone.getY());
+                    brett.possibleFeldBlack(stone.getX(), stone.getY());
 
-                possible = brett.getPossibleFelder();
-                System.out.println("Possible Feld: " + possible[1]);
+                    possible = brett.getPossibleFelder();
 
-                if(possible[0] != null && !possible[0].hasStone()) // Weil bei grenze links null überprüfen ob null
-                    possible[0].setBackgroundGreen();
-                if(possible[1] != null && !possible[1].hasStone())
-                    possible[1].setBackgroundGreen();
+                    for (Feld feld: possible) {
+                        if(feld != null && !feld.hasStone())
+                            feld.setBackgroundGreen();
+                    }
+                }
+                else {
+                    brett.possibleFeldWhite(stone.getX(), stone.getY());
+
+                    possible = brett.getPossibleFelder();
+                    System.out.println("Possible Feld: " + possible[1]);
+
+                    if(possible[0] != null && !possible[0].hasStone()) // Weil bei grenze links null überprüfen ob null
+                        possible[0].setBackgroundGreen();
+                    if(possible[1] != null && !possible[1].hasStone())
+                        possible[1].setBackgroundGreen();
+                }
             }
         }
+
+//        if(brett.getSpieler_am_zug() == brett.getSpieler_schwarz() && Stein.BLACKSTONE.equals(stone.getFarbe())){
+//            color = YELLOWBACKGROUND;
+//            brett.setClickedFeld(this);
+//            colorModelChanged();
+//
+//            if(stone.isQueen()){
+//                System.out.println("QUEEN BLACK");
+//                brett.possibleFeldWhite(stone.getX(), stone.getY());
+//                brett.possibleFeldBlack(stone.getX(), stone.getY());
+//
+//                possible = brett.getPossibleFelder();
+//
+//                for (Feld feld: possible) {
+//                    if(feld != null && !feld.hasStone())
+//                        feld.setBackgroundGreen();
+//                }
+//
+//            }
+//            else {
+//                brett.possibleFeldBlack(stone.getX(), stone.getY());
+//
+//                possible = brett.getPossibleFelder();
+//
+//                if(possible[2] != null && !possible[2].hasStone())
+//                    possible[2].setBackgroundGreen();
+//                if(possible[3] != null && !possible[3].hasStone())
+//                    possible[3].setBackgroundGreen();
+//            }
+//
+//        }
+//        else if (brett.getSpieler_am_zug() == brett.getSpieler_weiß() && Stein.WHITESTONE.equals(stone.getFarbe())){
+//            color = YELLOWBACKGROUND;
+//            brett.setClickedFeld(this);
+//            colorModelChanged();
+//
+//            if(stone.isQueen()){
+//                System.out.println("QUEEN WHITE");
+//                brett.possibleFeldWhite(stone.getX(), stone.getY());
+//                brett.possibleFeldBlack(stone.getX(), stone.getY());
+//
+//                possible = brett.getPossibleFelder();
+//
+//                for (Feld feld: possible) {
+//                    if(feld != null && !feld.hasStone())
+//                        feld.setBackgroundGreen();
+//                }
+//            }
+//            else {
+//                brett.possibleFeldWhite(stone.getX(), stone.getY());
+//
+//                possible = brett.getPossibleFelder();
+//                System.out.println("Possible Feld: " + possible[1]);
+//
+//                if(possible[0] != null && !possible[0].hasStone()) // Weil bei grenze links null überprüfen ob null
+//                    possible[0].setBackgroundGreen();
+//                if(possible[1] != null && !possible[1].hasStone())
+//                    possible[1].setBackgroundGreen();
+//            }
+//        }
 
         if(possible[0] != null){
             System.out.println("Nach links oben: " + possible[0].toString());

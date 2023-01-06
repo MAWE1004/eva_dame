@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
-import java.net.SocketTimeoutException;
 
 public class ClientMultiDame {
     private static final int RETRYCOUNT = 4;
@@ -36,7 +35,7 @@ public class ClientMultiDame {
         return true;
     }
 
-    public boolean receivePos() throws IOException {
+    public SendZug receivePos() throws IOException {
         byte[] buffer = new byte[100];
         DatagramPacket receive = new DatagramPacket(buffer, buffer.length);
         multicastSocket.receive(receive);
@@ -44,7 +43,7 @@ public class ClientMultiDame {
         SendZug response = new SendZug().unMarshall(buffer);
         System.out.println("Received: " + response.toString());
 
-        return true;
+        return response;
     }
 
 }

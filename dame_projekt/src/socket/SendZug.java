@@ -55,7 +55,7 @@ public class SendZug {
         out.put(farbe.getBytes());
         out.put(altX);
         out.put(altY);
-        out.put(neuY);
+        out.put(neuX);
         out.put(neuY);
         out.put(schlagenX);
         out.put(schlagenY);

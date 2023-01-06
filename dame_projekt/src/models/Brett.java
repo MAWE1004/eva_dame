@@ -1,21 +1,20 @@
 package models;
 
-import socket.ClientDame;
 import socket.ClientMultiDame;
-import socket.RequestForZug;
+import socket.SendZug;
 
 import java.awt.*;
 import java.io.IOException;
-import java.net.DatagramPacket;
 import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.net.UnknownHostException;
 import java.util.Arrays;
 
 public class Brett{
     private static int countGame = 1;
 
     private ClientMultiDame clientMultiDame = null;
+    private byte[] sendOld;
+    private byte[] sendNeu;
+    private byte[] sendSchlagen;
 
     private Feld[][] felder;
     private Feld clickedFeld;
@@ -23,6 +22,9 @@ public class Brett{
     private Feld schlagendesFeld;
     private Feld[] possibleFelder;
     private Feld[] schlagendeFelder;
+
+    private boolean myTurn;
+    private Color farbe;
 
     private String spieler_schwarz;
     private String spieler_weiß;
@@ -36,6 +38,8 @@ public class Brett{
 
     public Brett(long timeInMin,String schwarz, String weiß, InetAddress group, int port) throws IOException {
 //        super("Brett " + countGame++);
+        myTurn = true;
+        farbe = Stein.BLACKSTONE;
         spieler_schwarz = schwarz;
         spieler_weiß = weiß;
         spieler_am_zug = schwarz;
@@ -71,29 +75,6 @@ public class Brett{
         countwhite = 12;
 
         initializeBrett();
-    }
-
-    private void initializeBrettEmpty(){
-        for(int i = 1, feld = 2, name = 1; i < 9; i++){
-            for (int j = 1; j < 9; j++){
-
-                Feld f = new Feld(Feld.WHITEBACKGROUND, null, this);
-                if((feld == j)){
-                    f.setColor(Color.BLACK);
-                    if(feld % 8 == 0 | feld == 7){
-                        if(i % 2 == 1)
-                            feld = -1;
-                        else
-                            feld = 0;
-                    }
-
-                    feld+=2;
-                }
-                //Add Feld to Brett
-                felder[i][j] = f;
-            }
-        }
-        easyLayout();
     }
 
     private void initializeBrett(){
@@ -184,6 +165,14 @@ public class Brett{
 
     public byte getCountwhite() {
         return countwhite;
+    }
+
+    public boolean isMyTurn() {
+        return myTurn;
+    }
+
+    public Color getFarbe() {
+        return farbe;
     }
 
     public void decreaseCountBlack() {
@@ -322,19 +311,37 @@ public class Brett{
                 if(felder[i][j].equals(clickedNewFeld)){
                     clickedNewFeld.getStone().setX(i);
                     clickedNewFeld.getStone().setY(j);
+                    sendNeu = new byte[]{(byte) i, (byte) j};
                 }
             }
         }
 
         checkPossibleQueen();
 
+        System.out.println(" ===== Felder =====");
+        for (int i = 1; i < 9; i++) {
+            for (int j = 1; j < 9; j++) {
+                if(felder[i][j].equals(clickedFeld)){
+                    System.out.println("Alt X: " + i + " Alt Y: " + j);
+                    sendOld = new byte[]{(byte) i, (byte) j};
+                }
+                if(felder[i][j].equals(clickedNewFeld)){
+                    System.out.println("Neu X: " + i + " Neu Y: " + j);
+                    sendNeu = new byte[]{(byte) i, (byte) j};
+                }
+                if(felder[i][j].equals(schlagendesFeld)){
+                    System.out.println("Schlagen X: " + i + " Schlagen Y: " + j);
+                    sendSchlagen = new byte[]{(byte) i, (byte) j};
+                }
+            }
+        }
+
         try {
             sendPos();
-
+            receivePos();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         clickedFeld.deleteStone();
 
         for (Feld feld: possibleFelder){
@@ -351,23 +358,27 @@ public class Brett{
 
         System.out.println("GESCHLAGEN: " + geschlagen);
 
-        if(!geschlagen){ // Falls nicht geschlagen wurde, ist der andere Spieler dran
-            if(spieler_am_zug == spieler_weiß)
-                spieler_am_zug = spieler_schwarz;
-            else
-                spieler_am_zug = spieler_weiß;
-        }
+//        if(!geschlagen){ // Falls nicht geschlagen wurde, ist der andere Spieler dran
+//            if(spieler_am_zug == spieler_weiß)
+//                spieler_am_zug = spieler_schwarz;
+//            else
+//                spieler_am_zug = spieler_weiß;
+//        }
 
-        try {
-            Thread.sleep(2000);
-            clientMultiDame.receivePos();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(!geschlagen){ // Falls nicht geschlagen wurde, ist der andere Spieler dran
+            myTurn = !myTurn;
         }
 
         easyLayout();
+
+        if(!myTurn){ // Falls nicht am Zug, warte auf Gegner
+            try {
+//                receivePos();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public boolean geschlagenerStein(){
@@ -387,6 +398,7 @@ public class Brett{
                     spieler_am_zug = spieler_weiß;
                 }
                 schlagendeFelder[i].deleteStone();
+                schlagendesFeld = schlagendeFelder[i];
 
                 geschlagen = true;
             }
@@ -450,23 +462,39 @@ public class Brett{
         System.out.println("\u001B[0m");
     }
 
-
-    private void sendPos() throws Exception{
-        System.out.println("ALT X: " + (byte)clickedFeld.getStone().getX());
-        System.out.println("ALT X: " + (byte)clickedFeld.getStone().getY());
-        byte[] old = {(byte)clickedFeld.getStone().getX(), (byte) clickedFeld.getStone().getY()};
-        byte[] neu = {(byte)clickedNewFeld.getStone().getX(), (byte) clickedNewFeld.getStone().getY()};
-        byte[] schlagen = {-1,-1};
-        if(schlagendesFeld != null){
-            schlagen[0] = (byte)schlagendesFeld.getStone().getX();
-            schlagen[1] = (byte)schlagendesFeld.getStone().getY();
+    private void changeGegnerStonePos(SendZug data){
+        Feld alt = felder[data.getAltX()][data.getAltY()];
+        Feld neu = felder[data.getNeuX()][data.getNeuY()];
+        Feld schlagen;
+        try{
+            schlagen = felder[data.getSchlagenX()][data.getSchlagenY()];
+        } catch (ArrayIndexOutOfBoundsException e){
+            schlagen = null;
         }
 
-        clientMultiDame.sendPos(String.valueOf(gameInfo.getUserStein().charAt(0)), old, neu, schlagen);
+
+        neu.addStone(alt.getStone());
+        alt.deleteStone();
+        if(schlagen != null)
+            schlagen.deleteStone();
+
+        easyLayout();
+    }
+
+
+    private void sendPos() throws Exception{
+        if(schlagendesFeld == null){
+            sendSchlagen = new byte[]{-1,-1};
+        }
+
+        clientMultiDame.sendPos(String.valueOf(gameInfo.getUserStein().charAt(0)), sendOld, sendNeu, sendSchlagen);
     }
 
     private void receivePos() throws Exception{
-        clientMultiDame.receivePos();
+        SendZug response = clientMultiDame.receivePos();
+        if(!myTurn){
+            changeGegnerStonePos(response);
+        }
     }
 
 }

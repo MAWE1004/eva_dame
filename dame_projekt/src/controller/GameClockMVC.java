@@ -36,6 +36,6 @@ public class GameClockMVC extends JFrame {
     }
 
     public static void main(String[] args) {
-        new GameClockMVC(15000);
+        new GameClockMVC(3000);
     }
 }

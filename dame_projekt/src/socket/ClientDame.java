@@ -75,7 +75,7 @@ public class ClientDame {
 
     }
 
-    public String requestPlayer(String sp, int time) throws IOException {
+    public ResponseForPlayer requestPlayer(String sp, int time) throws IOException {
         RequestForPlayer request = new RequestForPlayer(sp, (byte) time);
         byte[] buffer = request.marshall();
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
@@ -93,16 +93,18 @@ public class ClientDame {
         }
         buffer = packet.getData();
         ResponseForPlayer response = new ResponseForPlayer().unMarshall(buffer);
-        if(response.getCode().equals("ok"))
+        if(response.getCode().equals("ok")) {
             System.out.println("Der Gegner ist: " + response.getGegner());
+            System.out.println("Multiadresse ist: " + response.getMultiAdr());
+        }
         else
             System.out.println("Es wurde kein Gegner gefunden");
         socket.close();
-        return sp;
+        return response;
     }
 
-    public void sendPositions(byte[] old, byte[] neu, byte[] schlagen) throws IOException{
-        RequestForZug request = new RequestForZug(old[0], old[1], neu[0], neu[1], schlagen[0], schlagen[1]);
+    public void sendPositions(String spiel, String farbe, byte[] old, byte[] neu, byte[] schlagen) throws IOException{
+        RequestForZug request = new RequestForZug(spiel, farbe, old[0], old[1], neu[0], neu[1], schlagen[0], schlagen[1]);
         byte[] buffer = request.marshall();
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
         packet.setSocketAddress(socketAdr);
@@ -119,10 +121,36 @@ public class ClientDame {
         }
         buffer = packet.getData();
         ResponseForZug response = new ResponseForZug().unMarshall(buffer);
-        if(response.getCode().equals("ok"))
+        if(response.getCode().equals("ok")){
             System.out.println("Alles angekommen");
+        }
         else
             System.out.println("Kein sinnvoller Auftrag");
         socket.close();
+    }
+
+    public void receivePositions(){
+        byte[] buffer = new byte[3];
+        DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+
+        int retryCount = RETRYCOUNT;
+        while (retryCount > 0) {
+            try {
+                socket.receive(packet);
+                break;
+            } catch (IOException e){
+                System.err.println("Keine Antwort Server " + e);
+                retryCount--;
+            }
+        }
+        buffer = packet.getData();
+        ResponseForGegnerZug response = new ResponseForGegnerZug().unMarshall(buffer);
+        System.out.println("Server antwort: " + response.getCode());
+        if(response.getCode().equals("ok"))
+            System.out.println("Server gesendet");
+        else
+            System.out.println("Kein sinnvoller Auftrag");
+        socket.close();
+
     }
 }

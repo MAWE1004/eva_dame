@@ -4,20 +4,24 @@ import java.io.File;
 import java.io.FileWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ServerDame {
     private final int MAX_PACKET = 100;
     private int port;
-    private DatagramSocket sock = null;
+    private MulticastSocket sock = null;
+    private int[] lastMultiAdr;
     private int gameCount;
     private ArrayList<String> players = null;
     private Map<String,String> pairs = null;
 
     public ServerDame (/*DatagramSocket socket*/ int port) throws Exception{
         this.port = port;
-        sock = new DatagramSocket(port)/*socket*/;
+        sock = new MulticastSocket(port)/*socket*/;
+        lastMultiAdr = new int[]{225,0,0,0};
         gameCount = 1;
         players = new ArrayList<String>();
         pairs = new HashMap<String,String>();
@@ -39,10 +43,10 @@ public class ServerDame {
         System.out.println("COPY: " + new String(buffer));
 
         switch(code){
-            case "zug" :
-                buffer = serviceZug(buffer);
-                code = "ok";
-                break;
+//            case "zug" :
+//                buffer = serviceZug(buffer);
+//                code = "ok";
+//                break;
             case "spi" :
                 buffer = serviceSearch(buffer);
                 code = "ok";
@@ -62,6 +66,7 @@ public class ServerDame {
                 code = "bad";
         }
 
+        System.out.println("GROESSE BUFFER: " + buffer.length);
 
         //sending Response
         DatagramPacket answer = new DatagramPacket(buffer, buffer.length);
@@ -162,7 +167,8 @@ public class ServerDame {
                     System.out.println("if(line.equals(\"s:\"))");
                     myWriter.write(player + '\n');
                     myWriter.close();
-                    ResponseForPlayer response = new ResponseForPlayer("ok", "10", player, "s");
+                    String multiAdr = generateMultiAdr();
+                    ResponseForPlayer response = new ResponseForPlayer("ok", multiAdr, "10", player, "s");
                     return response.marshall();
                     //gameExists = true;
                 }
@@ -175,28 +181,49 @@ public class ServerDame {
         myWriter.write("s:");
         myWriter.close();
 
-        ResponseForPlayer response = new ResponseForPlayer("ok", "10", player, "w");
+        String multiAdr = generateMultiAdr();
+
+        ResponseForPlayer response = new ResponseForPlayer("ok", multiAdr, "10", player, "w");
         return response.marshall();
     }
 
     public byte[] serviceZug(byte[] buffer) throws Exception {
-//        byte[] buffer = new byte[6];
-//        DatagramPacket query = new DatagramPacket(buffer, buffer.length);
-//        sock.receive(query);
-//        System.out.println("UDP-Anfrage von ");
-//        System.out.println(query.getAddress().toString() + ": ");
-//        System.out.println(query.getPort());
-//        buffer = query.getData();
         RequestForZug request = new RequestForZug().unMarshall(buffer);
         System.out.println("Angekommen: " + request.toString());
 
-//        DatagramPacket answer = new DatagramPacket(buffer, buffer.length);
+        int port = 1234;
+        InetAddress group = InetAddress.getByName("225.0.0.1");
+
+        byte[] message = "Hallo".getBytes();
+
+        DatagramPacket messageOut = new DatagramPacket(message, message.length, group, port);
+        sock.send(messageOut);
+
+
         ResponseForZug response = new ResponseForZug("ok");
         return response.marshall();
-//        answer.setData(buffer);
-//        answer.setAddress(query.getAddress());
-//        answer.setPort(query.getPort());
-//        sock.send(answer);
+    }
+
+    private String generateMultiAdr(){
+        if(lastMultiAdr[3] == 255) {
+            lastMultiAdr[3] = 0;
+            if (lastMultiAdr[2] == 255) {
+                lastMultiAdr[2] = 0;
+                if (lastMultiAdr[1] == 255) {
+                    lastMultiAdr[1] = 0;
+                    if (lastMultiAdr[0] == 239) {
+                        lastMultiAdr[0] = 225;
+                    } else
+                        lastMultiAdr[0]++;
+                }
+                else
+                    lastMultiAdr[1]++;
+            }else
+                lastMultiAdr[2]++;
+        }
+        else
+            lastMultiAdr[3]++;
+        return new String(lastMultiAdr[0] + "." + lastMultiAdr[1] + "." + lastMultiAdr[2] + "." + lastMultiAdr[3]);
     }
 
 }

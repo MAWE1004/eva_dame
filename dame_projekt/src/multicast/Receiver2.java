@@ -6,8 +6,8 @@ import java.net.MulticastSocket;
 
 public class Receiver2 {
     public static void main(String[] args) throws Exception{
-        int port = 6789;
-        InetAddress group = InetAddress.getByName ("225.0.0.2");
+        int port = 1235;
+        InetAddress group = InetAddress.getByName ("225.0.0.1");
         MulticastSocket sock = new MulticastSocket (port) ;
         sock.joinGroup (group); ;
         byte [ ] buffer = new byte [10000] ;

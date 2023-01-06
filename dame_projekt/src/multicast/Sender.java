@@ -7,7 +7,7 @@ import java.net.InetAddress;
 public class Sender {
 
     public static void main(String[] args) throws Exception{
-        int port = 6789;
+        int port = 1235;
         InetAddress group1 = InetAddress.getByName ("225.0.0.1");
         InetAddress group2 = InetAddress.getByName ("225.0.0.2");
         DatagramSocket sock = new DatagramSocket ( ) ;

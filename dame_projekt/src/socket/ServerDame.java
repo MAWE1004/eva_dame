@@ -24,6 +24,7 @@ public class ServerDame {
     public ServerDame (/*DatagramSocket socket*/ int port) throws Exception{
         this.port = port;
         sock = new DatagramSocket(port)/*socket*/;
+        multicastSocket = new MulticastSocket(port+1);
         lastMultiAdr = new int[]{225,0,0,0};
         gameCount = 1;
         players = new ArrayList<String>();

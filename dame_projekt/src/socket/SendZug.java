@@ -2,18 +2,16 @@ package socket;
 
 import java.nio.ByteBuffer;
 
-public class RequestForZug {
-    private String spiel;
-    private String farbe;
+public class SendZug {
+    String farbe;
     private byte altX, altY;
     private byte neuX, neuY;
     private byte schlagenX, schlagenY;
 
-    public RequestForZug(){
+    public SendZug(){
     }
 
-    public RequestForZug(String spiel, String farbe, byte altX, byte altY, byte neuX, byte neuY, byte schlagenX, byte schlagenY) {
-        this.spiel = spiel;
+    public SendZug(String farbe, byte altX, byte altY, byte neuX, byte neuY, byte schlagenX, byte schlagenY) {
         this.farbe = farbe;
         this.altX = altX;
         this.altY = altY;
@@ -21,20 +19,6 @@ public class RequestForZug {
         this.neuY = neuY;
         this.schlagenX = schlagenX;
         this.schlagenY = schlagenY;
-    }
-
-    public RequestForZug(String farbe, byte altX, byte altY, byte neuX, byte neuY, byte schlagenX, byte schlagenY) {
-        this.farbe = farbe;
-        this.altX = altX;
-        this.altY = altY;
-        this.neuX = neuX;
-        this.neuY = neuY;
-        this.schlagenX = schlagenX;
-        this.schlagenY = schlagenY;
-    }
-
-    public String getSpiel() {
-        return spiel;
     }
 
     public String getFarbe() {
@@ -68,7 +52,6 @@ public class RequestForZug {
     public byte[] marshall(){
         byte[] buffer;
         ByteBuffer out = ByteBuffer.allocate(16);
-        out.put("zug".getBytes());
         out.put(farbe.getBytes());
         out.put(altX);
         out.put(altY);
@@ -80,9 +63,11 @@ public class RequestForZug {
         return buffer;
     }
 
-    public RequestForZug unMarshall(byte[] req){
+    public SendZug unMarshall(byte[] req){
         ByteBuffer in = ByteBuffer.wrap(req);
-        farbe = String.valueOf(in.get());
+        byte[] sin = new byte[1];
+        in.get(sin,0,1);
+        farbe = new String(sin);
         altX = in.get();
         altY = in.get();
         neuX = in.get();
@@ -94,9 +79,8 @@ public class RequestForZug {
 
     @Override
     public String toString() {
-        return "RequestForZug{" +
-                "spiel='" + spiel + '\'' +
-                ", farbe='" + farbe + '\'' +
+        return "sendZug{" +
+                "farbe='" + farbe + '\'' +
                 ", altX=" + altX +
                 ", altY=" + altY +
                 ", neuX=" + neuX +

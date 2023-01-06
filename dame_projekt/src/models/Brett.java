@@ -357,6 +357,15 @@ public class Brett{
                 spieler_am_zug = spieler_weiß;
         }
 
+        try {
+            Thread.sleep(2000);
+            clientMultiDame.receivePos();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         easyLayout();
     }
 
@@ -444,9 +453,6 @@ public class Brett{
     private void sendPos() throws Exception{
         System.out.println("ALT X: " + (byte)clickedFeld.getStone().getX());
         System.out.println("ALT X: " + (byte)clickedFeld.getStone().getY());
-        InetAddress adr = InetAddress.getByName("127.0.0.1");
-        int port = 1234;
-        ClientDame client = new ClientDame(adr, port);
         byte[] old = {(byte)clickedFeld.getStone().getX(), (byte) clickedFeld.getStone().getY()};
         byte[] neu = {(byte)clickedNewFeld.getStone().getX(), (byte) clickedNewFeld.getStone().getY()};
         byte[] schlagen = {-1,-1};
@@ -455,6 +461,7 @@ public class Brett{
             schlagen[1] = (byte)schlagendesFeld.getStone().getY();
         }
 
+        clientMultiDame.sendPos(String.valueOf(gameInfo.getUserStein().charAt(0)), old, neu, schlagen);
 
 //        client.sendPositions("g1", "w", old, neu, schlagen);
 

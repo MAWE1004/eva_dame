@@ -30,6 +30,7 @@ public class ClientMultiDame {
         SendZug request = new SendZug(farbe, old[0], old[1], neu[0], neu[1], schlagen[0], schlagen[1]);
         byte[] buffer = request.marshall();
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length, group, port);
+
         multicastSocket.send(packet);
         int retryCount = RETRYCOUNT;
 

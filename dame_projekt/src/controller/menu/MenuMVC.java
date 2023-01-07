@@ -20,9 +20,9 @@ public class MenuMVC extends JFrame {
 //        model.addListener(menuView);
 
         JButton tutorial = new JButton("Tutorial");
-        JButton playFive = new JButton("Play 5 Min");
-        JButton playTen = new JButton("Play 10 Min");
-        JButton playThirty = new JButton("Play 30 Min");
+        JButton playFive = new JButton("Play 1 Min");
+        JButton playTen = new JButton("Play 3 Min");
+        JButton playThirty = new JButton("Play 5 Min");
         JButton logout = new JButton("Logout");
 
         MenuController menuController = new MenuController(model, this);

@@ -23,14 +23,10 @@ public class GameAndMenuMVC extends JFrame {
         Brett brett = new Brett(30000,spieler.getUsername(),spieler.getUsername());
         BrettView brettView = new BrettView(brett);
 
-//        Menu menu = new Menu("Menu");
-//        MenuView menuView = new MenuView(menu, this);
-
         GameInfoView gameInfoView = new GameInfoView(brett.getGameInfo());
 
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new GridLayout(0,1));
-//        leftPanel.add(menuView);
         leftPanel.add(gameInfoView);
 
         JSplitPane jSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -40,8 +36,9 @@ public class GameAndMenuMVC extends JFrame {
         jSplitPane.add(leftPanel);
 
         add(jSplitPane);
-
         setVisible(true);
+
+        brett.waitingForTurn();
     }
 
     public static void main(String[] args) {

@@ -53,8 +53,10 @@ public class ResponseForPlayer {
             return this;
 
         len = in.get();
+        System.out.println("LENGTH " + len);
         sin = new byte[len];
         in.get(sin, 0, len);
+        System.out.println("MULTIADRESS");
         multiAdr = new String(sin);
 
         len = in.get();

@@ -25,6 +25,13 @@ public class ClientMultiDame {
         multicastSocket.close();
     }
 
+    public boolean sendOk(){
+
+
+
+        return true;
+    }
+
     public boolean sendPos(String farbe, byte[] old, byte[] neu, byte[] schlagen) throws IOException {
         SendZug request = new SendZug(farbe, old[0], old[1], neu[0], neu[1], schlagen[0], schlagen[1]);
         byte[] buffer = request.marshall();

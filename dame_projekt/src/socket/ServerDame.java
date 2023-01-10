@@ -4,9 +4,8 @@ import models.SearchGamer;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.MulticastSocket;
+import java.io.IOException;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -47,10 +46,6 @@ public class ServerDame {
         System.out.println("COPY: " + new String(buffer));
 
         switch(code){
-            case "zug" :
-                buffer = serviceZug(buffer);
-                code = "ok";
-                break;
             case "spi" :
                 buffer = serviceSearch(buffer);
                 code = "ok";
@@ -163,7 +158,33 @@ public class ServerDame {
                 supplierNames.get(i).setGamerBlack(player);
                 System.out.println(supplierNames.toString());
 
-                ResponseForPlayer response = new ResponseForPlayer("ok", supplierNames.get(i).getMultiAdr(), "10", player, "s");
+                try {
+                    System.out.println("MULTI ADR " + supplierNames.get(i).getMultiAdr());
+                    InetAddress gruppe = InetAddress.getByName(supplierNames.get(i).getMultiAdr());
+                    int port = 1235;
+                    MulticastSocket socket = new MulticastSocket(port);
+                    socket.joinGroup(gruppe);
+
+                    SendGegner send = new SendGegner(player);
+                    byte[] bufferMulti = send.marshall();
+                    DatagramPacket packet = new DatagramPacket(bufferMulti, bufferMulti.length, gruppe, port);
+                    socket.send(packet);
+
+                    DatagramPacket receive = new DatagramPacket(bufferMulti, bufferMulti.length);
+                    socket.receive(receive);
+                    bufferMulti = receive.getData();
+                    SendGegner response = new SendGegner().unMarshall(bufferMulti);
+                    System.out.println("Received: " + response.toString());
+                    socket.leaveGroup(gruppe);
+                    socket.close();
+
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                ResponseForPlayer response = new ResponseForPlayer("ok", supplierNames.get(i).getMultiAdr(), supplierNames.get(i).getGame(), player, "s");
                 return response.marshall();
             }
             else {
@@ -172,36 +193,16 @@ public class ServerDame {
         }
         searchGamer = new SearchGamer();
         String multiAdr = generateMultiAdr();
-        searchGamer.setGame("g" + Integer.toString(gameCount));
-        gameCount++;
+        searchGamer.setGame("g" + Integer.toString(gameCount++));
         searchGamer.setGamerWhite(player);
         searchGamer.setTime(time);
+        searchGamer.setMultiAdr(multiAdr);
         supplierNames.add(searchGamer);
 
         System.out.println(supplierNames.toString());
 
-        ResponseForPlayer response = new ResponseForPlayer("ok",multiAdr, "10", player, "w");
+        ResponseForPlayer response = new ResponseForPlayer("ok",multiAdr, searchGamer.getGame() , " ", "w");
         return response.marshall();
-    }
-
-    public byte[] serviceZug(byte[] buffer) throws Exception {
-//        byte[] buffer = new byte[6];
-//        DatagramPacket query = new DatagramPacket(buffer, buffer.length);
-//        sock.receive(query);
-//        System.out.println("UDP-Anfrage von ");
-//        System.out.println(query.getAddress().toString() + ": ");
-//        System.out.println(query.getPort());
-//        buffer = query.getData();
-        RequestForZug request = new RequestForZug().unMarshall(buffer);
-        System.out.println("Angekommen: " + request.toString());
-
-//        DatagramPacket answer = new DatagramPacket(buffer, buffer.length);
-        ResponseForZug response = new ResponseForZug("ok");
-        return response.marshall();
-//        answer.setData(buffer);
-//        answer.setAddress(query.getAddress());
-//        answer.setPort(query.getPort());
-//        sock.send(answer);
     }
 
     private String generateMultiAdr(){

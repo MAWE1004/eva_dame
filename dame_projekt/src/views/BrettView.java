@@ -40,6 +40,7 @@ public class BrettView extends JPanel implements BrettListener {
                }
            }
         }
+        model.waitingForTurn();
     }
 
 

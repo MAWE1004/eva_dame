@@ -5,14 +5,17 @@ import controller.GameAndMenuMVC;
 import controller.anmeldung.AnmeldungMVC;
 import models.Anmeldung;
 import models.Menu;
+import models.Stein;
 import socket.ClientDame;
 import socket.ResponseForPlayer;
+import socket.SendGegner;
+import socket.SendZug;
 import views.MenuView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
+import java.io.IOException;
+import java.net.*;
 import java.util.ArrayList;
 
 public class MenuController implements ActionListener {
@@ -39,11 +42,14 @@ public class MenuController implements ActionListener {
             System.out.println("Play 5 Min");
             try {
                 ResponseForPlayer response = model.requestPlayer(5);
+                String gegner = response.getGegner();
+                if(gegner.equals(" "))
+                    gegner = wartenAufGegner(response.getMultiAdr());
                 GameAndGameInfoMVC spiel;
                 if(response.getFarbe().equals("w"))
-                    spiel = new GameAndGameInfoMVC(5,response.getGegner(),model.getSpieler().getUsername());
+                    spiel = new GameAndGameInfoMVC(5,gegner,model.getSpieler().getUsername(), true, Stein.WHITESTONE, response.getMultiAdr());
                 else
-                    spiel = new GameAndGameInfoMVC(5,model.getSpieler().getUsername(),response.getGegner());
+                    spiel = new GameAndGameInfoMVC(5,model.getSpieler().getUsername(),gegner, false, Stein.BLACKSTONE, response.getMultiAdr());
                 spiele.add(spiel);
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -53,11 +59,14 @@ public class MenuController implements ActionListener {
         else if (s.equals("Play 10 Min")){
             try {
                 ResponseForPlayer response = model.requestPlayer(10);
+                String gegner = response.getGegner();
+                if(gegner.equals(" "))
+                    gegner = wartenAufGegner(response.getMultiAdr());
                 GameAndGameInfoMVC spiel;
                 if(response.getFarbe().equals("w"))
-                    spiel = new GameAndGameInfoMVC(10,response.getGegner(),model.getSpieler().getUsername());
+                    spiel = new GameAndGameInfoMVC(10,gegner,model.getSpieler().getUsername(), true, Stein.WHITESTONE, response.getMultiAdr());
                 else
-                    spiel = new GameAndGameInfoMVC(10,model.getSpieler().getUsername(),response.getGegner());
+                    spiel = new GameAndGameInfoMVC(10,model.getSpieler().getUsername(),gegner, false, Stein.BLACKSTONE, response.getMultiAdr());
                 spiele.add(spiel);
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -66,11 +75,14 @@ public class MenuController implements ActionListener {
         else if (s.equals("Play 30 Min")){
             try {
                 ResponseForPlayer response = model.requestPlayer(5);
+                String gegner = response.getGegner();
+                if(gegner.equals(" "))
+                    gegner = wartenAufGegner(response.getMultiAdr());
                 GameAndGameInfoMVC spiel;
                 if(response.getFarbe().equals("w"))
-                    spiel = new GameAndGameInfoMVC(10,response.getGegner(),model.getSpieler().getUsername());
+                    spiel = new GameAndGameInfoMVC(30,gegner,model.getSpieler().getUsername(), true, Stein.WHITESTONE,response.getMultiAdr());
                 else
-                    spiel = new GameAndGameInfoMVC(10,model.getSpieler().getUsername(),response.getGegner());
+                    spiel = new GameAndGameInfoMVC(30,model.getSpieler().getUsername(),gegner, false, Stein.BLACKSTONE,response.getMultiAdr());
                 spiele.add(spiel);
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -85,5 +97,32 @@ public class MenuController implements ActionListener {
             Anmeldung model = new Anmeldung();
             new AnmeldungMVC(model, "Anmeldung");
         }
+    }
+
+    private String wartenAufGegner(String adr){
+        System.out.println("WAITING ... ");
+        try {
+            InetAddress gruppe = InetAddress.getByName(adr);
+            int port = 1235;
+            MulticastSocket socket = new MulticastSocket(port);
+            socket.joinGroup(gruppe);
+            byte[] buffer = new byte[100];
+            DatagramPacket receive = new DatagramPacket(buffer, buffer.length);
+            socket.receive(receive);
+            buffer = receive.getData();
+            SendGegner response = new SendGegner().unMarshall(buffer);
+            System.out.println("Received: " + response.toString());
+            socket.leaveGroup(gruppe);
+            socket.close();
+
+            return response.getGegner();
+
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

@@ -36,10 +36,9 @@ public class Brett{
     private byte countwhite;
 
 
-    public Brett(long timeInMin,String schwarz, String weiß, InetAddress group, int port) throws IOException {
-//        super("Brett " + countGame++);
-        myTurn = true;
-        farbe = Stein.BLACKSTONE;
+    public Brett(long timeInMin,String schwarz, String weiß, boolean turn, Color farbe, InetAddress group, int port) throws IOException {
+        myTurn = turn;
+        this.farbe = farbe;
         spieler_schwarz = schwarz;
         spieler_weiß = weiß;
         spieler_am_zug = schwarz;
@@ -55,11 +54,8 @@ public class Brett{
         countwhite = 12;
 
         initializeBrett();
-
-//        start();
     }
     public Brett(long timeInMin,String schwarz, String weiß){
-//        super("Brett " + countGame++);
 
         spieler_schwarz = schwarz;
         spieler_weiß = weiß;
@@ -183,6 +179,18 @@ public class Brett{
     public void decreaseCountWhite() {
         countwhite--;
         gameInfo.setStoneCountWhite(countwhite);
+    }
+
+    public void waitingForTurn(){
+        while(!myTurn){
+            try {
+                System.out.println("Waiting");
+                receivePos();
+                sendOk();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void possibleFeldBlack(int x, int y){
@@ -336,12 +344,6 @@ public class Brett{
             }
         }
 
-        try {
-            sendPos();
-            receivePos();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         clickedFeld.deleteStone();
 
         for (Feld feld: possibleFelder){
@@ -356,28 +358,30 @@ public class Brett{
         clickedFeld = null;
         clickedNewFeld = null;
 
+        if(!geschlagen)
+            schlagendesFeld = null;
+
         System.out.println("GESCHLAGEN: " + geschlagen);
 
-//        if(!geschlagen){ // Falls nicht geschlagen wurde, ist der andere Spieler dran
-//            if(spieler_am_zug == spieler_weiß)
-//                spieler_am_zug = spieler_schwarz;
-//            else
-//                spieler_am_zug = spieler_weiß;
-//        }
+        try { // pos senden
+            sendPos();
+            receivePos();
+            // auf ok von gegner warten
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if(!geschlagen){ // Falls nicht geschlagen wurde, ist der andere Spieler dran
-            myTurn = !myTurn;
+            myTurn = false;
         }
 
         easyLayout();
 
-        if(!myTurn){ // Falls nicht am Zug, warte auf Gegner
-            try {
-//                receivePos();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        System.out.println("GESCHLAGEN: " + geschlagen);
+        System.out.println("TURN: " + myTurn);
+
+        waitingForTurn();
 
     }
 
@@ -465,36 +469,64 @@ public class Brett{
     private void changeGegnerStonePos(SendZug data){
         Feld alt = felder[data.getAltX()][data.getAltY()];
         Feld neu = felder[data.getNeuX()][data.getNeuY()];
-        Feld schlagen;
+        Feld schlagen = null;
         try{
             schlagen = felder[data.getSchlagenX()][data.getSchlagenY()];
+            System.out.println("SCHLAGEN WERTE " + schlagen.getStone().getX() + " | " + schlagen.getStone().getY());
         } catch (ArrayIndexOutOfBoundsException e){
             schlagen = null;
+        } catch (NullPointerException e){
+
         }
 
+        if(schlagen == null){
+            System.out.println("SCHLAGEN = NULL");
+        }
 
         neu.addStone(alt.getStone());
         alt.deleteStone();
-        if(schlagen != null)
+        if(schlagen != null) {
             schlagen.deleteStone();
+            myTurn = false;
+            System.out.println("MY TURN = FALSE");
+        }
+        else{
+            myTurn = true;
+            System.out.println("MY TURN = TRUE");
+        }
+
+        sendOld = null;
+        sendNeu = null;
+        sendSchlagen = null;
 
         easyLayout();
     }
 
 
     private void sendPos() throws Exception{
+        System.out.println("SEND-POS");
         if(schlagendesFeld == null){
             sendSchlagen = new byte[]{-1,-1};
         }
 
         clientMultiDame.sendPos(String.valueOf(gameInfo.getUserStein().charAt(0)), sendOld, sendNeu, sendSchlagen);
+
+        sendOld = null;
+        sendNeu = null;
+        sendSchlagen = null;
     }
 
     private void receivePos() throws Exception{
         SendZug response = clientMultiDame.receivePos();
         if(!myTurn){
+            System.out.println("IF-ANWEISUNG");
             changeGegnerStonePos(response);
+//            if()
         }
+    }
+
+    private void sendOk() throws Exception{
+
     }
 
 }

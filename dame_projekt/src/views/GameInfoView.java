@@ -1,5 +1,6 @@
 package views;
 
+import controller.GameAndGameInfoMVC;
 import controller.GameClockController;
 import models.GameClock;
 import models.GameInfo;
@@ -12,16 +13,18 @@ public class GameInfoView extends JPanel implements GameInfoListener{
     private JLabel userStein;
     private JLabel gegner;
     private JLabel gegnerStein;
+    private GameAndGameInfoMVC gameAndGameInfoMVC;
 
-    public GameInfoView(GameInfo model){
+    public GameInfoView(GameInfo model, GameAndGameInfoMVC gameAndGameInfoMVC){
         super();
+        this.gameAndGameInfoMVC = gameAndGameInfoMVC;
         setLayout(new GridLayout(0,1));
 
         JPanel time = new JPanel();
         JLabel labelTime = new JLabel ("", SwingConstants.RIGHT);
         labelTime.setFont(new Font(Font.DIALOG,Font.BOLD, 40));
         System.out.println("TIME: " + model.getTime());
-        GameClock clock = new GameClock (labelTime, model.getTime());
+        GameClock clock = new GameClock (labelTime, model.getTime(), gameAndGameInfoMVC);
         GameClockController gameClockController = new GameClockController (clock);
         time.add(labelTime);
 

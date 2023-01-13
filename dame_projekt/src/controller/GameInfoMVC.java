@@ -14,7 +14,7 @@ public class GameInfoMVC extends JFrame {
         setLayout(new GridLayout(0,1));
         setSize(new Dimension(250,400));
 
-        GameInfoView view = new GameInfoView(model);
+        GameInfoView view = new GameInfoView(model, null);
         add(view);
         setVisible(true);
     }

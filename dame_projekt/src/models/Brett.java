@@ -43,7 +43,13 @@ public class Brett{
         spieler_weiß = weiß;
         spieler_am_zug = schwarz;
         this.clientMultiDame = new ClientMultiDame(group, port);
-        gameInfo = new GameInfo(timeInMin,schwarz,weiß,"schwarz", "weiß");
+        if(farbe.equals(Stein.WHITESTONE)){
+            gameInfo = new GameInfo(timeInMin,weiß,schwarz,"weiß", "schwarz");
+        }
+        else{
+            gameInfo = new GameInfo(timeInMin,schwarz,weiß,"schwarz", "weiß");
+        }
+
         felder = new Feld[10][10];
         clickedFeld = null;
         clickedNewFeld = null;
@@ -184,7 +190,7 @@ public class Brett{
     public void waitingForTurn(){
         while(!myTurn){
             try {
-                System.out.println("Waiting");
+                System.out.println("Brett: Waiting");
                 receivePos();
                 sendOk();
             } catch (Exception e) {
@@ -432,7 +438,8 @@ public class Brett{
     public synchronized void easyLayout(){
         // Einfache Darstellung über cmd
 
-        System.out.println("Spieler am Zug: " + spieler_am_zug);
+
+        System.out.println("Mein Zug: " + myTurn);
 
         for (Feld[] f1 : felder) {
             System.out.print("\u001B[34m" + "|");

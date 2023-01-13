@@ -29,6 +29,8 @@ public class MenuController implements ActionListener {
         this.menuMVC = menuMVC;
         spiele = new ArrayList<GameAndGameInfoMVC>();
     }
+    public MenuController(){
+    }
 
 
     @Override
@@ -96,6 +98,13 @@ public class MenuController implements ActionListener {
             menuMVC.dispose();
             Anmeldung model = new Anmeldung();
             new AnmeldungMVC(model, "Anmeldung");
+        }
+        else if (s.equals("Ok")){
+            System.out.println("TESSSSSSSSSSSSSSSSSSSSSSST");
+            for (GameAndGameInfoMVC spiel: spiele) {
+                if(spiel.getTitle().equals("")){
+                }
+            }
         }
     }
 

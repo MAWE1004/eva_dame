@@ -1,5 +1,7 @@
 package controller;
 
+import controller.menu.MenuController;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -13,9 +15,9 @@ public class ErgebnisMVC extends JFrame {
         JLabel setLabelText = new JLabel(text, SwingConstants.CENTER);
 
         JButton ok = new JButton("Ok");
-        // add actionlistener, der spiel disposed und menu wieder öffnet
-        //GameClockController ergebnisController = new GameClockController();
-        //ok.addActionListener(ergebnisController);
+        // add actionlistener, der spiel disposed
+        ErgebnisController ergebnisController = new ErgebnisController(this);
+        ok.addActionListener(ergebnisController);
         add(setLabelText);
 
         JPanel panel = new JPanel(new GridLayout(0, 1));

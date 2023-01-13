@@ -12,9 +12,12 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 public class GameAndGameInfoMVC extends JFrame {
+
+    private static int dameCount = 1;
+
     public GameAndGameInfoMVC(long timeInMin, String schwarz, String weiß, boolean turn, Color farbe, String adr) throws IOException {
-        super("Dame");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        super("Dame" + dameCount++);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(1322,995);
         setResizable(false);
 
@@ -24,7 +27,7 @@ public class GameAndGameInfoMVC extends JFrame {
         Brett brett = new Brett(timeInMin,schwarz,weiß, turn, farbe, group, port);
         BrettView brettView = new BrettView(brett);
 
-        GameInfoView gameInfoView = new GameInfoView(brett.getGameInfo());
+        GameInfoView gameInfoView = new GameInfoView(brett.getGameInfo(), this);
 
         JSplitPane jSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         jSplitPane.setDividerLocation(962);

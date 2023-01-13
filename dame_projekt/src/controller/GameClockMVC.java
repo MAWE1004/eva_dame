@@ -23,7 +23,7 @@ public class GameClockMVC extends JFrame {
         f.add (b4);
         JButton b5 = new JButton ("Pause");
         f.add(b5);
-        GameClock clock = new GameClock (label, time);
+        GameClock clock = new GameClock (label, time, null);
         GameClockController h = new GameClockController (clock);
         b1.addActionListener (h);
         b2.addActionListener (h);
@@ -36,6 +36,6 @@ public class GameClockMVC extends JFrame {
     }
 
     public static void main(String[] args) {
-        new GameClockMVC(3000);
+        new GameClockMVC(5000);
     }
 }

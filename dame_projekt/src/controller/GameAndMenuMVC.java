@@ -23,7 +23,7 @@ public class GameAndMenuMVC extends JFrame {
         Brett brett = new Brett(30000,spieler.getUsername(),spieler.getUsername());
         BrettView brettView = new BrettView(brett);
 
-        GameInfoView gameInfoView = new GameInfoView(brett.getGameInfo());
+        GameInfoView gameInfoView = new GameInfoView(brett.getGameInfo(), null);
 
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new GridLayout(0,1));

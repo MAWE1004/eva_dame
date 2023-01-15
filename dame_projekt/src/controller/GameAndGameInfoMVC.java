@@ -15,6 +15,8 @@ public class GameAndGameInfoMVC extends JFrame {
 
     private static int dameCount = 1;
 
+    private Brett brett;
+
     public GameAndGameInfoMVC(long timeInMin, String schwarz, String weiß, boolean turn, Color farbe, String adr) throws IOException {
         super("Dame" + dameCount++);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -24,7 +26,7 @@ public class GameAndGameInfoMVC extends JFrame {
         InetAddress group = InetAddress.getByName(adr);
         int port = 1235;
 
-        Brett brett = new Brett(timeInMin,schwarz,weiß, turn, farbe, group, port);
+        this.brett = new Brett(timeInMin,schwarz,weiß, turn, farbe, group, port);
         BrettView brettView = new BrettView(brett);
 
         GameInfoView gameInfoView = new GameInfoView(brett.getGameInfo(), this);
@@ -38,6 +40,10 @@ public class GameAndGameInfoMVC extends JFrame {
         add(jSplitPane);
 
         setVisible(true);
+    }
+
+    public Brett getBrett() {
+        return brett;
     }
 
     public static void main(String[] args) throws IOException {

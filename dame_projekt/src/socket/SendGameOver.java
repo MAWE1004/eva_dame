@@ -12,6 +12,10 @@ public class SendGameOver {
         this.code = code;
     }
 
+    public byte getCode() {
+        return code;
+    }
+
     public byte[] marshall(){
         byte[] buffer;
         ByteBuffer out = ByteBuffer.allocate(5);

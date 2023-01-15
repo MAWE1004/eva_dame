@@ -512,15 +512,19 @@ public class Brett{
 
     private void sendPos() throws Exception{
         System.out.println("SEND-POS");
-        if(schlagendesFeld == null){
-            sendSchlagen = new byte[]{-1,-1};
+        if(countwhite == 0 || countblack == 0){
+            sendGameOver((byte) 0);
         }
+        else{
+            if(schlagendesFeld == null){
+                sendSchlagen = new byte[]{-1,-1};
+            }
+            clientMultiDame.sendPos(String.valueOf(gameInfo.getUserStein().charAt(0)), sendOld, sendNeu, sendSchlagen);
 
-        clientMultiDame.sendPos(String.valueOf(gameInfo.getUserStein().charAt(0)), sendOld, sendNeu, sendSchlagen);
-
-        sendOld = null;
-        sendNeu = null;
-        sendSchlagen = null;
+            sendOld = null;
+            sendNeu = null;
+            sendSchlagen = null;
+        }
     }
 
     private void receivePos() throws Exception{
@@ -534,6 +538,12 @@ public class Brett{
 
     private void sendOk() throws Exception{
 
+    }
+
+    public void sendGameOver(byte value) throws IOException {
+        clientMultiDame.sendGameOver(value);
+
+        clientMultiDame.endMultiSocket();
     }
 
 }

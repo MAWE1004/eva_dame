@@ -1,5 +1,7 @@
 package socket;
 
+import controller.ErgebnisMVC;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
@@ -53,4 +55,56 @@ public class ClientMultiDame {
         return response;
     }
 
+    //public sendGameOver; bytebuffer nicht größer als 5; sendzug zu sendgameover
+    public void sendGameOver(byte value) throws IOException {
+        SendGameOver request;
+        byte[] buffer;
+        DatagramPacket packet;
+        switch (value){
+            case 0:
+                //zeit abgelaufen
+                new ErgebnisMVC("Spiel ist vorbei, die Zeit ist abgelaufen! Du hast verloren.");
+                break;
+            case 1:
+                //alle gegnerischen steine geschlagen
+                new ErgebnisMVC("Spiel ist vorbei, alle Steine sind geschlagen! Du hast gewonnen.");
+                break;
+            case 2:
+                break;
+            default:
+                //spiel ist beendet, weil gegner geschlossen hat -> sendGameOver
+                new ErgebnisMVC("Spiel ist vorbei, du hast das Spiel abgebrochen! Du hast verloren.");
+        }
+        request = new SendGameOver(value);
+        buffer = request.marshall();
+        packet = new DatagramPacket(buffer, buffer.length, group, port);
+        multicastSocket.send(packet);
+    }
+
+    public SendGameOver receiveGameOver() throws IOException {
+        byte[] buffer = new byte[100];
+        DatagramPacket receive = new DatagramPacket(buffer, buffer.length);
+        multicastSocket.receive(receive);
+        buffer = receive.getData();
+        SendGameOver response = new SendGameOver().unMarshall(buffer);
+        switch (response.getCode()){
+            case 0:
+                //zeit abgelaufen
+                new ErgebnisMVC("Spiel ist vorbei, die Zeit ist abgelaufen! Du hast gewonnen.");
+                break;
+            case 1:
+                //alle gegnerischen steine geschlagen
+                new ErgebnisMVC("Spiel ist vorbei, alle Steine sind geschlagen! Du hast verloren.");
+                break;
+            case 2:
+                break;
+            default:
+                //spiel ist beendet, weil gegner geschlossen hat -> sendGameOver
+                new ErgebnisMVC("Spiel ist vorbei, der Gegner hat das Spiel abgebrochen! Du hast gewonnen.");
+        }
+
+        System.out.println("Received: " + response.toString());
+
+        return response;
+    }
 }

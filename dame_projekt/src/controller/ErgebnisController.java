@@ -13,6 +13,8 @@ public class ErgebnisController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        ergebnisMVC.dispose();
+        String s = e.getActionCommand();
+        if(s.equals("Ok"))
+            ergebnisMVC.dispose();
     }
 }

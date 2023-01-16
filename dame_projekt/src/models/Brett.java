@@ -433,6 +433,17 @@ public class Brett{
         }
     }
 
+    public void checkGegnerPossibleQueen(Feld feld){
+        if(feld.getStone().getFarbe().equals(Stein.BLACKSTONE)){
+            if(feld.getStone().getX() == 8 && !feld.getStone().isQueen())
+                feld.setToQueen();
+        }
+        else if(feld.getStone().getFarbe().equals(Stein.WHITESTONE)){
+            if(feld.getStone().getX() == 1 && !feld.getStone().isQueen())
+                feld.setToQueen();
+        }
+    }
+
 
 
     public synchronized void easyLayout(){
@@ -477,6 +488,7 @@ public class Brett{
         Feld alt = felder[data.getAltX()][data.getAltY()];
         Feld neu = felder[data.getNeuX()][data.getNeuY()];
         Feld schlagen = null;
+
         try{
             schlagen = felder[data.getSchlagenX()][data.getSchlagenY()];
             System.out.println("SCHLAGEN WERTE " + schlagen.getStone().getX() + " | " + schlagen.getStone().getY());
@@ -491,6 +503,7 @@ public class Brett{
         }
 
         neu.addStone(alt.getStone());
+        checkGegnerPossibleQueen(neu);
         alt.deleteStone();
         if(schlagen != null) {
             schlagen.deleteStone();

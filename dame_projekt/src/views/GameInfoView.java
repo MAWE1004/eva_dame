@@ -14,6 +14,7 @@ public class GameInfoView extends JPanel implements GameInfoListener{
     private JLabel gegner;
     private JLabel gegnerStein;
     private GameAndGameInfoMVC gameAndGameInfoMVC;
+    private GameClock clock;
 
     public GameInfoView(GameInfo model, GameAndGameInfoMVC gameAndGameInfoMVC){
         super();
@@ -24,7 +25,7 @@ public class GameInfoView extends JPanel implements GameInfoListener{
         JLabel labelTime = new JLabel ("", SwingConstants.RIGHT);
         labelTime.setFont(new Font(Font.DIALOG,Font.BOLD, 40));
         System.out.println("TIME: " + model.getTime());
-        GameClock clock = new GameClock (labelTime, model.getTime(), gameAndGameInfoMVC);
+        this.clock = new GameClock (labelTime, model.getTime(), gameAndGameInfoMVC);
         GameClockController gameClockController = new GameClockController (clock);
         time.add(labelTime);
 

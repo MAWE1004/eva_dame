@@ -7,6 +7,7 @@ import controller.menu.MenuMVC;
 import models.GameClock;
 
 import java.awt.*;
+import java.io.IOException;
 
 public class TickerGameClock extends Thread{
     private final static long UPDATE_INTERVAL = 10;
@@ -26,11 +27,13 @@ public class TickerGameClock extends Thread{
                 Thread.sleep(UPDATE_INTERVAL);
 
                 if (clock.getToggle() == true){
+                    clock.getGameAndGameInfoMVC().getBrett().sendGameOver((byte) 0);
                     interrupt();
-                    new ErgebnisMVC("Zeit ist überschritten, du hast verloren!");
                 }
             }
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

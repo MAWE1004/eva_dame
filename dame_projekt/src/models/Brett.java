@@ -1,5 +1,8 @@
 package models;
 
+import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
+import controller.GameAndGameInfoMVC;
+import jdk.net.SocketFlow;
 import socket.ClientMultiDame;
 import socket.SendZug;
 
@@ -31,12 +34,13 @@ public class Brett{
     private String spieler_am_zug;
 
     private GameInfo gameInfo;
+    private GameAndGameInfoMVC gameAndGameInfoMVC;
 
     private byte countblack;
     private byte countwhite;
 
 
-    public Brett(long timeInMin,String schwarz, String weiß, boolean turn, Color farbe, InetAddress group, int port) throws IOException {
+    public Brett(long timeInMin, String schwarz, String weiß, boolean turn, Color farbe, InetAddress group, int port, GameAndGameInfoMVC gameAndGameInfoMVC) throws IOException {
         myTurn = turn;
         this.farbe = farbe;
         spieler_schwarz = schwarz;
@@ -46,9 +50,10 @@ public class Brett{
         if(farbe.equals(Stein.WHITESTONE)){
             gameInfo = new GameInfo(timeInMin,weiß,schwarz,"weiß", "schwarz");
         }
-        else{
-            gameInfo = new GameInfo(timeInMin,schwarz,weiß,"schwarz", "weiß");
+        else {
+            gameInfo = new GameInfo(timeInMin, schwarz, weiß, "schwarz", "weiß");
         }
+        this.gameAndGameInfoMVC = gameAndGameInfoMVC;
 
         felder = new Feld[10][10];
         clickedFeld = null;
@@ -195,6 +200,7 @@ public class Brett{
                 sendOk();
             } catch (Exception e) {
                 e.printStackTrace();
+                break;
             }
         }
     }
@@ -371,7 +377,7 @@ public class Brett{
 
         try { // pos senden
             sendPos();
-            receivePos();
+//            receivePos();
             // auf ok von gegner warten
 
         } catch (Exception e) {
@@ -512,6 +518,8 @@ public class Brett{
 
     private void sendPos() throws Exception{
         System.out.println("SEND-POS");
+        gameAndGameInfoMVC.getClock().pause();
+
         if(countwhite == 0 || countblack == 0){
             sendGameOver((byte) 0);
         }
@@ -524,15 +532,21 @@ public class Brett{
             sendOld = null;
             sendNeu = null;
             sendSchlagen = null;
+
+            receivePos();
         }
     }
 
     private void receivePos() throws Exception{
         SendZug response = clientMultiDame.receivePos();
+        if(response == null){
+            throw new Exception("GAME OVER");
+        }
+
         if(!myTurn){
             System.out.println("IF-ANWEISUNG");
             changeGegnerStonePos(response);
-//            if()
+            gameAndGameInfoMVC.getClock().continueClock();
         }
     }
 
@@ -542,8 +556,8 @@ public class Brett{
 
     public void sendGameOver(byte value) throws IOException {
         clientMultiDame.sendGameOver(value);
-
         clientMultiDame.endMultiSocket();
+        System.out.println("===== SPIEL BEENDET =====");
     }
 
 }

@@ -18,6 +18,7 @@ public class GameClock {
         this.label = label;
         this.countTime = countTime;
         this.gameAndGameInfoMVC = gameAndGameInfoMVC;
+        gameAndGameInfoMVC.setClock(this);
         reset();
     }
 
@@ -43,6 +44,9 @@ public class GameClock {
         return toggle;
     }
 
+    public GameAndGameInfoMVC getGameAndGameInfoMVC() {
+        return gameAndGameInfoMVC;
+    }
 
     public void pause() {
         countTime = elapsedTime;

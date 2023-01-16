@@ -49,6 +49,14 @@ public class ClientMultiDame {
         DatagramPacket receive = new DatagramPacket(buffer, buffer.length);
         multicastSocket.receive(receive);
         buffer = receive.getData();
+        try {
+            if (new SendGameOver().unMarshall(buffer).getKey().equals("time")) {
+                receiveGameOver(buffer);
+                return null;
+            }
+        } catch (NullPointerException e){
+
+        }
         SendZug response = new SendZug().unMarshall(buffer);
         System.out.println("Received: " + response.toString());
 
@@ -60,6 +68,10 @@ public class ClientMultiDame {
         SendGameOver request;
         byte[] buffer;
         DatagramPacket packet;
+        request = new SendGameOver(value);
+        buffer = request.marshall();
+        packet = new DatagramPacket(buffer, buffer.length, group, port);
+        multicastSocket.send(packet);
         switch (value){
             case 0:
                 //zeit abgelaufen
@@ -75,26 +87,23 @@ public class ClientMultiDame {
                 //spiel ist beendet, weil gegner geschlossen hat -> sendGameOver
                 new ErgebnisMVC("Spiel ist vorbei, du hast das Spiel abgebrochen! Du hast verloren.");
         }
-        request = new SendGameOver(value);
-        buffer = request.marshall();
-        packet = new DatagramPacket(buffer, buffer.length, group, port);
-        multicastSocket.send(packet);
     }
 
-    public SendGameOver receiveGameOver() throws IOException {
-        byte[] buffer = new byte[100];
-        DatagramPacket receive = new DatagramPacket(buffer, buffer.length);
-        multicastSocket.receive(receive);
-        buffer = receive.getData();
+    public void receiveGameOver(byte[] buffer) throws IOException {
+//        byte[] buffer = new byte[100];
+//        DatagramPacket receive = new DatagramPacket(buffer, buffer.length);
+//        multicastSocket.receive(receive);
+//        buffer = receive.getData();
         SendGameOver response = new SendGameOver().unMarshall(buffer);
+        System.out.println("CODE " + response.getCode());
         switch (response.getCode()){
             case 0:
                 //zeit abgelaufen
-                new ErgebnisMVC("Spiel ist vorbei, die Zeit ist abgelaufen! Du hast gewonnen.");
+                new ErgebnisMVC("Spiel ist vorbei, die Zeit deines Gegners ist abgelaufen! Du hast gewonnen.");
                 break;
             case 1:
                 //alle gegnerischen steine geschlagen
-                new ErgebnisMVC("Spiel ist vorbei, alle Steine sind geschlagen! Du hast verloren.");
+                new ErgebnisMVC("Spiel ist vorbei, all deine Steine sind geschlagen! Du hast verloren.");
                 break;
             case 2:
                 break;
@@ -104,7 +113,5 @@ public class ClientMultiDame {
         }
 
         System.out.println("Received: " + response.toString());
-
-        return response;
     }
 }

@@ -49,9 +49,9 @@ public class MenuController implements ActionListener {
                     gegner = wartenAufGegner(response.getMultiAdr());
                 GameAndGameInfoMVC spiel;
                 if(response.getFarbe().equals("w"))
-                    spiel = new GameAndGameInfoMVC(5,gegner,model.getSpieler().getUsername(), true, Stein.WHITESTONE, response.getMultiAdr());
+                    spiel = new GameAndGameInfoMVC(1,gegner,model.getSpieler().getUsername(), true, Stein.WHITESTONE, response.getMultiAdr());
                 else
-                    spiel = new GameAndGameInfoMVC(5,model.getSpieler().getUsername(),gegner, false, Stein.BLACKSTONE, response.getMultiAdr());
+                    spiel = new GameAndGameInfoMVC(1,model.getSpieler().getUsername(),gegner, false, Stein.BLACKSTONE, response.getMultiAdr());
                 spiele.add(spiel);
             } catch (Exception ex) {
                 ex.printStackTrace();

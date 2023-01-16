@@ -1,6 +1,7 @@
 package controller;
 
 import models.Brett;
+import models.GameClock;
 import models.Spieler;
 import models.Stein;
 import views.BrettView;
@@ -16,6 +17,7 @@ public class GameAndGameInfoMVC extends JFrame {
     private static int dameCount = 1;
 
     private Brett brett;
+    private GameClock clock;
 
     public GameAndGameInfoMVC(long timeInMin, String schwarz, String weiß, boolean turn, Color farbe, String adr) throws IOException {
         super("Dame" + dameCount++);
@@ -26,7 +28,7 @@ public class GameAndGameInfoMVC extends JFrame {
         InetAddress group = InetAddress.getByName(adr);
         int port = 1235;
 
-        this.brett = new Brett(timeInMin,schwarz,weiß, turn, farbe, group, port);
+        this.brett = new Brett(timeInMin,schwarz,weiß, turn, farbe, group, port, this);
         BrettView brettView = new BrettView(brett);
 
         GameInfoView gameInfoView = new GameInfoView(brett.getGameInfo(), this);
@@ -44,6 +46,14 @@ public class GameAndGameInfoMVC extends JFrame {
 
     public Brett getBrett() {
         return brett;
+    }
+
+    public GameClock getClock() {
+        return clock;
+    }
+
+    public void setClock(GameClock clock) {
+        this.clock = clock;
     }
 
     public static void main(String[] args) throws IOException {

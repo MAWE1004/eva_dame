@@ -1,9 +1,11 @@
 package models;
 
 import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
+import controller.ErgebnisMVC;
 import controller.GameAndGameInfoMVC;
 import jdk.net.SocketFlow;
 import socket.ClientMultiDame;
+import socket.SendGameOver;
 import socket.SendZug;
 
 import java.awt.*;
@@ -538,11 +540,19 @@ public class Brett{
     }
 
     private void receivePos() throws Exception{
-        SendZug response = clientMultiDame.receivePos();
-        if(response == null){
-            throw new Exception("GAME OVER");
+        byte[] buffer = clientMultiDame.receivePos();
+        SendGameOver gameOver = new SendGameOver().unMarshall(buffer);
+        try{
+            if(gameOver.getKey().equals("time")){
+                receiveGameOverCode(gameOver.getCode());
+                throw new Exception("GAME OVER");
+            }
+        } catch (NullPointerException e){
+
         }
 
+
+        SendZug response = new SendZug().unMarshall(buffer);
         if(!myTurn){
             System.out.println("IF-ANWEISUNG");
             changeGegnerStonePos(response);
@@ -556,8 +566,45 @@ public class Brett{
 
     public void sendGameOver(byte value) throws IOException {
         clientMultiDame.sendGameOver(value);
+        sendGameOverCode(value);
         clientMultiDame.endMultiSocket();
         System.out.println("===== SPIEL BEENDET =====");
+    }
+
+    private void sendGameOverCode(byte c){
+        switch (c){
+            case 0:
+                //zeit abgelaufen
+                new ErgebnisMVC("Spiel ist vorbei, die Zeit ist abgelaufen! Du hast verloren.", gameAndGameInfoMVC);
+                break;
+            case 1:
+                //alle gegnerischen steine geschlagen
+                new ErgebnisMVC("Spiel ist vorbei, alle Steine sind geschlagen! Du hast gewonnen.", gameAndGameInfoMVC);
+                break;
+            case 2:
+                break;
+            default:
+                //spiel ist beendet, weil gegner geschlossen hat -> sendGameOver
+                new ErgebnisMVC("Spiel ist vorbei, du hast das Spiel abgebrochen! Du hast verloren.", gameAndGameInfoMVC);
+        }
+    }
+
+    private void receiveGameOverCode(byte c){
+        switch (c){
+            case 0:
+                //zeit abgelaufen
+                new ErgebnisMVC("Spiel ist vorbei, die Zeit deines Gegners ist abgelaufen! Du hast gewonnen.", gameAndGameInfoMVC);
+                break;
+            case 1:
+                //alle gegnerischen steine geschlagen
+                new ErgebnisMVC("Spiel ist vorbei, all deine Steine sind geschlagen! Du hast verloren.", gameAndGameInfoMVC);
+                break;
+            case 2:
+                break;
+            default:
+                //spiel ist beendet, weil gegner geschlossen hat -> sendGameOver
+                new ErgebnisMVC("Spiel ist vorbei, der Gegner hat das Spiel abgebrochen! Du hast gewonnen.", gameAndGameInfoMVC);
+        }
     }
 
 }

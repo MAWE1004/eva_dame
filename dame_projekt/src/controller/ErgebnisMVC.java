@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class ErgebnisMVC extends JFrame {
 
-    public ErgebnisMVC(String text){
+    public ErgebnisMVC(String text, GameAndGameInfoMVC gameAndGameInfoMVC){
         setLayout(new GridLayout(0, 1));
         setPreferredSize(new Dimension(400, 300));
 
@@ -16,7 +16,7 @@ public class ErgebnisMVC extends JFrame {
 
         JButton ok = new JButton("Ok");
         // add actionlistener, der spiel disposed
-        ErgebnisController ergebnisController = new ErgebnisController(this);
+        ErgebnisController ergebnisController = new ErgebnisController(this, gameAndGameInfoMVC);
         ok.addActionListener(ergebnisController);
         add(setLabelText);
 
@@ -26,8 +26,6 @@ public class ErgebnisMVC extends JFrame {
         add(panel);
         panel.add(ok);
 
-
-
         pack();
         setDefaultCloseOperation (JFrame.DISPOSE_ON_CLOSE);
         setVisible (true);
@@ -36,8 +34,8 @@ public class ErgebnisMVC extends JFrame {
     }
 
     public static void main (String[]args){
-        new ErgebnisMVC("Du hast gewonnen!");
-        new ErgebnisMVC("Du hast verloren!");
+        new ErgebnisMVC("Du hast gewonnen!", null);
+        new ErgebnisMVC("Du hast verloren!", null);
     }
 
 }

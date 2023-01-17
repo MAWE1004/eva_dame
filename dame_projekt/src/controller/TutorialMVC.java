@@ -19,6 +19,7 @@ public class TutorialMVC extends JFrame {
                 +"Jeder Spieler beginnt mit 12 Steinen, die in der Regel in den drei Reihen vor ihm platziert werden. Die Steine bewegen sich diagonal über das Brett. <br/>"
                 +"Der Spieler, der die weißen Steine hat, beginnt das Spiel. Die Spieler wechseln sich dann ab, um ihre Steine zu bewegen.<br/>"
                 +"Ein Stein kann nur ein Feld diagonal vorwärts bewegt werden, es sei denn, er schlägt einen gegnerischen Stein. In diesem Fall muss der gegnerische Stein übersprungen und auf das dahinterliegende Feld gesetzt werden. Der geschlagene Stein wird dann vom Brett genommen.<br/>"
+                +"Falls man einen Stein schlägt, so ist man nochmal dran.<br/>"
                 +"Wenn ein Stein die gegnerische Grundlinie erreicht, wird er zur Dame befördert. Eine Dame kann sowohl diagonal vorwärts als auch rückwärts bewegt werden und kann beliebig viele Felder überspringen, um Steine zu schlagen.<br/>"
                 +"Das Spiel endet, wenn ein Spieler keine Steine mehr hat, beziehungsweise, wenn die Zeit abgelaufen ist.<br/>"
                 +"<br/>"

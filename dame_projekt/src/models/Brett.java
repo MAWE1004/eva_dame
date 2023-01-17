@@ -209,24 +209,51 @@ public class Brett{
 
     public void possibleFeldBlack(int x, int y){
         System.out.println("X^ : " + x + " y-> : " + y);
-        try{
-            switch(y){
-                case 1: //Grenze Links
-                    possibleFelder[3] = possibleFeldBlackRight(x, y);
-                    break;
-                case 8: //Grenze rechts
-                    possibleFelder[2] = possibleFeldBlackLeft(x, y);
-                    break;
-                default: //Keine Grenze
-                     possibleFelder[2] = possibleFeldBlackLeft(x, y);
-                     possibleFelder[3] = possibleFeldBlackRight(x, y);
-            }
-            System.out.println("Possible Felder: " + possibleFelder.toString());
-            System.out.println("Zu SchlagendeFelder: " + schlagendeFelder[2]);
+        if(clickedFeld.getStone().getFarbe().equals(Stein.BLACKSTONE) && clickedFeld.getStone().isQueen()){
+            try {
+                switch (y) {
+                    case 1: //Grenze Links
+                        possibleFelder[1] = possibleFeldBlackRightQueen(x,y);
+                        possibleFelder[3] = possibleFeldBlackRight(x, y);
+                        break;
+                    case 8: //Grenze rechts
+                        possibleFelder[0] = possibleFeldBlackLeftQueen(x,y);
+                        possibleFelder[2] = possibleFeldBlackLeft(x, y);
+                        break;
+                    default: //Keine Grenze
+                        possibleFelder[0] = possibleFeldBlackLeftQueen(x,y);
+                        possibleFelder[1] = possibleFeldBlackRightQueen(x,y);
 
-        } catch(Exception e){
-            e.printStackTrace();
-            //Setze bei Fehler alle Felder wieder auf null bzw Black MIT EIGENER METHODE
+                        possibleFelder[2] = possibleFeldBlackLeft(x, y);
+                        possibleFelder[3] = possibleFeldBlackRight(x, y);
+                }
+                System.out.println("Possible Felder: " + possibleFelder.toString());
+                System.out.println("Zu SchlagendeFelder: " + schlagendeFelder[2]);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                //Setze bei Fehler alle Felder wieder auf null bzw Black MIT EIGENER METHODE
+            }
+        }else {
+            try {
+                switch (y) {
+                    case 1: //Grenze Links
+                        possibleFelder[3] = possibleFeldBlackRight(x, y);
+                        break;
+                    case 8: //Grenze rechts
+                        possibleFelder[2] = possibleFeldBlackLeft(x, y);
+                        break;
+                    default: //Keine Grenze
+                        possibleFelder[2] = possibleFeldBlackLeft(x, y);
+                        possibleFelder[3] = possibleFeldBlackRight(x, y);
+                }
+                System.out.println("Possible Felder: " + possibleFelder.toString());
+                System.out.println("Zu SchlagendeFelder: " + schlagendeFelder[2]);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                //Setze bei Fehler alle Felder wieder auf null bzw Black MIT EIGENER METHODE
+            }
         }
 
     }
@@ -263,34 +290,93 @@ public class Brett{
         return fp;
     }
 
+    private Feld possibleFeldBlackLeftQueen(int x, int y){
+        Feld fp = felder[x-1][y-1];
+        try {
+            if(fp.getStone() != null){
+                if(felder[x][y].getStone().getFarbe().equals(Stein.BLACKSTONE) && fp.getStone().getFarbe().equals(Stein.WHITESTONE) & felder[x - 2][y - 2].getStone() == null)
+                    schlagendeFelder[0] = fp;
+                    return felder[x - 2][y - 2];
+            }
+        }catch (NullPointerException e){
+
+        }
+        return fp;
+    }
+
+    private Feld possibleFeldBlackRightQueen(int x, int y){
+        Feld fp = felder[x-1][y+1];
+        try {
+            if(fp.getStone() != null){
+                if(felder[x][y].getStone().getFarbe().equals(Stein.BLACKSTONE) && fp.getStone().getFarbe().equals(Stein.WHITESTONE) & felder[x - 2][y + 2].getStone() == null){
+                    schlagendeFelder[1] = fp;
+                    return felder[x - 2][y + 2];
+                }
+            }
+        }catch (NullPointerException e){
+
+        }
+        return fp;
+    }
+
+
     public void possibleFeldWhite(int x, int y) {
         System.out.println("X^ : " + x + " y-> : " + y);
+        if(clickedFeld.getStone().getFarbe().equals(Stein.WHITESTONE) && clickedFeld.getStone().isQueen()){
+            System.out.println("possibleFeldWhiteFürDieQueen");
+            try {
+                switch (y) {
+                    case 1: //Grenze Links
+                        possibleFelder[1] = possibleFeldWhiteRight(x, y); //Zug rechts
+                        possibleFelder[3] = possibleFeldWhiteRightQueen(x,y);
+                        break;
+                    case 8: //Grenze rechts
+                        possibleFelder[0] = possibleFeldWhiteLeft(x, y);
+                        possibleFelder[2] = possibleFeldWhiteLeftQueen(x, y);
+                        break;
+                    default: //Keine Grenze
+                        possibleFelder[0] = possibleFeldWhiteLeft(x, y); //Zug links
+                        possibleFelder[1] = possibleFeldWhiteRight(x, y); //Zug rechts
 
-        try {
-            switch (y) {
-                case 1: //Grenze Links
-                    possibleFelder[1] = possibleFeldWhiteRight(x, y); //Zug rechts
-                    break;
-                case 8: //Grenze rechts
-                    possibleFelder[0] = possibleFeldWhiteLeft(x, y);
-                    break;
-                default: //Keine Grenze
-                    possibleFelder[0] = possibleFeldWhiteLeft(x, y); //Zug links
-                    possibleFelder[1] = possibleFeldWhiteRight(x, y); //Zug rechts
+                        possibleFelder[2] = possibleFeldWhiteLeftQueen(x, y);
+                        possibleFelder[3] = possibleFeldWhiteRightQueen(x,y);
+                }
 
+            } catch (NullPointerException e) {
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                //Setze bei Fehler alle Felder wieder auf null bzw Black MIT EIGENER METHODE
             }
+        }
+        else {
+            try {
+                switch (y) {
+                    case 1: //Grenze Links
+                        possibleFelder[1] = possibleFeldWhiteRight(x, y); //Zug rechts
+                        break;
+                    case 8: //Grenze rechts
+                        possibleFelder[0] = possibleFeldWhiteLeft(x, y);
+                        break;
+                    default: //Keine Grenze
+                        possibleFelder[0] = possibleFeldWhiteLeft(x, y); //Zug links
+                        possibleFelder[1] = possibleFeldWhiteRight(x, y); //Zug rechts
 
-        } catch (NullPointerException e){
+                }
 
-        } catch(Exception e){
-            e.printStackTrace();
-            //Setze bei Fehler alle Felder wieder auf null bzw Black MIT EIGENER METHODE
+            } catch (NullPointerException e) {
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                //Setze bei Fehler alle Felder wieder auf null bzw Black MIT EIGENER METHODE
+            }
         }
 
     }
 
     private Feld possibleFeldWhiteLeft(int x, int y) {
         Feld fp = felder[x - 1][y - 1];
+
         try {
             if(fp.getStone() != null){
                 if (felder[x][y].getStone().getFarbe().equals(Stein.WHITESTONE) && fp.getStone().getFarbe().equals(Stein.BLACKSTONE) & felder[x - 2][y - 2].getStone() == null) {
@@ -302,6 +388,39 @@ public class Brett{
 
         }
 
+        return fp;
+    }
+
+    private Feld possibleFeldWhiteLeftQueen(int x, int y){
+        Feld fp = felder[x+1][y-1];
+        try{
+            if(fp.getStone() != null){
+                if(felder[x][y].getStone().getFarbe().equals(Stein.WHITESTONE) && fp.getStone().getFarbe().equals(Stein.BLACKSTONE ) & felder[x + 2][y - 2].getStone() == null){
+                    System.out.println("possibleFeldWhiteLeftQueen kommst du rein?");
+                    schlagendeFelder[2] = fp;
+                    return felder[x + 2][y - 2];
+                }
+            }
+        } catch (NullPointerException e){
+
+        }
+        return fp;
+    }
+
+    private Feld possibleFeldWhiteRightQueen(int x, int y){
+        Feld fp = felder[x+1][y+1];
+        try {
+            if(fp.getStone() != null){
+                if(felder[x][y].getStone().getFarbe().equals(Stein.WHITESTONE) && fp.getStone().getFarbe().equals(Stein.BLACKSTONE ) &felder[x + 2][y + 2].getStone() == null){
+                    System.out.println("possibleFeldWhiteRightQueen kommst du rein?");
+                    schlagendeFelder[3] = fp;
+                    return felder[x + 2][y + 2];
+                }
+            }
+
+        } catch (NullPointerException e){
+
+        }
         return fp;
     }
 

@@ -108,7 +108,7 @@ public class Feld {
             if(Stein.BLACKSTONE.equals(stone.getFarbe())) {
                 if (stone.isQueen()) {
                     System.out.println("QUEEN BLACK");
-                    brett.possibleFeldWhite(stone.getX(), stone.getY());
+                    //brett.possibleFeldWhite(stone.getX(), stone.getY());
                     brett.possibleFeldBlack(stone.getX(), stone.getY());
 
                     possible = brett.getPossibleFelder();
@@ -133,7 +133,7 @@ public class Feld {
                 if(stone.isQueen()){
                     System.out.println("QUEEN WHITE");
                     brett.possibleFeldWhite(stone.getX(), stone.getY());
-                    brett.possibleFeldBlack(stone.getX(), stone.getY());
+                    //brett.possibleFeldBlack(stone.getX(), stone.getY());
 
                     possible = brett.getPossibleFelder();
 

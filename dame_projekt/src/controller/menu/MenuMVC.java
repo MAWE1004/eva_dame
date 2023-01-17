@@ -40,7 +40,7 @@ public class MenuMVC extends JFrame {
         add(logout);
         setVisible(true);
 
-//        ServerAliveThread serverAliveThread = new ServerAliveThread(model, menuController);
+        //ServerAliveThread serverAliveThread = new ServerAliveThread(model, menuController);
 
     }
 

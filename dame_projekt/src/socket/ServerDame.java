@@ -118,7 +118,7 @@ public class ServerDame {
         String line;
         String name;
         String password;
-        Scanner read = new Scanner(new File("D:\\FH-Kaiserslautern\\WS 21_22\\EVA\\eva_dame\\dame_projekt\\src\\socket\\anmeldung.txt"));
+        Scanner read = new Scanner(new File("C:\\Users\\Marcel\\Desktop\\Schule2\\5. Semester\\EVA\\EVAProjekt\\eva_dame\\dame_projekt\\src\\socket\\anmeldung.txt"));
 //        Scanner read = new Scanner(new File("/home/student10/anmeldung.txt"));
         while (read.hasNextLine()){
             line = read.nextLine();

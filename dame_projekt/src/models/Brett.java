@@ -551,12 +551,15 @@ public class Brett{
 
     public void checkPossibleQueen(){
         if(clickedNewFeld.getStone().getFarbe().equals(Stein.BLACKSTONE)){
-            if(clickedNewFeld.getStone().getX() == 8 && !clickedNewFeld.getStone().isQueen())
+            if(clickedNewFeld.getStone().getX() == 8 && !clickedNewFeld.getStone().isQueen()){
                 clickedNewFeld.setToQueen();
+            }
+
         }
         else if(clickedNewFeld.getStone().getFarbe().equals(Stein.WHITESTONE)){
-            if(clickedNewFeld.getStone().getX() == 1 && !clickedNewFeld.getStone().isQueen())
+            if(clickedNewFeld.getStone().getX() == 1 && !clickedNewFeld.getStone().isQueen()){
                 clickedNewFeld.setToQueen();
+            }
         }
     }
 

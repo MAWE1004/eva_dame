@@ -2,6 +2,7 @@ package controller.menu;
 
 import controller.GameAndGameInfoMVC;
 import controller.GameAndMenuMVC;
+import controller.TutorialMVC;
 import controller.WindowController;
 import controller.anmeldung.AnmeldungMVC;
 import models.Anmeldung;
@@ -40,6 +41,7 @@ public class MenuController implements ActionListener {
         if (s.equals("Tutorial")){
             System.out.println("Tutorial");
 //            new GameAndGameInfoMVC();
+            new TutorialMVC("Tutorial");
         }
         else if (s.equals("Play 5 Min")){
             System.out.println("Play 5 Min");

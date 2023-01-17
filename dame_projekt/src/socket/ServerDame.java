@@ -119,6 +119,7 @@ public class ServerDame {
         String name;
         String password;
         Scanner read = new Scanner(new File("D:\\FH-Kaiserslautern\\WS 21_22\\EVA\\eva_dame\\dame_projekt\\src\\socket\\anmeldung.txt"));
+//        Scanner read = new Scanner(new File("/home/student10/anmeldung.txt"));
         while (read.hasNextLine()){
             line = read.nextLine();
             if(line.charAt(0) == 'u') {
@@ -159,7 +160,7 @@ public class ServerDame {
                 System.out.println(supplierNames.toString());
 
                 try {
-                    System.out.println("MULTI ADR " + supplierNames.get(i).getMultiAdr());
+                    System.out.println("MULTI ADR von " + supplierNames.get(i).getGamerBlack() + "with adr " + supplierNames.get(i).getMultiAdr());
                     InetAddress gruppe = InetAddress.getByName(supplierNames.get(i).getMultiAdr());
                     int port = 1235;
                     MulticastSocket socket = new MulticastSocket(port);
@@ -174,7 +175,7 @@ public class ServerDame {
                     socket.receive(receive);
                     bufferMulti = receive.getData();
                     SendGegner response = new SendGegner().unMarshall(bufferMulti);
-                    System.out.println("Received: " + response.toString());
+                    System.out.println("Received: " + response.getGegner());
                     socket.leaveGroup(gruppe);
                     socket.close();
 
@@ -199,7 +200,7 @@ public class ServerDame {
         searchGamer.setMultiAdr(multiAdr);
         supplierNames.add(searchGamer);
 
-        System.out.println(supplierNames.toString());
+        System.out.println("White Player: " + searchGamer);
 
         ResponseForPlayer response = new ResponseForPlayer("ok",multiAdr, searchGamer.getGame() , " ", "w");
         return response.marshall();

@@ -17,6 +17,7 @@ public class ClientDame {
         socket = new DatagramSocket();
         socket.setSoTimeout(2000);
         socketAdr = new InetSocketAddress(address, port);
+        socket.connect(socketAdr);
     }
 
     public boolean requestAnmeldung(String name, String password) throws IOException{
@@ -151,6 +152,11 @@ public class ClientDame {
         else
             System.out.println("Kein sinnvoller Auftrag");
         socket.close();
+    }
 
+    public boolean serverStillRunning(){
+        boolean running = socket.isConnected();
+        socket.close();
+        return running;
     }
 }

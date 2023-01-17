@@ -2,6 +2,7 @@ package controller.menu;
 
 import controller.GameAndGameInfoMVC;
 import controller.GameAndMenuMVC;
+import controller.WindowController;
 import controller.anmeldung.AnmeldungMVC;
 import models.Anmeldung;
 import models.Menu;
@@ -76,7 +77,7 @@ public class MenuController implements ActionListener {
         }
         else if (s.equals("Play 30 Min")){
             try {
-                ResponseForPlayer response = model.requestPlayer(5);
+                ResponseForPlayer response = model.requestPlayer(30);
                 String gegner = response.getGegner();
                 if(gegner.equals(" "))
                     gegner = wartenAufGegner(response.getMultiAdr());
@@ -92,12 +93,7 @@ public class MenuController implements ActionListener {
         }
         else if (s.equals("Logout")){
             System.out.println("Logout");
-            for (GameAndGameInfoMVC spiel: spiele) {
-                spiel.dispose();
-            }
-            menuMVC.dispose();
-            Anmeldung model = new Anmeldung();
-            new AnmeldungMVC(model, "Anmeldung");
+            endAll();
         }
         else if (s.equals("Ok")){
             System.out.println("TESSSSSSSSSSSSSSSSSSSSSSST");
@@ -112,15 +108,28 @@ public class MenuController implements ActionListener {
         System.out.println("WAITING ... ");
         try {
             InetAddress gruppe = InetAddress.getByName(adr);
+            System.out.println("Address " + adr);
             int port = 1235;
             MulticastSocket socket = new MulticastSocket(port);
+            socket.setSoTimeout(5000);
             socket.joinGroup(gruppe);
             byte[] buffer = new byte[100];
             DatagramPacket receive = new DatagramPacket(buffer, buffer.length);
-            socket.receive(receive);
-            buffer = receive.getData();
-            SendGegner response = new SendGegner().unMarshall(buffer);
-            System.out.println("Received: " + response.toString());
+            System.out.println("Before Receive");
+            SendGegner response = null;
+            int retryCount = 5;
+            while (retryCount > 0){
+                try {
+                    socket.receive(receive);
+                    buffer = receive.getData();
+                    response = new SendGegner().unMarshall(buffer);
+                    System.out.println("Received: " + response.getGegner());
+                } catch (SocketTimeoutException ex) {
+                    retryCount--;
+                    ex.printStackTrace();
+                }
+            }
+
             socket.leaveGroup(gruppe);
             socket.close();
 
@@ -133,5 +142,14 @@ public class MenuController implements ActionListener {
         }
 
         return null;
+    }
+
+    public void endAll(){
+        for (GameAndGameInfoMVC spiel: spiele) {
+            spiel.dispose();
+        }
+        menuMVC.dispose();
+        Anmeldung model = new Anmeldung();
+        new AnmeldungMVC(model, "Anmeldung");
     }
 }

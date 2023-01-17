@@ -197,7 +197,7 @@ public class Brett{
     public void waitingForTurn(){
         while(!myTurn){
             try {
-                System.out.println("Brett: Waiting");
+                System.out.println("Warten auf Zug von Gegner");
                 receivePos();
                 sendOk();
             } catch (Exception e) {
@@ -582,10 +582,12 @@ public class Brett{
                 new ErgebnisMVC("Spiel ist vorbei, alle Steine sind geschlagen! Du hast gewonnen.", gameAndGameInfoMVC);
                 break;
             case 2:
-                break;
-            default:
                 //spiel ist beendet, weil gegner geschlossen hat -> sendGameOver
                 new ErgebnisMVC("Spiel ist vorbei, du hast das Spiel abgebrochen! Du hast verloren.", gameAndGameInfoMVC);
+                break;
+            default:
+                //spiel ist beendet
+                new ErgebnisMVC("Spiel wurde aus technischen Gründen beendet", gameAndGameInfoMVC);
         }
     }
 
@@ -600,10 +602,13 @@ public class Brett{
                 new ErgebnisMVC("Spiel ist vorbei, all deine Steine sind geschlagen! Du hast verloren.", gameAndGameInfoMVC);
                 break;
             case 2:
-                break;
-            default:
                 //spiel ist beendet, weil gegner geschlossen hat -> sendGameOver
                 new ErgebnisMVC("Spiel ist vorbei, der Gegner hat das Spiel abgebrochen! Du hast gewonnen.", gameAndGameInfoMVC);
+                break;
+            default:
+                //spiel ist beendet
+                new ErgebnisMVC("Spiel wurde aus technischen Gründen beendet", gameAndGameInfoMVC);
+
         }
     }
 

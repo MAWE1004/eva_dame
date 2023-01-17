@@ -20,7 +20,7 @@ public class GameAndGameInfoMVC extends JFrame {
     private GameClock clock;
 
     public GameAndGameInfoMVC(long timeInMin, String schwarz, String weiß, boolean turn, Color farbe, String adr) throws IOException {
-        super("Dame" + dameCount++);
+        super("Dame Spiel " + dameCount++);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(1322,995);
         setResizable(false);
@@ -30,6 +30,8 @@ public class GameAndGameInfoMVC extends JFrame {
 
         this.brett = new Brett(timeInMin,schwarz,weiß, turn, farbe, group, port, this);
         BrettView brettView = new BrettView(brett);
+        WindowController windowController = new WindowController(brett);
+        addWindowListener(windowController);
 
         GameInfoView gameInfoView = new GameInfoView(brett.getGameInfo(), this);
 
@@ -59,6 +61,6 @@ public class GameAndGameInfoMVC extends JFrame {
     public static void main(String[] args) throws IOException {
         Spieler spieler = new Spieler("Test", "Test");
         Spieler spieler2 = new Spieler("Test2", "Test2");
-        new GameAndGameInfoMVC(30,spieler.getUsername(), spieler2.getUsername(), true, Stein.BLACKSTONE, "225.0.0.1");
+        new GameAndGameInfoMVC(1,spieler.getUsername(), spieler2.getUsername(), true, Stein.BLACKSTONE, "225.0.0.1");
     }
 }

@@ -6,8 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SteinView extends JPanel {
-    final static ImageIcon image_schwarz = new ImageIcon("D:\\FH-Kaiserslautern\\WS 21_22\\EVA\\eva_dame\\dame_projekt\\src\\icons\\krone_schwarz.png");
-    final static ImageIcon image_weiß = new ImageIcon("D:\\FH-Kaiserslautern\\WS 21_22\\EVA\\eva_dame\\dame_projekt\\src\\icons\\krone_weiß.png");
+    final static ImageIcon image_schwarz = new ImageIcon("C:\\Users\\Marcel\\Desktop\\Schule2\\5. Semester\\EVA\\EVAProjekt\\eva_dame\\dame_projekt\\src\\icons\\krone_schwarz.png");
+    final static ImageIcon image_weiß = new ImageIcon("C:\\Users\\Marcel\\Desktop\\Schule2\\5. Semester\\EVA\\EVAProjekt\\eva_dame\\dame_projekt\\src\\icons\\krone_weiß.png");
 
     private Stein model;
 

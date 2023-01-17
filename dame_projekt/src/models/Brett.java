@@ -560,6 +560,17 @@ public class Brett{
         }
     }
 
+    public void checkGegnerPossibleQueen(Feld feld){
+        if(feld.getStone().getFarbe().equals(Stein.BLACKSTONE)){
+            if(feld.getStone().getX() == 8 && !feld.getStone().isQueen())
+                feld.setToQueen();
+        }
+        else if(feld.getStone().getFarbe().equals(Stein.WHITESTONE)){
+            if(feld.getStone().getX() == 1 && !feld.getStone().isQueen())
+                feld.setToQueen();
+        }
+    }
+
 
 
     public synchronized void easyLayout(){
@@ -619,6 +630,7 @@ public class Brett{
 
         neu.addStone(alt.getStone());
         alt.deleteStone();
+        checkGegnerPossibleQueen(neu);
         if(schlagen != null) {
             schlagen.deleteStone();
             myTurn = false;
@@ -642,7 +654,7 @@ public class Brett{
         gameAndGameInfoMVC.getClock().pause();
 
         if(countwhite == 0 || countblack == 0){
-            sendGameOver((byte) 0);
+            sendGameOver((byte) 1);
         }
         else{
             if(schlagendesFeld == null){

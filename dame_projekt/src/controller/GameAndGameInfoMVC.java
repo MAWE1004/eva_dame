@@ -12,7 +12,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.InetAddress;
 
-public class GameAndGameInfoMVC extends JFrame {
+public class GameAndGameInfoMVC extends JFrame{
 
     private static int dameCount = 1;
 
@@ -44,6 +44,7 @@ public class GameAndGameInfoMVC extends JFrame {
         add(jSplitPane);
 
         setVisible(true);
+
     }
 
     public Brett getBrett() {

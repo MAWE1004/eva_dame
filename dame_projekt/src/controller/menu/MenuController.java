@@ -146,6 +146,11 @@ public class MenuController implements ActionListener {
 
     public void endAll(){
         for (GameAndGameInfoMVC spiel: spiele) {
+            try {
+                spiel.getBrett().sendGameOver((byte) 2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             spiel.dispose();
         }
         menuMVC.dispose();

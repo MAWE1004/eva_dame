@@ -138,6 +138,7 @@ public class MenuController implements ActionListener {
     }
 
     public void endAll(){
+        runMenu.closeMenu();
         for (RunGame spiel: spiele) {
             try {
                 spiel.getGame().getBrett().sendGameOver((byte) 2);
@@ -146,7 +147,6 @@ public class MenuController implements ActionListener {
             }
             spiel.getGame().dispose();
         }
-        runMenu.interrupt();
         Anmeldung model = new Anmeldung();
         new AnmeldungMVC(model, "Anmeldung");
     }

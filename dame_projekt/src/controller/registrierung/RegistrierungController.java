@@ -50,9 +50,6 @@ public class RegistrierungController implements ActionListener {
                 registrierungMVC.dispose();
                 Menu model = new Menu(textField.getText(), new Spieler(textField.getText(), passwordField.getText()));
                 RunMenu runMenu = new RunMenu(model);
-//                new MenuMVC(model,"MENU");
-//                Spieler spieler = new Spieler(textField.getText(), passwordField.getText());
-//                new GameAndMenuMVC(spieler);
             } else {
                 System.out.println("RegistrierungController: Spieler und Passwort leer / schon vorhanden, somit nicht gespeichert");
             }

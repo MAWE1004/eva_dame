@@ -2,16 +2,19 @@ package socket;
 
 import controller.menu.MenuController;
 import models.Menu;
+import views.RunMenu;
 
 public class ServerAliveThread extends Thread{
 
     private final static long UPDATE_INTERVAL = 20000;
     private Menu model;
     private MenuController controller;
+    private RunMenu runMenu;
 
-    public ServerAliveThread(Menu model, MenuController controller){
+    public ServerAliveThread(Menu model, MenuController controller, RunMenu runMenu){
         this.model = model;
         this.controller = controller;
+        this.runMenu = runMenu;
         start();
     }
 
@@ -21,23 +24,24 @@ public class ServerAliveThread extends Thread{
             while(!isInterrupted()) {
                 System.out.println("===== Asking Server if alive =====" + count++);
                 if (!model.serverAlive()) {
-                    interrupt();
                     throw new Exception("Server not alive anymore");
                 }
                 System.out.println("===== Server still alive =====");
                 Thread.sleep(UPDATE_INTERVAL);
             }
+        } catch (InterruptedException ex){
+            ex.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-            controller.endAll();
             System.out.println("===== Server beendet =====");
+            controller.endAll();
         }
     }
 
     public static void main(String[] args) {
         Menu model = new Menu(null, null);
         MenuController controller = new MenuController(null, null);
-        new ServerAliveThread(model, controller);
+        new ServerAliveThread(model, controller, null);
     }
 
 }

@@ -51,9 +51,6 @@ public class AnmeldeController implements ActionListener {
                     anmeldungMVC.dispose();
                     Menu model = new Menu(textField.getText(), new Spieler(textField.getText(), passwordField.getText()));
                     RunMenu runMenu = new RunMenu(model);
-//                    new MenuMVC(model,"MENU");
-//                    Spieler spieler = new Spieler(textField.getText(), passwordField.getText());
-//                    new GameAndMenuMVC(spieler);
                 } else {
                     System.out.println("AnmeldeController: Spieler und Password stimmen NICHT überein / NICHT vorhanden");
                 }

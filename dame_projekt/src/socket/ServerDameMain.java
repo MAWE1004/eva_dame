@@ -9,7 +9,6 @@ public class ServerDameMain {
         
         while(true) {
             server.service();
-//            server.serviceAlive();
         }
 
     }

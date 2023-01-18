@@ -1,14 +1,13 @@
 package views;
 
-import controller.anmeldung.AnmeldungMVC;
 import controller.menu.MenuMVC;
-import models.Anmeldung;
 import models.Menu;
 import socket.ServerAliveThread;
 
 public class RunMenu extends Thread{
     private Menu menu;
     private MenuMVC mvc;
+    private ServerAliveThread aliveThread;
 
     public RunMenu(Menu menu) {
         this.menu = menu;
@@ -26,14 +25,13 @@ public class RunMenu extends Thread{
     @Override
     public void run(){
         mvc = new MenuMVC(this, "Menu");
-        ServerAliveThread aliveThread = new ServerAliveThread(menu, mvc.getMenuController());
-        while(!isInterrupted()){
-        }
-        aliveThread.interrupt();
-        mvc.dispose();
+        aliveThread = new ServerAliveThread(menu, mvc.getMenuController(), this);
     }
 
-    public void disoseMenu(){
+    public void closeMenu(){
+        aliveThread.interrupt();
         mvc.dispose();
+        interrupt();
     }
+
 }

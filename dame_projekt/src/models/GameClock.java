@@ -34,7 +34,6 @@ public class GameClock {
         label.setText(min + "." + prefix + seconds);
         if(label.getText().equals("0.00")){
             toggle = true;
-//            gameAndGameInfoMVC.dispose();
         }
 
 

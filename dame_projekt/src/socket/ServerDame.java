@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ServerDame {
@@ -28,6 +27,7 @@ public class ServerDame {
         gameCount = 1;
         players = new ArrayList<String>();
         pairs = new HashMap<String,String>();
+
     }
 
     public DatagramSocket getSocket() {

@@ -190,6 +190,7 @@ public class ServerDame {
                     SendGegner send = new SendGegner(player);
                     byte[] bufferMulti = send.marshall();
                     DatagramPacket packet = new DatagramPacket(bufferMulti, bufferMulti.length, gruppe, port);
+                    socket.setTimeToLive(5);
                     socket.send(packet);
 
                     DatagramPacket receive = new DatagramPacket(bufferMulti, bufferMulti.length);

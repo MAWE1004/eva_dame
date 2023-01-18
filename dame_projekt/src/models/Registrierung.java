@@ -53,24 +53,6 @@ public class Registrierung {
         }
 
         return false;
-
-//        try {
-//            if (!checkIfUsernameVorhanden(username) && !username.isEmpty() && !password.isEmpty()){
-//                FileWriter myWriter = new FileWriter("D:\\FH-Kaiserslautern\\WS 21_22\\EVA\\eva_dame\\dame_projekt\\src\\socket\\anmeldung.txt", true);
-//                myWriter.write("u: " + username + '\n');
-//                myWriter.write("p: " + password + '\n');
-//                myWriter.close();
-//                System.out.println("Successfully wrote to the file.");
-//                return true;
-//            }
-//            else{
-//                return false;
-//            }
-//        } catch (IOException e) {
-//            System.out.println("An error occurred.");
-//            e.printStackTrace();
-//            return false;
-//        }
     }
 
 

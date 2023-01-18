@@ -37,11 +37,4 @@ public class ServerAliveThread extends Thread{
             controller.endAll();
         }
     }
-
-    public static void main(String[] args) {
-        Menu model = new Menu(null, null);
-        MenuController controller = new MenuController(null, null);
-        new ServerAliveThread(model, controller, null);
-    }
-
 }

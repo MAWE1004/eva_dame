@@ -57,8 +57,6 @@ public class ClientMultiDame {
         } catch (NullPointerException e){
             return buffer;
         }
-//        SendZug response = new SendZug().unMarshall(buffer);
-//        System.out.println("Received: " + response.toString());
 
         return buffer;
     }

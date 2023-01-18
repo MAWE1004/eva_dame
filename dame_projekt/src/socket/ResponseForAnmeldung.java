@@ -18,7 +18,6 @@ public class ResponseForAnmeldung {
 
     public ResponseForAnmeldung unMarshall(byte[] res){
         ByteBuffer in = ByteBuffer.wrap(res);
-//        int len = res.length;
         byte[] sin = new byte[2];
         in.get(sin, 0, 2);
         code = new String(sin);

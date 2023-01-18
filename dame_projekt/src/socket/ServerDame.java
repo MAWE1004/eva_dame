@@ -30,6 +30,10 @@ public class ServerDame {
         pairs = new HashMap<String,String>();
     }
 
+    public DatagramSocket getSocket() {
+        return sock;
+    }
+
     public void service() throws Exception{
         byte[] buffer = new byte[MAX_PACKET];
         DatagramPacket query = new DatagramPacket(buffer, buffer.length);
@@ -61,7 +65,7 @@ public class ServerDame {
                 buffer = serviceRegistrierung(buffer);
                 code = "ok";
                 break;
-            case "ok ":
+            case "ok":
                 System.out.println("HIER");
                 code = "ok";
             default:

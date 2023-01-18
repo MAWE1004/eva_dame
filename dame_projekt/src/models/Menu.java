@@ -42,8 +42,8 @@ public class Menu {
     }
 
     public ResponseForPlayer requestPlayer(int time) throws Exception {
-        InetAddress adr = InetAddress.getByName("10.0.3.36");
-//        InetAddress adr = InetAddress.getByName("127.0.0.1");
+//        InetAddress adr = InetAddress.getByName("10.0.3.36");
+        InetAddress adr = InetAddress.getByName("127.0.0.1");
         int port = 1234;
         ClientDame client = new ClientDame(adr, port);
         return client.requestPlayer(spieler.getUsername(), time);

@@ -25,6 +25,7 @@ public class ClientDame {
         byte[] buffer = request.marshall();
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
         packet.setSocketAddress(socketAdr);
+        System.out.println("HALLO");
         int retryCount = RETRYCOUNT;
         while (retryCount > 0) {
             try {

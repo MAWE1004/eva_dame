@@ -5,7 +5,7 @@ import models.Menu;
 
 public class ServerAliveThread extends Thread{
 
-    private final static long UPDATE_INTERVAL = 1000;
+    private final static long UPDATE_INTERVAL = 20000;
     private Menu model;
     private MenuController controller;
 

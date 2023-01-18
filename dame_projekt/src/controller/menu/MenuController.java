@@ -1,18 +1,12 @@
 package controller.menu;
 
-import controller.GameAndGameInfoMVC;
-import controller.GameAndMenuMVC;
 import controller.TutorialMVC;
-import controller.WindowController;
 import controller.anmeldung.AnmeldungMVC;
 import models.Anmeldung;
 import models.Menu;
 import models.Stein;
-import socket.ClientDame;
 import socket.ResponseForPlayer;
 import socket.SendGegner;
-import socket.SendZug;
-import views.MenuView;
 import views.RunGame;
 import views.RunMenu;
 
@@ -36,9 +30,6 @@ public class MenuController implements ActionListener {
         this.menuMVC = runMenu.getMvc();
         spiele = new ArrayList<RunGame>();
     }
-    public MenuController(){
-    }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -54,7 +45,6 @@ public class MenuController implements ActionListener {
                 String gegner = response.getGegner();
                 if(gegner.equals(" "))
                     gegner = wartenAufGegner(response.getMultiAdr());
-                GameAndGameInfoMVC spiel;
                 if(response.getFarbe().equals("w"))
                     startSpiel(1,gegner,model.getSpieler().getUsername(), true, Stein.WHITESTONE, response.getMultiAdr());
                 else
@@ -70,7 +60,6 @@ public class MenuController implements ActionListener {
                 String gegner = response.getGegner();
                 if(gegner.equals(" "))
                     gegner = wartenAufGegner(response.getMultiAdr());
-                GameAndGameInfoMVC spiel;
                 if(response.getFarbe().equals("w"))
                     startSpiel(10,gegner,model.getSpieler().getUsername(), true, Stein.WHITESTONE, response.getMultiAdr());
                 else
@@ -85,7 +74,6 @@ public class MenuController implements ActionListener {
                 String gegner = response.getGegner();
                 if(gegner.equals(" "))
                     gegner = wartenAufGegner(response.getMultiAdr());
-                GameAndGameInfoMVC spiel;
                 if(response.getFarbe().equals("w"))
                     startSpiel(30,gegner,model.getSpieler().getUsername(), true, Stein.WHITESTONE,response.getMultiAdr());
                 else
@@ -115,8 +103,7 @@ public class MenuController implements ActionListener {
             int port = 1235;
             MulticastSocket socket = new MulticastSocket(port);
             socket.setSoTimeout(5000);
-            InetAddress serverAdr = InetAddress.getByName("10.0.3.36");
-            socket.setInterface(serverAdr);
+//            socket.setInterface(InetAddress.getByName("127.0.0.1"));
             socket.joinGroup(gruppe);
             byte[] buffer = new byte[100];
             DatagramPacket receive = new DatagramPacket(buffer, buffer.length);

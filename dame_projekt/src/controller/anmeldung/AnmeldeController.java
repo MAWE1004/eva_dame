@@ -22,8 +22,7 @@ public class AnmeldeController implements ActionListener {
     private JTextField textField;
     private JPasswordField passwordField;
     private AnmeldungMVC anmeldungMVC;
-    private ArrayList<String> angemeldeteSpieler = new ArrayList<String>();
-    private boolean spielerVorhanden=false;
+
 
     public AnmeldeController(Anmeldung model, JTextField textField, JPasswordField passwordField, AnmeldungMVC anmeldungMVC) {
         this.model = model;
@@ -49,25 +48,14 @@ public class AnmeldeController implements ActionListener {
             System.out.println("Passwort: " + passwordField.getText());
             try {
 
-                for(int i=0 ; i < angemeldeteSpieler.size(); i++){
-                    if(angemeldeteSpieler.get(i).equals(textField.getText())){
-                        spielerVorhanden = true;
-                    }
-                }
-                if (Anmeldung.checkIfUsernameAndPasswordCompatible(textField.getText(), passwordField.getText()) && spielerVorhanden == false) {
-                    angemeldeteSpieler.add(textField.getText());
+                if (Anmeldung.checkIfUsernameAndPasswordCompatible(textField.getText(), passwordField.getText())) {
 
                     System.out.println("AnmeldeController: Spieler und Password stimmen überein / vorhanden");
                     anmeldungMVC.dispose();
                     Menu model = new Menu(textField.getText(), new Spieler(textField.getText(), passwordField.getText()));
                     RunMenu runMenu = new RunMenu(model);
                 } else {
-                    if(spielerVorhanden==true) {
-                        System.out.println("Spieler ist schon angemeldet!");
-                        spielerVorhanden = false;
-                    }
-                    else
-                        System.out.println("AnmeldeController: Spieler und Password stimmen NICHT überein / NICHT vorhanden");
+                    System.out.println("AnmeldeController: Spieler und Password stimmen NICHT überein / NICHT vorhanden");
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();

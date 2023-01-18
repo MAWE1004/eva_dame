@@ -714,14 +714,17 @@ public class Brett{
             case 1:
                 //alle gegnerischen steine geschlagen
                 new ErgebnisMVC("Spiel ist vorbei, alle Steine sind geschlagen! Du hast gewonnen.", gameAndGameInfoMVC);
+                gameAndGameInfoMVC.getClock().getTickerGameClock().interrupt();
                 break;
             case 2:
                 //spiel ist beendet, weil gegner geschlossen hat -> sendGameOver
                 new ErgebnisMVC("Spiel ist vorbei, du hast das Spiel abgebrochen! Du hast verloren.", gameAndGameInfoMVC);
+                gameAndGameInfoMVC.getClock().getTickerGameClock().interrupt();
                 break;
             default:
                 //spiel ist beendet
                 new ErgebnisMVC("Spiel wurde aus technischen Gründen beendet", gameAndGameInfoMVC);
+                gameAndGameInfoMVC.getClock().getTickerGameClock().interrupt();
         }
     }
 
@@ -730,17 +733,21 @@ public class Brett{
             case 0:
                 //zeit abgelaufen
                 new ErgebnisMVC("Spiel ist vorbei, die Zeit deines Gegners ist abgelaufen! Du hast gewonnen.", gameAndGameInfoMVC);
+                gameAndGameInfoMVC.getClock().getTickerGameClock().interrupt();
                 break;
             case 1:
                 //alle gegnerischen steine geschlagen
                 new ErgebnisMVC("Spiel ist vorbei, all deine Steine sind geschlagen! Du hast verloren.", gameAndGameInfoMVC);
+                gameAndGameInfoMVC.getClock().getTickerGameClock().interrupt();
                 break;
             case 2:
                 //spiel ist beendet, weil gegner geschlossen hat -> sendGameOver
                 new ErgebnisMVC("Spiel ist vorbei, der Gegner hat das Spiel abgebrochen! Du hast gewonnen.", gameAndGameInfoMVC);
+                gameAndGameInfoMVC.getClock().getTickerGameClock().interrupt();
                 break;
             default:
                 //spiel ist beendet
+                gameAndGameInfoMVC.getClock().getTickerGameClock().interrupt();
                 new ErgebnisMVC("Spiel wurde aus technischen Gründen beendet", gameAndGameInfoMVC);
 
         }

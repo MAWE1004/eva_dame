@@ -17,8 +17,10 @@ public class TickerGameClock extends Thread{
     public TickerGameClock(GameClock clock){
         this.clock = clock;
         updateReq = new UpdateRequestGameClock(clock);
+        clock.setTickerGameClock(this);
         start();
     }
+
 
     public void run(){
         try {

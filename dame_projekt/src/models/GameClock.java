@@ -2,6 +2,7 @@ package models;
 
 import controller.ErgebnisMVC;
 import controller.GameAndGameInfoMVC;
+import views.TickerGameClock;
 
 import javax.swing.*;
 
@@ -13,12 +14,14 @@ public class GameClock {
     private long elapsedTime;
     private boolean toggle;
     private GameAndGameInfoMVC gameAndGameInfoMVC;
+    private TickerGameClock tickerGameClock;
 
     public GameClock(JLabel label, long countTime, GameAndGameInfoMVC gameAndGameInfoMVC) {
         this.label = label;
         this.countTime = countTime;
         this.gameAndGameInfoMVC = gameAndGameInfoMVC;
         gameAndGameInfoMVC.setClock(this);
+        tickerGameClock = null;
         reset();
     }
 
@@ -41,6 +44,14 @@ public class GameClock {
 
     public boolean getToggle(){
         return toggle;
+    }
+
+    public TickerGameClock getTickerGameClock() {
+        return tickerGameClock;
+    }
+
+    public void setTickerGameClock(TickerGameClock tickerGameClock) {
+        this.tickerGameClock = tickerGameClock;
     }
 
     public GameAndGameInfoMVC getGameAndGameInfoMVC() {

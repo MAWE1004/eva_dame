@@ -14,6 +14,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class AnmeldeController implements ActionListener {
 
@@ -21,6 +22,8 @@ public class AnmeldeController implements ActionListener {
     private JTextField textField;
     private JPasswordField passwordField;
     private AnmeldungMVC anmeldungMVC;
+    private ArrayList<String> angemeldeteSpieler = new ArrayList<String>();
+    private boolean spielerVorhanden=false;
 
     public AnmeldeController(Anmeldung model, JTextField textField, JPasswordField passwordField, AnmeldungMVC anmeldungMVC) {
         this.model = model;
@@ -45,14 +48,26 @@ public class AnmeldeController implements ActionListener {
             System.out.println("Name: " + textField.getText());
             System.out.println("Passwort: " + passwordField.getText());
             try {
-                if (Anmeldung.checkIfUsernameAndPasswordCompatible(textField.getText(), passwordField.getText())) {
-                    // Für später liste der spieler, die angemeldet sind
+
+                for(int i=0 ; i < angemeldeteSpieler.size(); i++){
+                    if(angemeldeteSpieler.get(i).equals(textField.getText())){
+                        spielerVorhanden = true;
+                    }
+                }
+                if (Anmeldung.checkIfUsernameAndPasswordCompatible(textField.getText(), passwordField.getText()) && spielerVorhanden == false) {
+                    angemeldeteSpieler.add(textField.getText());
+
                     System.out.println("AnmeldeController: Spieler und Password stimmen überein / vorhanden");
                     anmeldungMVC.dispose();
                     Menu model = new Menu(textField.getText(), new Spieler(textField.getText(), passwordField.getText()));
                     RunMenu runMenu = new RunMenu(model);
                 } else {
-                    System.out.println("AnmeldeController: Spieler und Password stimmen NICHT überein / NICHT vorhanden");
+                    if(spielerVorhanden==true) {
+                        System.out.println("Spieler ist schon angemeldet!");
+                        spielerVorhanden = false;
+                    }
+                    else
+                        System.out.println("AnmeldeController: Spieler und Password stimmen NICHT überein / NICHT vorhanden");
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();

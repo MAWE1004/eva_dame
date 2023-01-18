@@ -12,6 +12,7 @@ public class ServerDameMain {
         DynamicService service = null;
         while(true) {
             server.service();
+            server.serviceAlive();
 //            service = new DynamicService(socket);
 //            service.start();
         }

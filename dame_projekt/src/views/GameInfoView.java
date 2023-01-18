@@ -26,7 +26,7 @@ public class GameInfoView extends JPanel implements GameInfoListener{
         labelTime.setFont(new Font(Font.DIALOG,Font.BOLD, 40));
         System.out.println("TIME: " + model.getTime());
         this.clock = new GameClock (labelTime, model.getTime(), gameAndGameInfoMVC);
-        GameClockController gameClockController = new GameClockController (clock);
+//        GameClockController gameClockController = new GameClockController (clock);
         time.add(labelTime);
 
         JPanel turn = new JPanel();

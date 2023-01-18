@@ -5,7 +5,7 @@ import models.Menu;
 
 public class ServerAliveThread extends Thread{
 
-    private final static long UPDATE_INTERVAL = 10;
+    private final static long UPDATE_INTERVAL = 1000;
     private Menu model;
     private MenuController controller;
 
@@ -17,8 +17,9 @@ public class ServerAliveThread extends Thread{
 
     public void run(){
         try {
+            int count = 1;
             while(!isInterrupted()) {
-                System.out.println("===== Asking Server if alive =====");
+                System.out.println("===== Asking Server if alive =====" + count++);
                 if (!model.serverAlive()) {
                     interrupt();
                     throw new Exception("Server not alive anymore");
@@ -31,6 +32,12 @@ public class ServerAliveThread extends Thread{
             controller.endAll();
             System.out.println("===== Server beendet =====");
         }
+    }
+
+    public static void main(String[] args) {
+        Menu model = new Menu(null, null);
+        MenuController controller = new MenuController(null, null);
+        new ServerAliveThread(model, controller);
     }
 
 }

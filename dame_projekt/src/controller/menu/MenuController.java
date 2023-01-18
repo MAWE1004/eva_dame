@@ -13,7 +13,10 @@ import socket.ResponseForPlayer;
 import socket.SendGegner;
 import socket.SendZug;
 import views.MenuView;
+import views.RunGame;
+import views.RunMenu;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -24,12 +27,14 @@ public class MenuController implements ActionListener {
 
     private Menu model;
     private MenuMVC menuMVC;
-    private ArrayList<GameAndGameInfoMVC> spiele;
+    private RunMenu runMenu;
+    private ArrayList<RunGame> spiele;
 
-    public MenuController(Menu model, MenuMVC menuMVC){
-        this.model = model;
-        this.menuMVC = menuMVC;
-        spiele = new ArrayList<GameAndGameInfoMVC>();
+    public MenuController(RunMenu runMenu, MenuMVC menuMVC){
+        this.runMenu = runMenu;
+        this.model = runMenu.getMenu();
+        this.menuMVC = runMenu.getMvc();
+        spiele = new ArrayList<RunGame>();
     }
     public MenuController(){
     }
@@ -40,7 +45,6 @@ public class MenuController implements ActionListener {
         String s = e.getActionCommand();
         if (s.equals("Tutorial")){
             System.out.println("Tutorial");
-//            new GameAndGameInfoMVC();
             new TutorialMVC("Tutorial");
         }
         else if (s.equals("Play 5 Min")){
@@ -52,10 +56,9 @@ public class MenuController implements ActionListener {
                     gegner = wartenAufGegner(response.getMultiAdr());
                 GameAndGameInfoMVC spiel;
                 if(response.getFarbe().equals("w"))
-                    spiel = new GameAndGameInfoMVC(1,gegner,model.getSpieler().getUsername(), true, Stein.WHITESTONE, response.getMultiAdr());
+                    startSpiel(1,gegner,model.getSpieler().getUsername(), true, Stein.WHITESTONE, response.getMultiAdr());
                 else
-                    spiel = new GameAndGameInfoMVC(1,model.getSpieler().getUsername(),gegner, false, Stein.BLACKSTONE, response.getMultiAdr());
-                spiele.add(spiel);
+                    startSpiel(1,model.getSpieler().getUsername(),gegner, false, Stein.BLACKSTONE, response.getMultiAdr());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -69,10 +72,9 @@ public class MenuController implements ActionListener {
                     gegner = wartenAufGegner(response.getMultiAdr());
                 GameAndGameInfoMVC spiel;
                 if(response.getFarbe().equals("w"))
-                    spiel = new GameAndGameInfoMVC(10,gegner,model.getSpieler().getUsername(), true, Stein.WHITESTONE, response.getMultiAdr());
+                    startSpiel(10,gegner,model.getSpieler().getUsername(), true, Stein.WHITESTONE, response.getMultiAdr());
                 else
-                    spiel = new GameAndGameInfoMVC(10,model.getSpieler().getUsername(),gegner, false, Stein.BLACKSTONE, response.getMultiAdr());
-                spiele.add(spiel);
+                    startSpiel(10,model.getSpieler().getUsername(),gegner, false, Stein.BLACKSTONE, response.getMultiAdr());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -85,10 +87,9 @@ public class MenuController implements ActionListener {
                     gegner = wartenAufGegner(response.getMultiAdr());
                 GameAndGameInfoMVC spiel;
                 if(response.getFarbe().equals("w"))
-                    spiel = new GameAndGameInfoMVC(30,gegner,model.getSpieler().getUsername(), true, Stein.WHITESTONE,response.getMultiAdr());
+                    startSpiel(30,gegner,model.getSpieler().getUsername(), true, Stein.WHITESTONE,response.getMultiAdr());
                 else
-                    spiel = new GameAndGameInfoMVC(30,model.getSpieler().getUsername(),gegner, false, Stein.BLACKSTONE,response.getMultiAdr());
-                spiele.add(spiel);
+                    startSpiel(30,model.getSpieler().getUsername(),gegner, false, Stein.BLACKSTONE,response.getMultiAdr());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -97,13 +98,13 @@ public class MenuController implements ActionListener {
             System.out.println("Logout");
             endAll();
         }
-        else if (s.equals("Ok")){
-            System.out.println("TESSSSSSSSSSSSSSSSSSSSSSST");
-            for (GameAndGameInfoMVC spiel: spiele) {
-                if(spiel.getTitle().equals("")){
-                }
-            }
-        }
+    }
+
+    private void startSpiel(long timeInMin, String schwarz, String weiß, boolean turn, Color farbe, String adr){
+        RunGame game = new RunGame(timeInMin, schwarz, weiß, turn, farbe, adr);
+
+        spiele.add(game);
+        game.start();
     }
 
     private String wartenAufGegner(String adr){
@@ -126,6 +127,7 @@ public class MenuController implements ActionListener {
                     buffer = receive.getData();
                     response = new SendGegner().unMarshall(buffer);
                     System.out.println("Received: " + response.getGegner());
+                    break;
                 } catch (SocketTimeoutException ex) {
                     retryCount--;
                     ex.printStackTrace();
@@ -147,15 +149,15 @@ public class MenuController implements ActionListener {
     }
 
     public void endAll(){
-        for (GameAndGameInfoMVC spiel: spiele) {
+        for (RunGame spiel: spiele) {
             try {
-                spiel.getBrett().sendGameOver((byte) 2);
+                spiel.getGame().getBrett().sendGameOver((byte) 2);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            spiel.dispose();
+            spiel.getGame().dispose();
         }
-        menuMVC.dispose();
+        runMenu.interrupt();
         Anmeldung model = new Anmeldung();
         new AnmeldungMVC(model, "Anmeldung");
     }

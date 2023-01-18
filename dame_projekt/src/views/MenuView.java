@@ -30,7 +30,7 @@ public class MenuView extends JPanel implements MenuListener{
         JButton playThirty = new JButton("Play 30 Min");
         JButton logout = new JButton("Logout");
 
-        MenuController menuController = new MenuController(model, menuMVC);
+        MenuController menuController = new MenuController(null, menuMVC);
 
         tutorial.addActionListener(menuController);
         playFive.addActionListener(menuController);

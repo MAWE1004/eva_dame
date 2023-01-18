@@ -61,6 +61,9 @@ public class ServerDame {
                 buffer = serviceRegistrierung(buffer);
                 code = "ok";
                 break;
+            case "ok ":
+                System.out.println("HIER");
+                code = "ok";
             default:
                 code = "bad";
         }
@@ -73,6 +76,22 @@ public class ServerDame {
         answer.setPort(query.getPort());
         sock.send(answer);
 
+    }
+
+    public void serviceAlive() throws IOException {
+        byte[] buffer = new byte[3];
+        DatagramPacket query = new DatagramPacket(buffer, buffer.length);
+        sock.receive(query);
+        System.out.println("UDP-Anfrage von ");
+        System.out.println(query.getAddress().toString() + ": ");
+        System.out.println(query.getPort());
+
+        //sending Response
+        DatagramPacket answer = new DatagramPacket(buffer, buffer.length);
+        answer.setData(buffer);
+        answer.setAddress(query.getAddress());
+        answer.setPort(query.getPort());
+        sock.send(answer);
     }
 
     private byte[] serviceRegistrierung(byte[] buffer) throws Exception{
@@ -118,7 +137,7 @@ public class ServerDame {
         String line;
         String name;
         String password;
-        Scanner read = new Scanner(new File("C:\\Users\\Marcel\\Desktop\\Schule2\\5. Semester\\EVA\\EVAProjekt\\eva_dame\\dame_projekt\\src\\socket\\anmeldung.txt"));
+        Scanner read = new Scanner(new File("D:\\FH-Kaiserslautern\\WS 21_22\\EVA\\eva_dame\\dame_projekt\\src\\socket\\anmeldung.txt"));
 //        Scanner read = new Scanner(new File("/home/student10/anmeldung.txt"));
         while (read.hasNextLine()){
             line = read.nextLine();

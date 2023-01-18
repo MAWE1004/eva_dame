@@ -7,6 +7,7 @@ import models.Anmeldung;
 import models.Menu;
 import models.Registrierung;
 import models.Spieler;
+import views.RunMenu;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -48,7 +49,8 @@ public class RegistrierungController implements ActionListener {
                 System.out.println("RegistrierungController: Neuer Spieler und Passwort wurden gespeichert!");
                 registrierungMVC.dispose();
                 Menu model = new Menu(textField.getText(), new Spieler(textField.getText(), passwordField.getText()));
-                new MenuMVC(model,"MENU");
+                RunMenu runMenu = new RunMenu(model);
+//                new MenuMVC(model,"MENU");
 //                Spieler spieler = new Spieler(textField.getText(), passwordField.getText());
 //                new GameAndMenuMVC(spieler);
             } else {

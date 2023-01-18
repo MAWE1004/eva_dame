@@ -154,9 +154,31 @@ public class ClientDame {
         socket.close();
     }
 
-    public boolean serverStillRunning(){
-        boolean running = socket.isConnected();
+    public boolean serverStillRunning() {
+        byte[] buffer = new byte[3];
+        DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+        int retryCount = RETRYCOUNT;
+        SendAlive response = null;
+        while (retryCount > 0) {
+            try {
+                socket.send(packet);
+                socket.receive(packet);
+                buffer = packet.getData();
+                response = new SendAlive().unMarshall(buffer);
+                System.out.println("Server antwort: " + response.getCode());
+                break;
+            } catch (IOException e) {
+                System.err.println("Keine Antwort Server " + e);
+                retryCount--;
+            }
+        }
         socket.close();
-        return running;
+
+        try {
+            response.getCode().equals("ok");
+            return true;
+        } catch (NullPointerException ex){
+            return false;
+        }
     }
 }

@@ -5,14 +5,16 @@ import models.Menu;
 import models.Spieler;
 import socket.ServerAliveThread;
 import views.MenuView;
+import views.RunMenu;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class MenuMVC extends JFrame {
+    private MenuController menuController;
 
-    public MenuMVC(Menu model, String title){
+    public MenuMVC(RunMenu runMenu, String title){
 
         super(title);
         setLayout(new GridLayout(0,1));
@@ -25,7 +27,7 @@ public class MenuMVC extends JFrame {
         JButton playThirty = new JButton("Play 30 Min");
         JButton logout = new JButton("Logout");
 
-        MenuController menuController = new MenuController(model, this);
+        menuController = new MenuController(runMenu, this);
 
         tutorial.addActionListener(menuController);
         playFive.addActionListener(menuController);
@@ -44,9 +46,13 @@ public class MenuMVC extends JFrame {
 
     }
 
+    public MenuController getMenuController() {
+        return menuController;
+    }
+
     public static void main (String[]args){
         Menu model = new Menu("Test", new Spieler("test", "test"));
-        new MenuMVC(model, "Menu");
+        new MenuMVC(null, "Menu");
     }
 
 }

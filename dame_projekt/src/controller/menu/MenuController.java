@@ -103,7 +103,7 @@ public class MenuController implements ActionListener {
             int port = 1235;
             MulticastSocket socket = new MulticastSocket(port);
             socket.setSoTimeout(5000);
-//            socket.setInterface(InetAddress.getByName("127.0.0.1"));
+            socket.setInterface(InetAddress.getByName("10.0.3.36"));
             socket.joinGroup(gruppe);
             byte[] buffer = new byte[100];
             DatagramPacket receive = new DatagramPacket(buffer, buffer.length);

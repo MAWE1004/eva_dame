@@ -19,9 +19,9 @@ public class ServerDame {
     private Map<String,String> pairs = null;
     private List<SearchGamer> supplierNames = new ArrayList<>();
 
-    public ServerDame (/*DatagramSocket socket*/ int port) throws Exception{
+    public ServerDame (int port) throws Exception{
         this.port = port;
-        sock = new DatagramSocket(port)/*socket*/;
+        sock = new DatagramSocket(port);
         multicastSocket = new MulticastSocket(port+1);
         lastMultiAdr = new int[]{225,0,0,0};
         gameCount = 1;
@@ -141,13 +141,11 @@ public class ServerDame {
         String line;
         String name;
         String password;
-        Scanner read = new Scanner(new File("C:\\Users\\Marcel\\Desktop\\Schule2\\5. Semester\\EVA\\EVAProjekt\\eva_dame\\dame_projekt\\src\\socket\\anmeldung.txt"));
-//        Scanner read = new Scanner(new File("/home/student10/anmeldung.txt"));
+        Scanner read = new Scanner(new File("/home/student10/anmeldung.txt"));
         while (read.hasNextLine()){
             line = read.nextLine();
             if(line.charAt(0) == 'u') {
                 name = line.substring(3);
-                //System.out.println(name);
                 if (name.toLowerCase().equals(name.toLowerCase())) {
                     System.out.println(name);
                     line = read.nextLine();

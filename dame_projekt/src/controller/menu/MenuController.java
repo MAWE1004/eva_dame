@@ -114,19 +114,30 @@ public class MenuController implements ActionListener {
             int port = 1235;
             MulticastSocket socket = new MulticastSocket(port);
             socket.setSoTimeout(5000);
+            InetAddress serverAdr = InetAddress.getByName("10.0.3.36");
+            socket.setInterface(serverAdr);
             socket.joinGroup(gruppe);
             byte[] buffer = new byte[100];
+            //DatagramPacket receive = new DatagramPacket(buffer, buffer.length, gruppe, port);
             DatagramPacket receive = new DatagramPacket(buffer, buffer.length);
             System.out.println("Before Receive");
             SendGegner response = null;
             int retryCount = 5;
             while (retryCount > 0){
                 try {
+                    System.out.println("In retryCount: " + "receive.getAddress(): " + receive.getAddress()+ "receive.getPort(): " + receive.getPort());
+                    System.out.println("Receive: " + receive);
                     socket.receive(receive);
+                    System.out.println("kommst du hier noch rein?");
                     buffer = receive.getData();
+                    System.out.println(buffer + " :buffer");
                     response = new SendGegner().unMarshall(buffer);
                     System.out.println("Received: " + response.getGegner());
-                } catch (SocketTimeoutException ex) {
+                    break;
+                }catch (SecurityException exs){
+                    exs.printStackTrace();
+                }
+                catch (SocketTimeoutException ex) {
                     retryCount--;
                     ex.printStackTrace();
                 }

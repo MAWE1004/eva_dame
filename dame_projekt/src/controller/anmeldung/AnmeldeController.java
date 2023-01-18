@@ -1,20 +1,15 @@
 package controller.anmeldung;
 
-import controller.GameAndMenuMVC;
-import controller.menu.MenuMVC;
 import controller.registrierung.RegistrierungMVC;
 import models.Anmeldung;
 import models.Menu;
 import models.Registrierung;
 import models.Spieler;
-import socket.ServerAliveThread;
 import views.RunMenu;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 public class AnmeldeController implements ActionListener {
 
@@ -43,7 +38,6 @@ public class AnmeldeController implements ActionListener {
             System.exit(0);
         }
         else {
-
             System.out.println("Name: " + textField.getText());
             System.out.println("Passwort: " + passwordField.getText());
             try {

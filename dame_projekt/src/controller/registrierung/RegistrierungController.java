@@ -1,8 +1,6 @@
 package controller.registrierung;
 
-import controller.GameAndMenuMVC;
 import controller.anmeldung.AnmeldungMVC;
-import controller.menu.MenuMVC;
 import models.Anmeldung;
 import models.Menu;
 import models.Registrierung;

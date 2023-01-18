@@ -68,12 +68,8 @@ public class BrettMVC extends JFrame{
             }
         });
 
-//        GameInfoView clock = new GameInfoView();
-//        clock.setSize(486, 100);
-//        clock.setBackground(Color.GREEN);
 
         side.add(menu);
-//        side.add(clock);
 
         add(side);
 

@@ -1,15 +1,11 @@
 package controller.menu;
 
-import controller.WindowController;
 import models.Menu;
 import models.Spieler;
-import socket.ServerAliveThread;
-import views.MenuView;
 import views.RunMenu;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 public class MenuMVC extends JFrame {
     private MenuController menuController;
@@ -41,8 +37,6 @@ public class MenuMVC extends JFrame {
         add(playThirty);
         add(logout);
         setVisible(true);
-
-        //ServerAliveThread serverAliveThread = new ServerAliveThread(model, menuController);
 
     }
 

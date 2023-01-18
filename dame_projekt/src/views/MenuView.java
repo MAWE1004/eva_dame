@@ -1,6 +1,5 @@
 package views;
 
-import controller.GameAndMenuMVC;
 import controller.menu.MenuController;
 import controller.menu.MenuMVC;
 import models.Menu;

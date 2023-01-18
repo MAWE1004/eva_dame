@@ -1,9 +1,6 @@
 package views;
 
-import clock.Clock;
-import clock.UpdateRequest;
-import controller.ErgebnisMVC;
-import controller.menu.MenuMVC;
+
 import models.GameClock;
 
 import java.awt.*;

@@ -1,8 +1,8 @@
-package views;
+package models.thread;
 
 import controller.menu.MenuMVC;
 import models.Menu;
-import socket.ServerAliveThread;
+import models.thread.ServerAliveThread;
 
 public class RunMenu extends Thread{
     private Menu menu;

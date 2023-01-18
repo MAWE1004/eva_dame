@@ -2,7 +2,7 @@ package controller.menu;
 
 import models.Menu;
 import models.Spieler;
-import views.RunMenu;
+import models.thread.RunMenu;
 
 import javax.swing.*;
 import java.awt.*;

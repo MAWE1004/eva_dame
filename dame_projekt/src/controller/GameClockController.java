@@ -1,7 +1,7 @@
 package controller;
 
 import models.GameClock;
-import views.TickerGameClock;
+import models.thread.TickerGameClock;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

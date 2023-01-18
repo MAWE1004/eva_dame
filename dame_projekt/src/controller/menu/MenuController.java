@@ -7,8 +7,8 @@ import models.Menu;
 import models.Stein;
 import socket.ResponseForPlayer;
 import socket.SendGegner;
-import views.RunGame;
-import views.RunMenu;
+import models.thread.RunGame;
+import models.thread.RunMenu;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

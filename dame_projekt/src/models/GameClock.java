@@ -1,8 +1,7 @@
 package models;
 
-import controller.ErgebnisMVC;
 import controller.GameAndGameInfoMVC;
-import views.TickerGameClock;
+import models.thread.TickerGameClock;
 
 import javax.swing.*;
 

@@ -1,8 +1,7 @@
-package socket;
+package models.thread;
 
 import controller.menu.MenuController;
 import models.Menu;
-import views.RunMenu;
 
 public class ServerAliveThread extends Thread{
 

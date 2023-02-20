@@ -103,11 +103,10 @@ public class MenuController implements ActionListener {
             int port = 1235;
             MulticastSocket socket = new MulticastSocket(port);
             socket.setSoTimeout(5000);
-            socket.setTimeToLive(5);
-            socket.bind(new InetSocketAddress(InetAddress.getByName("10.0.3.36"),1234));
+            //socket.setInterface(InetAddress.getByName("10.0.3.36"));
             socket.joinGroup(gruppe);
             byte[] buffer = new byte[100];
-            DatagramPacket receive = new DatagramPacket(buffer, buffer.length, gruppe, port);
+            DatagramPacket receive = new DatagramPacket(buffer, buffer.length);
             System.out.println("Before Receive");
             SendGegner response = null;
             int retryCount = 5;

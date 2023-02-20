@@ -18,11 +18,6 @@ public class FeldView extends JPanel implements FeldListener {
     @Override
     public void colorChanged(Feld model) {
         setBackground(model.getColor());
-
-//        if(model.getStone() != null){
-//            System.out.println("\u001B[32m" + model.getStone().getName() + "\u001B[0m");
-//            System.out.println("Position -> Horizontal " + model.getStone().getY() + ", Vertikal " + model.getStone().getX());
-//        }
     }
 
     @Override

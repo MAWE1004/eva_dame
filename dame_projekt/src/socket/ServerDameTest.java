@@ -20,6 +20,7 @@ public class ServerDameTest {
     private List<SearchGamer> supplierNames = new ArrayList<>();
 
     private static String dataPath = "D:\\FH-Kaiserslautern\\EVA\\eva_dame\\dame_projekt\\src\\socket\\anmeldung.txt";
+    //private static String dataPath = "C:\\Users\\Marcel\\Desktop\\Schule2\\5. Semester\\EVA\\EVAProjekt\\eva_dame\\dame_projekt\\src\\socket\\anmeldung.txt";
 
     public ServerDameTest(int port) throws Exception{
         this.port = port;

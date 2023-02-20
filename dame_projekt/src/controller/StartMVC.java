@@ -5,7 +5,7 @@ import models.Anmeldung;
 
 public class StartMVC {
     public static void main(String[] args) {
-        Anmeldung model = new Anmeldung();
+        Anmeldung model = new Anmeldung(args[0], Integer.parseInt(args[1]));
         new AnmeldungMVC(model, "Anmeldung");
     }
 }

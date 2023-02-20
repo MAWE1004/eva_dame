@@ -45,8 +45,8 @@ public class MenuMVC extends JFrame {
     }
 
     public static void main (String[]args){
-        Menu model = new Menu("Test", new Spieler("test", "test"));
-        new MenuMVC(null, "Menu");
+//        Menu model = new Menu("Test", new Spieler("test", "test"));
+//        new MenuMVC(null, "Menu");
     }
 
 }

@@ -11,16 +11,26 @@ import java.util.Scanner;
 
 public class Anmeldung {
     private ArrayList<AnmeldeListener> listener;
+    private static String adr = "127.0.0.1";
+    private static int port = 1234;
 
-    public Anmeldung() {
+    public Anmeldung(String adr, int port) {
         listener = new ArrayList<AnmeldeListener>();
+        this.adr = adr;
+        this.port = port;
     }
 
+    public String getAdr() {
+        return adr;
+    }
+
+    public int getPort() {
+        return port;
+    }
 
     public static boolean checkIfUsernameAndPasswordCompatible(String name, String password) throws Exception {
-        InetAddress adr = InetAddress.getByName("10.0.3.36");
-        int port = 1234;
-        ClientDame client = new ClientDame(adr, port);
+        InetAddress initAdr = InetAddress.getByName(adr);
+        ClientDame client = new ClientDame(initAdr, port);
         return client.requestAnmeldung(name, password);
     }
 

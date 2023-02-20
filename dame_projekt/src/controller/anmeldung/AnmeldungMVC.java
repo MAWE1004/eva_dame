@@ -31,9 +31,6 @@ public class AnmeldungMVC extends JFrame {
         zumRegistrieren.addActionListener(anmeldeController);
 
 
-
-
-
         add(anmeldeView);
         add(nameLabel);
         add(nameTextField);
@@ -49,11 +46,11 @@ public class AnmeldungMVC extends JFrame {
         setVisible (true);
         setLocationRelativeTo(null);
     }
-
-    public static void main(String[] args) {
-        Anmeldung model =new Anmeldung();
-        new AnmeldungMVC(model, "Anmeldung");
-    }
+//
+//    public static void main(String[] args) {
+//        Anmeldung model = new Anmeldung();
+//        new AnmeldungMVC(model, "Anmeldung");
+//    }
 
 
 }

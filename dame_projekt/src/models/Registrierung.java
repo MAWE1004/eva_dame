@@ -16,10 +16,23 @@ public class Registrierung {
 
     private static ArrayList<Spieler> spielerListe;
     private ArrayList<RegistrierungListener> listener;
+    private static String adr = "127.0.0.1";
+    private static int port = 1234;
 
-    public Registrierung(){
+    public Registrierung(String adr, int port){
         listener = new ArrayList<RegistrierungListener>();
+        this.adr = adr;
+        this.port = port;
     }
+
+    public String getAdr() {
+        return adr;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
     private static boolean checkIfUsernameVorhanden(String username) throws FileNotFoundException {
         String line;
         Scanner read = new Scanner(new File("anmeldung.txt"));
@@ -44,9 +57,8 @@ public class Registrierung {
         }
 
         try {
-            InetAddress adr = InetAddress.getByName("10.0.3.36");
-            int port = 1234;
-            ClientDame client = new ClientDame(adr, port);
+            InetAddress initAdr = InetAddress.getByName(adr);
+            ClientDame client = new ClientDame(initAdr, port);
             return client.requestRegistrierung(name, password);
         } catch (Exception e) {
             e.printStackTrace();

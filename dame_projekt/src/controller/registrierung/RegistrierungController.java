@@ -31,7 +31,7 @@ public class RegistrierungController implements ActionListener {
         String s = e.getActionCommand();
         if (s.equals("zum Anmelden")){
             registrierungMVC.dispose();
-            Anmeldung model = new Anmeldung();
+            Anmeldung model = new Anmeldung(this.model.getAdr(), this.model.getPort());
             new AnmeldungMVC(model, "Anmeldung");
         }
         else if(s.equals("Abbrechen")){
@@ -46,7 +46,7 @@ public class RegistrierungController implements ActionListener {
             if (Registrierung.speichereRegistrierung(textField.getText(), passwordField.getText())) {
                 System.out.println("RegistrierungController: Neuer Spieler und Passwort wurden gespeichert!");
                 registrierungMVC.dispose();
-                Menu model = new Menu(textField.getText(), new Spieler(textField.getText(), passwordField.getText()));
+                Menu model = new Menu(textField.getText(), new Spieler(textField.getText(), passwordField.getText()), this.model.getAdr(), this.model.getPort());
                 RunMenu runMenu = new RunMenu(model);
             } else {
                 System.out.println("RegistrierungController: Spieler und Passwort leer / schon vorhanden, somit nicht gespeichert");

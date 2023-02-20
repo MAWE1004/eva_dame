@@ -46,8 +46,8 @@ public class RegistrierungMVC extends JFrame {
     }
 
     public static void main(String[]args) {
-        Registrierung model = new Registrierung();
-        new RegistrierungMVC(model, "Registrierung");
+//        Registrierung model = new Registrierung();
+//        new RegistrierungMVC(model, "Registrierung");
     }
 
 }

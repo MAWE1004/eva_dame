@@ -31,7 +31,7 @@ public class AnmeldeController implements ActionListener {
         String s = e.getActionCommand();
         if (s.equals("zum Registrieren")) {
             anmeldungMVC.dispose();
-            Registrierung model = new Registrierung();
+            Registrierung model = new Registrierung(this.model.getAdr(), this.model.getPort());
             new RegistrierungMVC(model, "Registrierung");
         }
         else if (s.equals("Abbrechen")) {
@@ -46,7 +46,7 @@ public class AnmeldeController implements ActionListener {
 
                     System.out.println("AnmeldeController: Spieler und Password stimmen überein / vorhanden");
                     anmeldungMVC.dispose();
-                    Menu model = new Menu(textField.getText(), new Spieler(textField.getText(), passwordField.getText()));
+                    Menu model = new Menu(textField.getText(), new Spieler(textField.getText(), passwordField.getText()), this.model.getAdr(), this.model.getPort());
                     RunMenu runMenu = new RunMenu(model);
                 } else {
                     System.out.println("AnmeldeController: Spieler und Password stimmen NICHT überein / NICHT vorhanden");

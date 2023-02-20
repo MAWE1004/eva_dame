@@ -12,10 +12,15 @@ public class Menu {
     private Spieler spieler;
     private ArrayList<MenuListener> listener;
 
-    public Menu(String name, Spieler spieler){
+    private String adr;
+    private int port;
+
+    public Menu(String name, Spieler spieler, String adr, int port){
         this.name = name;
         this.spieler = spieler;
         listener = new ArrayList<MenuListener>();
+        this.adr = adr;
+        this.port = port;
     }
 
     public String getName() {
@@ -42,16 +47,14 @@ public class Menu {
     }
 
     public ResponseForPlayer requestPlayer(int time) throws Exception {
-        InetAddress adr = InetAddress.getByName("10.0.3.36");
-        int port = 1234;
-        ClientDame client = new ClientDame(adr, port);
+        InetAddress initAdr = InetAddress.getByName(adr);
+        ClientDame client = new ClientDame(initAdr, port);
         return client.requestPlayer(spieler.getUsername(), time);
     }
 
     public boolean serverAlive() throws Exception {
-        InetAddress adr = InetAddress.getByName("10.0.3.36");
-        int port = 1234;
-        ClientDame client = new ClientDame(adr, port);
+        InetAddress initAdr = InetAddress.getByName(adr);
+        ClientDame client = new ClientDame(initAdr, port);
         return client.serverStillRunning();
     }
 }
